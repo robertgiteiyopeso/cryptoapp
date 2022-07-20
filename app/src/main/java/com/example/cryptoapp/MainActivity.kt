@@ -20,10 +20,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Get a list of CryptoCoins from input.json
         val cryptoList = getCryptoCoins(this)
-        for(i in cryptoList)
-            Log.i(TAG, i.toString())
-        Log.i(TAG, cryptoList[0].javaClass.toString())
+
+        //Load the CryptoCoins into the TextViews
+        binding.tv1.setText(cryptoList[0].toString())
+        binding.tv2.setText(cryptoList[1].toString())
+        binding.tv3.setText(cryptoList[2].toString())
 
     }
 
