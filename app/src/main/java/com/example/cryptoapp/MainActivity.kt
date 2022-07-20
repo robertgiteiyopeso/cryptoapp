@@ -8,6 +8,7 @@ import com.example.cryptoapp.databinding.ActivityMainBinding
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.IOException
+import java.lang.Exception
 
 const val TAG = "MainActivity"
 
@@ -24,9 +25,15 @@ class MainActivity : AppCompatActivity() {
         val cryptoList = getCryptoCoins(this)
 
         //Load the CryptoCoins into the TextViews
-        binding.tv1.setText(cryptoList[0].toString())
-        binding.tv2.setText(cryptoList[1].toString())
-        binding.tv3.setText(cryptoList[2].toString())
+        if (cryptoList.isNotEmpty()) {
+            binding.tv1.setText(cryptoList[0].toString())
+            binding.tv2.setText(cryptoList[1].toString())
+            binding.tv3.setText(cryptoList[2].toString())
+        } else {
+            binding.tv1.setText(getString(R.string.error_text))
+            binding.tv2.setText(getString(R.string.error_text))
+            binding.tv3.setText(getString(R.string.error_text))
+        }
 
     }
 
@@ -36,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             jsonString = context.resources.openRawResource(R.raw.input)
                 .bufferedReader()
                 .use { it.readText() }
-        } catch (ioException: IOException) {
+        } catch (exception: Exception) {
             Log.e(TAG, "oops n-am reusit sa citim bine")
             return emptyList()
         }
