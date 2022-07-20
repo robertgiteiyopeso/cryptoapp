@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             return emptyList()
         }
 
-        val cryptoList = object : TypeToken<List<CryptoCoin>>() {}.type
-        return Gson().fromJson(jsonString, cryptoList)
+        val cryptoListType = object : TypeToken<List<CryptoCoin>>() {}.type
+        return Gson().fromJson(jsonString, cryptoListType)
     }
 }

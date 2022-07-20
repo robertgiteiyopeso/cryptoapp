@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="16dp"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
@@ -11,39 +10,42 @@
         android:id="@+id/tv1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:text="prima moneda"
+        android:background="@color/gray1"
         android:gravity="center"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/tv2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="prima moneda" />
 
     <TextView
         android:id="@+id/tv2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:text="a doua moneda"
-        android:textSize="22sp"
+        android:background="@color/gray2"
         android:gravity="center"
+        android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/tv3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv1" />
+        app:layout_constraintTop_toBottomOf="@+id/tv1"
+        tools:text="a doua moneda" />
 
     <TextView
         android:id="@+id/tv3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        tools:text="a treia moneda"
-        android:textSize="22sp"
+        android:background="@color/gray1"
         android:gravity="center"
+        android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv2" />
+        app:layout_constraintTop_toBottomOf="@+id/tv2"
+        tools:text="a treia moneda" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
