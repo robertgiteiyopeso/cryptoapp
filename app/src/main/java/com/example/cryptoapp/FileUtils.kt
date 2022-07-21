@@ -2,6 +2,7 @@ package com.example.cryptoapp
 
 import android.content.Context
 import android.util.Log
+import com.example.cryptoapp.domain.CryptoCoinDetailsModel
 import com.example.cryptoapp.domain.CryptoCoinModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -22,6 +23,21 @@ class FileUtils {
             }
 
             val cryptoListType = object : TypeToken<List<CryptoCoinModel>>() {}.type
+            return Gson().fromJson(jsonString, cryptoListType)
+        }
+
+        fun getCryptoCoinDetails(context: Context, fileId: Int): CryptoCoinDetailsModel {
+            lateinit var jsonString: String
+            try {
+                jsonString = context.resources.openRawResource(fileId)
+                    .bufferedReader()
+                    .use { it.readText() }
+            } catch (exception: Exception) {
+                Log.e(TAG, errmsg)
+                return CryptoCoinDetailsModel()
+            }
+
+            val cryptoListType = object : TypeToken<CryptoCoinDetailsModel>() {}.type
             return Gson().fromJson(jsonString, cryptoListType)
         }
     }

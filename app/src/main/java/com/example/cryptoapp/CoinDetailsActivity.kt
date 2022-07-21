@@ -1,6 +1,5 @@
 package com.example.cryptoapp
 
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +20,7 @@ class CoinDetailsActivity : AppCompatActivity() {
         val fileName = idCoin?.replace("-", "_")
         val file = resources.getIdentifier(fileName, "raw", packageName)
         //Get the coin's detalis
-        val details = FileUtils.getCryptoCoins(this, file)
+        val details = FileUtils.getCryptoCoinDetails(this, file)
         Log.i(TAG, details.toString())
     }
 }
