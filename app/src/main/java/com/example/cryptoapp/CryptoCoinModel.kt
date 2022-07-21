@@ -1,6 +1,6 @@
 package com.example.cryptoapp
 
-data class CryptoCoin(
+data class CryptoCoinModel(
     var id: String,
     var name: String,
     var symbol: String,
