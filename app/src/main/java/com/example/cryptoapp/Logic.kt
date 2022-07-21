@@ -2,6 +2,7 @@ package com.example.cryptoapp
 
 import android.content.Context
 import android.util.Log
+import com.example.cryptoapp.domain.CryptoCoinModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.Exception

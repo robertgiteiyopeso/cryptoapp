@@ -1,4 +1,4 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.domain
 
 import com.google.gson.annotations.SerializedName
 
