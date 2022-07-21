@@ -10,10 +10,10 @@ import java.lang.Exception
 class FileUtils {
 
     companion object {
-        fun getCryptoCoins(context: Context): List<CryptoCoinModel> {
+        fun getCryptoCoins(context: Context, fileId: Int): List<CryptoCoinModel> {
             lateinit var jsonString: String
             try {
-                jsonString = context.resources.openRawResource(R.raw.input)
+                jsonString = context.resources.openRawResource(fileId)
                     .bufferedReader()
                     .use { it.readText() }
             } catch (exception: Exception) {

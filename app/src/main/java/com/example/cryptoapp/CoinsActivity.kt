@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //Get a list of CryptoCoins from input.json
-        val cryptoList = FileUtils.getCryptoCoins(this)
+        val fileId = R.raw.input
+        val cryptoList = FileUtils.getCryptoCoins(this, fileId)
 
         //Load the CryptoCoins into the TextViews
         if (cryptoList.isNotEmpty()) {
