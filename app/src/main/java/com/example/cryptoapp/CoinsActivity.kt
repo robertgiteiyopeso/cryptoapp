@@ -40,6 +40,18 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.tv2.setOnClickListener {
+            val intent = Intent(this, CoinDetailsActivity::class.java)
+            intent.putExtra("id_coin", cryptoList[1].id)
+            startActivity(intent)
+        }
+
+        binding.tv3.setOnClickListener {
+            val intent = Intent(this, CoinDetailsActivity::class.java)
+            intent.putExtra("id_coin", cryptoList[2].id)
+            startActivity(intent)
+        }
+
     }
 
 
