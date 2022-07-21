@@ -18,9 +18,10 @@ class CoinDetailsActivity : AppCompatActivity() {
         //Get the id of the coin we need to display
         val idCoin = intent.getStringExtra("id_coin")
         val fileName = idCoin?.replace("-", "_")
-        val file = resources.getIdentifier(fileName, "raw", packageName)
+        val fileId = resources.getIdentifier(fileName, "raw", packageName)
         //Get the coin's detalis
-        val details = FileUtils.getCryptoCoinDetails(this, file)
-        Log.i(TAG, details.toString())
+        val details = FileUtils.getCryptoCoinDetails(this, fileId)
+
+        binding.text.text = details.toString()
     }
 }
