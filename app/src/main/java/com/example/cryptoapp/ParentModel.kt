@@ -1,8 +1,8 @@
 package com.example.cryptoapp
 
 data class ParentModel(
-    var id: String = "",
-    var name: String = "",
-    var symbol: String = ""
+    val id: String = "",
+    val name: String = "",
+    val symbol: String = ""
 ) {
 }

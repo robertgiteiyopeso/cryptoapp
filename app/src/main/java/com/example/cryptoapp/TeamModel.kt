@@ -1,8 +1,8 @@
 package com.example.cryptoapp
 
 data class TeamModel(
-    var id: String = "",
-    var name: String = "",
-    var position: String = ""
+    val id: String = "",
+    val name: String = "",
+    val position: String = ""
 ) {
 }

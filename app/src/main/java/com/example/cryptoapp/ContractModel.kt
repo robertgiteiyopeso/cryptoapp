@@ -1,8 +1,8 @@
 package com.example.cryptoapp
 
 data class ContractModel(
-    var contract: String = "",
-    var platform: String = "",
-    var type: String = ""
+    val contract: String = "",
+    val platform: String = "",
+    val type: String = ""
 ) {
 }
