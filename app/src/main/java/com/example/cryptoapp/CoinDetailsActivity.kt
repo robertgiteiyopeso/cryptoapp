@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptoapp.databinding.ActivityCoinDetailsBinding
+import com.example.cryptoapp.domain.GridItemTagModel
 
 class CoinDetailsActivity : AppCompatActivity() {
 
-    private val  TAG = "CoinDetailsActivity"
+    private val TAG = "CoinDetailsActivity"
     private lateinit var binding: ActivityCoinDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,13 +28,12 @@ class CoinDetailsActivity : AppCompatActivity() {
         val headerTitle = "${details.rank}. ${details.name} (${details.symbol})"
         binding.tvTitleHeader.text = headerTitle
 
-        if(details.isActive){
+        if (details.isActive) {
             binding.tvStatus.let {
                 it.text = getString(R.string.active)
                 it.setTextColor(Color.GREEN)
             }
-        }
-        else{
+        } else {
             binding.tvStatus.let {
                 it.text = getString(R.string.inactive)
                 it.setTextColor(Color.RED)
@@ -41,5 +41,8 @@ class CoinDetailsActivity : AppCompatActivity() {
         }
 
         binding.tvDescription.text = details.description
+
+        val tagList = details.tags.map { it -> GridItemTagModel(it.name) }
+        binding.grdTags.adapter = GridAdapter(this, tagList)
     }
 }
