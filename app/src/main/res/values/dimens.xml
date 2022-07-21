@@ -2,7 +2,7 @@
 <resources>
     <dimen name="big_text">22sp</dimen>
     <dimen name="header_text">60sp</dimen>
-    <dimen name="title_text">30sp</dimen>
+    <dimen name="title_text">40sp</dimen>
     <dimen name="padding_default">16dp</dimen>
     <dimen name="margin_large">32dp</dimen>
 </resources>

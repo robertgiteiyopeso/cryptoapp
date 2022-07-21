@@ -1,5 +1,6 @@
 package com.example.cryptoapp
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,23 @@ class CoinDetailsActivity : AppCompatActivity() {
         //Get the coin's detalis
         val details = FileUtils.getCryptoCoinDetails(this, fileId)
 
-        binding.text.text = details.toString()
+        //Display the data on the screen
+        val headerTitle = "${details.rank}. ${details.name} (${details.symbol})"
+        binding.tvTitleHeader.text = headerTitle
+
+        if(details.isActive){
+            binding.tvStatus.let {
+                it.text = getString(R.string.active)
+                it.setTextColor(Color.GREEN)
+            }
+        }
+        else{
+            binding.tvStatus.let {
+                it.text = getString(R.string.inactive)
+                it.setTextColor(Color.RED)
+            }
+        }
+
+        binding.tvDescription.text = details.description
     }
 }

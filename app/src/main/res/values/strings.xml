@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">CryptoApp</string>
     <string name="error_text"><![CDATA[ERROR :<]]></string>
+    <string name="active">active</string>
+    <string name="inactive">inactive</string>
+    <string name="tags">Tags</string>
 </resources>
