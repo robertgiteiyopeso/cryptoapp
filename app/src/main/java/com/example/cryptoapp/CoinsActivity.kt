@@ -1,8 +1,11 @@
 package com.example.cryptoapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.cryptoapp.databinding.ActivityMainBinding
+import com.example.cryptoapp.domain.CryptoCoinDetailsModel
 
 const val TAG = "CoinsActivity"
 const val errmsg = "oops n-am reusit sa citim bine"
@@ -28,6 +31,13 @@ class MainActivity : AppCompatActivity() {
             binding.tv1.text = getString(R.string.error_text)
             binding.tv2.text = getString(R.string.error_text)
             binding.tv3.text = getString(R.string.error_text)
+        }
+
+        //Set click listeners for TextViews
+        binding.tv1.setOnClickListener {
+            val intent = Intent(this, CoinDetailsActivity::class.java)
+            intent.putExtra("id_coin", cryptoList[0].id)
+            startActivity(intent)
         }
 
     }
