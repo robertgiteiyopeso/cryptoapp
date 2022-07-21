@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.cryptoapp.databinding.ActivityMainBinding
 
-const val TAG = "MainActivity"
+const val TAG = "CoinsActivity"
 const val errmsg = "oops n-am reusit sa citim bine"
 
 class MainActivity : AppCompatActivity() {
