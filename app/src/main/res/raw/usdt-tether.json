@@ -1,0 +1,199 @@
+{
+  "id": "usdt-tether",
+  "name": "Tether",
+  "symbol": "USDT",
+  "rank": 3,
+  "is_new": false,
+  "is_active": true,
+  "type": "token",
+  "contract": "31",
+  "platform": "omni-omni",
+  "contracts": [
+    {
+      "contract": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+      "platform": "eth-ethereum",
+      "type": "ERC20"
+    },
+    {
+      "contract": "0x55d398326f99059ff775485246999027b3197955",
+      "platform": "bnb-binance-coin",
+      "type": "Other"
+    },
+    {
+      "contract": "USDT-6D8",
+      "platform": "bnb-binance-coin",
+      "type": "BEP2"
+    },
+    {
+      "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+      "platform": "trx-tron",
+      "type": "TRC20"
+    },
+    {
+      "contract": "USDT-eos-tethertether",
+      "platform": "eos-eos",
+      "type": "Other"
+    },
+    {
+      "contract": "31",
+      "platform": "omni-omni",
+      "type": "Other"
+    }
+  ],
+  "parent": {
+    "id": "omni-omni",
+    "name": "Omni",
+    "symbol": "OMNI"
+  },
+  "tags": [
+    {
+      "id": "stablecoin",
+      "name": "Stablecoin",
+      "coin_counter": 22,
+      "ico_counter": 1
+    },
+    {
+      "id": "omni-token",
+      "name": "OMNI Token",
+      "coin_counter": 2,
+      "ico_counter": 0
+    },
+    {
+      "id": "erc20",
+      "name": "ETH Token",
+      "coin_counter": 3559,
+      "ico_counter": 371
+    },
+    {
+      "id": "tron-token",
+      "name": "TRX Token",
+      "coin_counter": 100,
+      "ico_counter": 3
+    },
+    {
+      "id": "eos-token",
+      "name": "EOS Token",
+      "coin_counter": 12,
+      "ico_counter": 1
+    }
+  ],
+  "team": [
+    {
+      "id": "j-l-van-der-velde",
+      "name": "J. L. van der Velde",
+      "position": "CEO"
+    },
+    {
+      "id": "giancarlo-devasini",
+      "name": "Giancarlo Devasini",
+      "position": "CFO"
+    },
+    {
+      "id": "philip-potter",
+      "name": "Philip Potter",
+      "position": "CSO"
+    },
+    {
+      "id": "matthew-tremblay",
+      "name": "Matthew Tremblay",
+      "position": "CCO"
+    },
+    {
+      "id": "stuart-hoegner",
+      "name": "Stuart Hoegner",
+      "position": "General Counsel"
+    }
+  ],
+  "description": "Tether (USDT) is a cryptocurrency with reference to fiat currencies that is issued by Tether Limited Company.\r\nUsing the technology of Blockchain, Tether allows the users to keep, send and receive digital tokens pegged to dollars, euros and yens*.\r\n\r\n*1USDT =/= 1USD - according to ToS (Terms-of-service) of Tether Limited Company - Tether tokens are not money, although they are backed by the currency used to purchase them at issuance.",
+  "message": "",
+  "open_source": false,
+  "started_at": "2015-02-25T00:00:00Z",
+  "development_status": "Working product",
+  "hardware_wallet": true,
+  "proof_type": "Not mineable",
+  "org_structure": "Centralized",
+  "hash_algorithm": "None",
+  "links": {
+    "explorer": [
+      "https://www.omniexplorer.info/asset/31",
+      "https://usdt.tokenview.com",
+      "http://omnichest.info/lookupsp.aspx?sp=31",
+      "https://bloks.io/account/tethertether",
+      "https://bloks.io/tokens/USDT-eos-tethertether"
+    ],
+    "facebook": [
+      "https://www.facebook.com/tether.to/"
+    ],
+    "reddit": [
+      "https://www.reddit.com/r/Tether/"
+    ],
+    "website": [
+      "https://tether.to"
+    ],
+    "youtube": [
+      "https://youtu.be/XKnP3vLrQNA"
+    ]
+  },
+  "links_extended": [
+    {
+      "url": "https://tether.to/press/",
+      "type": "blog"
+    },
+    {
+      "url": "https://www.omniexplorer.info/asset/31",
+      "type": "explorer"
+    },
+    {
+      "url": "https://usdt.tokenview.com",
+      "type": "explorer"
+    },
+    {
+      "url": "http://omnichest.info/lookupsp.aspx?sp=31",
+      "type": "explorer"
+    },
+    {
+      "url": "https://bloks.io/account/tethertether",
+      "type": "explorer"
+    },
+    {
+      "url": "https://bloks.io/tokens/USDT-eos-tethertether",
+      "type": "explorer"
+    },
+    {
+      "url": "https://www.facebook.com/tether.to/",
+      "type": "facebook"
+    },
+    {
+      "url": "https://www.reddit.com/r/Tether/",
+      "type": "reddit",
+      "stats": {
+        "subscribers": 10175
+      }
+    },
+    {
+      "url": "https://twitter.com/tether_to",
+      "type": "twitter",
+      "stats": {
+        "followers": 279382
+      }
+    },
+    {
+      "url": "https://github.com/OmniLayer/omnicore/releases",
+      "type": "wallet"
+    },
+    {
+      "url": "https://tether.to",
+      "type": "website"
+    },
+    {
+      "url": "https://youtu.be/XKnP3vLrQNA",
+      "type": "youtube"
+    }
+  ],
+  "whitepaper": {
+    "link": null,
+    "thumbnail": null
+  },
+  "first_data_at": "2015-02-25T00:00:00Z",
+  "last_data_at": "2022-07-21T08:30:00Z"
+}
