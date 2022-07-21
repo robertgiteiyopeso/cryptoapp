@@ -37,6 +37,10 @@ data class CryptoCoinDetailsModel(
     val links: LinksModel = LinksModel(),
     @SerializedName("links_extended")
     val linksExtended: List<LinkExtendedModel> = emptyList(),
-    val whitepaper: WhitepaperModel = WhitepaperModel()
+    val whitepaper: WhitepaperModel = WhitepaperModel(),
+    @SerializedName("first_date_at")
+    val firstDateAt: String = "",
+    @SerializedName("last_date_at")
+    val lastDateAt: String = ""
 ) {
 }
