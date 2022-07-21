@@ -1,6 +1,7 @@
 package com.example.cryptoapp.domain
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class CryptoCoinDetailsModel(
     val id: String = "",
@@ -23,7 +24,7 @@ data class CryptoCoinDetailsModel(
     @SerializedName("open_source")
     val openSource: Boolean = false,
     @SerializedName("started_at")
-    val startedAt: String = "",
+    val startedAt: Date = Date(),
     @SerializedName("development_status")
     val developmentStatus: String = "",
     @SerializedName("hardware_wallet")
@@ -38,9 +39,9 @@ data class CryptoCoinDetailsModel(
     @SerializedName("links_extended")
     val linksExtended: List<LinkExtendedModel> = emptyList(),
     val whitepaper: WhitepaperModel = WhitepaperModel(),
-    @SerializedName("first_date_at")
-    val firstDateAt: String = "",
-    @SerializedName("last_date_at")
-    val lastDateAt: String = ""
+    @SerializedName("first_data_at")
+    val firstDataAt: Date = Date(),
+    @SerializedName("last_data_at")
+    val lastDataAt: Date = Date()
 ) {
 }
