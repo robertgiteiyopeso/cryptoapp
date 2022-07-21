@@ -8,18 +8,20 @@ import java.lang.Exception
 
 class FileUtils {
 
-    fun getCryptoCoins(context: Context): List<CryptoCoinModel> {
-        lateinit var jsonString: String
-        try {
-            jsonString = context.resources.openRawResource(R.raw.input)
-                .bufferedReader()
-                .use { it.readText() }
-        } catch (exception: Exception) {
-            Log.e(TAG, errmsg)
-            return emptyList()
-        }
+    companion object {
+        fun getCryptoCoins(context: Context): List<CryptoCoinModel> {
+            lateinit var jsonString: String
+            try {
+                jsonString = context.resources.openRawResource(R.raw.input)
+                    .bufferedReader()
+                    .use { it.readText() }
+            } catch (exception: Exception) {
+                Log.e(TAG, errmsg)
+                return emptyList()
+            }
 
-        val cryptoListType = object : TypeToken<List<CryptoCoinModel>>() {}.type
-        return Gson().fromJson(jsonString, cryptoListType)
+            val cryptoListType = object : TypeToken<List<CryptoCoinModel>>() {}.type
+            return Gson().fromJson(jsonString, cryptoListType)
+        }
     }
 }
