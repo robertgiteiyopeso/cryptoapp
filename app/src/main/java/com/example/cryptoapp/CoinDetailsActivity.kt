@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptoapp.databinding.ActivityCoinDetailsBinding
+import com.example.cryptoapp.domain.CryptoCoinDetailsModel
 import com.example.cryptoapp.domain.GridItemTagModel
 
 class CoinDetailsActivity : AppCompatActivity() {
@@ -17,14 +18,21 @@ class CoinDetailsActivity : AppCompatActivity() {
         binding = ActivityCoinDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //Get the id of the coin we need to display
+        //Get the coin's details
+        val details = getCoinDetails()
+
+        //Display the data on the screen
+        displayData(binding, details)
+    }
+
+    private fun getCoinDetails() : CryptoCoinDetailsModel {
         val idCoin = intent.getStringExtra("id_coin")
         val fileName = idCoin?.replace("-", "_")
         val fileId = resources.getIdentifier(fileName, "raw", packageName)
-        //Get the coin's detalis
-        val details = FileUtils.getCryptoCoinDetails(this, fileId)
+        return FileUtils.getCryptoCoinDetails(this, fileId)
+    }
 
-        //Display the data on the screen
+    private fun displayData(binding: ActivityCoinDetailsBinding, details: CryptoCoinDetailsModel) {
         val headerTitle = "${details.rank}. ${details.name} (${details.symbol})"
         binding.tvTitleHeader.text = headerTitle
 
