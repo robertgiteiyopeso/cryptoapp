@@ -3,9 +3,9 @@ package com.example.cryptoapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.TextView
 import com.example.cryptoapp.databinding.ActivityMainBinding
-import com.example.cryptoapp.domain.CryptoCoinDetailsModel
+import com.example.cryptoapp.domain.CryptoCoinModel
 
 const val TAG = "CoinsActivity"
 const val errmsg = "oops n-am reusit sa citim bine"
@@ -22,38 +22,35 @@ class MainActivity : AppCompatActivity() {
         //Get a list of CryptoCoins from input.json
         val fileId = R.raw.input
         val cryptoList = FileUtils.getCryptoCoins(this, fileId)
+        val tvList = listOf(binding.tv1, binding.tv2, binding.tv3)
 
         //Load the CryptoCoins into the TextViews
-        if (cryptoList.isNotEmpty()) {
-            binding.tv1.text = cryptoList[0].toString()
-            binding.tv2.text = cryptoList[1].toString()
-            binding.tv3.text = cryptoList[2].toString()
-        } else {
-            binding.tv1.text = getString(R.string.error_text)
-            binding.tv2.text = getString(R.string.error_text)
-            binding.tv3.text = getString(R.string.error_text)
-        }
+        setViews(tvList, cryptoList)
 
         //Set click listeners for TextViews
-        binding.tv1.setOnClickListener {
-            val intent = Intent(this, CoinDetailsActivity::class.java)
-            intent.putExtra("id_coin", cryptoList[0].id)
-            startActivity(intent)
-        }
-
-        binding.tv2.setOnClickListener {
-            val intent = Intent(this, CoinDetailsActivity::class.java)
-            intent.putExtra("id_coin", cryptoList[1].id)
-            startActivity(intent)
-        }
-
-        binding.tv3.setOnClickListener {
-            val intent = Intent(this, CoinDetailsActivity::class.java)
-            intent.putExtra("id_coin", cryptoList[2].id)
-            startActivity(intent)
-        }
+        setListeners(tvList, cryptoList)
 
     }
 
+    private fun setListeners(views: List<TextView>, content: List<CryptoCoinModel>) {
+        for(i in views.indices) {
+            views[i].setOnClickListener {
+                val intent = Intent(this, CoinDetailsActivity::class.java)
+                intent.putExtra("id_coin", content[i].id)
+                startActivity(intent)
+            }
+        }
+    }
+
+    private fun setViews(views: List<TextView>, content: List<CryptoCoinModel>) {
+        if(views.isNotEmpty())
+            for(i in views.indices) {
+                views[i].text = content[i].toString()
+            }
+        else {
+            for(i in views.indices)
+            views[i].text = getString(R.string.error_text)
+        }
+    }
 
 }
