@@ -50,4 +50,68 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitleTags" />
 
+    <TextView
+        android:id="@+id/tvTitleTeams"
+        style="@style/title_style"
+        android:text="@string/team_members"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/grdTags"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Titlu echipe"/>
+
+    <TextView
+        android:id="@+id/tvTeamLeader1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/title_style"
+        android:textSize="@dimen/big_text"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleTeams"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Team leader 1" />
+
+    <TextView
+        android:id="@+id/tvTeamRole1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/paragraph_style"
+        app:layout_constraintTop_toBottomOf="@id/tvTeamLeader1"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Rol 1" />
+
+    <View
+        android:id="@+id/vwLine1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/tvTeamRole1"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvTeamLeader2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/title_style"
+        android:textSize="@dimen/big_text"
+        app:layout_constraintTop_toBottomOf="@id/vwLine1"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Team leader 2" />
+
+    <TextView
+        android:id="@+id/tvTeamRole2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/paragraph_style"
+        app:layout_constraintTop_toBottomOf="@id/tvTeamLeader2"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Rol 2" />
+
+    <View
+        android:id="@+id/vwLine2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/tvTeamRole2"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

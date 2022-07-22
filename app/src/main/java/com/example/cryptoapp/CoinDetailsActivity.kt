@@ -44,5 +44,10 @@ class CoinDetailsActivity : AppCompatActivity() {
 
         val tagList = details.tags.map { it -> GridItemTagModel(it.name) }
         binding.grdTags.adapter = GridAdapter(this, tagList)
+
+        binding.tvTeamLeader1.text = details.team[0].name
+        binding.tvTeamRole1.text = details.team[0].position
+        binding.tvTeamLeader2.text = details.team[1].name
+        binding.tvTeamRole2.text = details.team[1].position
     }
 }
