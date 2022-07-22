@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:numColumns="3"
-        android:verticalSpacing="4dp"
+        android:verticalSpacing="@dimen/grid_spacing"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitleTags" />
 
