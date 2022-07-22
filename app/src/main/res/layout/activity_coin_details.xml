@@ -44,7 +44,7 @@
     <GridView
         android:id="@+id/grdTags"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:numColumns="3"
         android:verticalSpacing="4dp"
         app:layout_constraintStart_toStartOf="parent"
