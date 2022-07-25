@@ -1,109 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/padding_default"
     android:background="@color/black"
+    android:padding="@dimen/padding_default"
     tools:context=".CoinDetailsActivity">
 
 
     <TextView
         android:id="@+id/tvTitleHeader"
         style="@style/header_style"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_alignParentStart="true"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="16dp"
         tools:text="Titlu mare" />
 
     <TextView
         android:id="@+id/tvDescription"
         style="@style/paragraph_style"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleHeader"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvTitleHeader"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="96dp"
         tools:text="descrieredescriere\ndes\nc\nriere" />
 
     <TextView
         android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="italic"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/margin_large"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textStyle="italic"
+        tools:layout_editor_absoluteX="357dp"
+        tools:layout_editor_absoluteY="48dp"
         tools:text="status" />
 
     <TextView
         android:id="@+id/tvTitleTags"
         style="@style/title_style"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvDescription"
         android:text="@string/tags"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="165dp"
         tools:text="Titlu etichete" />
 
     <GridView
         android:id="@+id/grdTags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitleTags"
+        android:layout_alignParentStart="true"
         android:numColumns="3"
+        tools:layout_height="200dp"
         android:verticalSpacing="@dimen/grid_spacing"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitleTags" />
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="218dp" />
 
     <TextView
         android:id="@+id/tvTitleTeams"
         style="@style/title_style"
-        android:text="@string/team_members"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/grdTags"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="Titlu echipe"/>
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/grdTags"
+        android:text="@string/team_members"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="218dp"
+        tools:text="Titlu echipe" />
 
     <TextView
         android:id="@+id/tvTeamLeader1"
+        style="@style/title_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/title_style"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvTitleTeams"
         android:textSize="@dimen/big_text"
-        app:layout_constraintTop_toBottomOf="@id/tvTitleTeams"
-        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="271dp"
         tools:text="Team leader 1" />
 
     <TextView
         android:id="@+id/tvTeamRole1"
+        style="@style/paragraph_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/paragraph_style"
-        app:layout_constraintTop_toBottomOf="@id/tvTeamLeader1"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvTeamLeader1"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="301dp"
         tools:text="Rol 1" />
 
     <View
         android:id="@+id/vwLine1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvTeamRole1"
         android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/tvTeamRole1"
-        app:layout_constraintStart_toStartOf="parent"/>
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="320dp" />
 
     <TextView
         android:id="@+id/tvTeamLeader2"
+        style="@style/title_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/title_style"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/vwLine1"
         android:textSize="@dimen/big_text"
-        app:layout_constraintTop_toBottomOf="@id/vwLine1"
-        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="322dp"
         tools:text="Team leader 2" />
 
     <TextView
         android:id="@+id/tvTeamRole2"
+        style="@style/paragraph_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/paragraph_style"
-        app:layout_constraintTop_toBottomOf="@id/tvTeamLeader2"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvTeamLeader2"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="351dp"
         tools:text="Rol 2" />
 
     <View
@@ -111,7 +132,9 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"
-        app:layout_constraintTop_toBottomOf="@id/tvTeamRole2"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_alignParentStart="true"
+        android:layout_below="@id/tvTeamRole2"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="371dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
