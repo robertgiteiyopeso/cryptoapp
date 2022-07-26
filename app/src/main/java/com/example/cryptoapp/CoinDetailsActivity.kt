@@ -2,11 +2,11 @@ package com.example.cryptoapp
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptoapp.databinding.ActivityCoinDetailsBinding
 import com.example.cryptoapp.domain.CryptoCoinDetailsModel
 import com.example.cryptoapp.domain.GridItemTagModel
+import com.example.cryptoapp.domain.ListItemTeamMemberModel
 
 class CoinDetailsActivity : AppCompatActivity() {
 
@@ -25,7 +25,7 @@ class CoinDetailsActivity : AppCompatActivity() {
         displayData(binding, details)
     }
 
-    private fun getCoinDetails() : CryptoCoinDetailsModel {
+    private fun getCoinDetails(): CryptoCoinDetailsModel {
         val idCoin = intent.getStringExtra("id_coin")
         val fileName = idCoin?.replace("-", "_")
         val fileId = resources.getIdentifier(fileName, "raw", packageName)
@@ -33,9 +33,11 @@ class CoinDetailsActivity : AppCompatActivity() {
     }
 
     private fun displayData(binding: ActivityCoinDetailsBinding, details: CryptoCoinDetailsModel) {
+        // Header
         val headerTitle = "${details.rank}. ${details.name} (${details.symbol})"
         binding.tvTitleHeader.text = headerTitle
 
+        // Status
         if (details.isActive) {
             binding.tvStatus.let {
                 it.text = getString(R.string.active)
@@ -48,14 +50,15 @@ class CoinDetailsActivity : AppCompatActivity() {
             }
         }
 
+        // Description
         binding.tvDescription.text = details.description
 
-        val tagList = details.tags.map { it -> GridItemTagModel(it.name) }
+        // Tags
+        val tagList = details.tags.map { GridItemTagModel(it.name) }
         binding.grdTags.adapter = GridAdapter(this, tagList)
 
-        binding.tvTeamLeader1.text = details.team[0].name
-        binding.tvTeamRole1.text = details.team[0].position
-        binding.tvTeamLeader2.text = details.team[1].name
-        binding.tvTeamRole2.text = details.team[1].position
+        // Team Members
+        val teamMembers = details.team.map { ListItemTeamMemberModel(it.name, it.position) }
+        binding.lvTeamMembers.adapter = ListAdapter(this, teamMembers)
     }
 }

@@ -71,70 +71,10 @@
         tools:layout_editor_absoluteY="218dp"
         tools:text="Titlu echipe" />
 
-    <TextView
-        android:id="@+id/tvTeamLeader1"
-        style="@style/title_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/tvTitleTeams"
-        android:textSize="@dimen/big_text"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="271dp"
-        tools:text="Team leader 1" />
-
-    <TextView
-        android:id="@+id/tvTeamRole1"
-        style="@style/paragraph_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/tvTeamLeader1"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="301dp"
-        tools:text="Rol 1" />
-
-    <View
-        android:id="@+id/vwLine1"
+    <ListView
+        android:id="@+id/lvTeamMembers"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/tvTeamRole1"
-        android:background="@android:color/darker_gray"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="320dp" />
-
-    <TextView
-        android:id="@+id/tvTeamLeader2"
-        style="@style/title_style"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/vwLine1"
-        android:textSize="@dimen/big_text"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="322dp"
-        tools:text="Team leader 2" />
-
-    <TextView
-        android:id="@+id/tvTeamRole2"
-        style="@style/paragraph_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/tvTeamLeader2"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="351dp"
-        tools:text="Rol 2" />
-
-    <View
-        android:id="@+id/vwLine2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_alignParentStart="true"
-        android:layout_below="@id/tvTeamRole2"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="371dp" />
+        android:layout_below="@+id/tvTitleTeams" />
 
 </RelativeLayout>
