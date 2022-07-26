@@ -8,4 +8,6 @@
     <dimen name="grid_spacing">4dp</dimen>
     <dimen name="padding_small">6dp</dimen>
     <dimen name="line_size">1dp</dimen>
+    <dimen name="tag_padding">10dp</dimen>
+    <dimen name="tag_margin">5dp</dimen>
 </resources>

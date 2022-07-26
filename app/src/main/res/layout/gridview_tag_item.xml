@@ -6,11 +6,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="5dp"
-    android:padding="10dp"
-    android:maxLines="1"
+    android:layout_margin="@dimen/tag_margin"
     android:background="@drawable/tag_background"
-    tools:text="TEXTVIEW"
+    android:maxLines="1"
+    android:padding="@dimen/tag_padding"
     android:textAlignment="center"
-    android:textColor="@color/tag_color" />
+    android:textColor="@color/tag_color"
+    tools:text="TEXTVIEW" />
 
