@@ -4,10 +4,10 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/tag_background.xml" value="0.13" />
-        <entry key="app/src/main/res/layout/activity_coin_details.xml" value="0.2203638712565104" />
+        <entry key="app/src/main/res/layout/activity_coin_details.xml" value="0.28750254313151047" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23970489501953118" />
         <entry key="app/src/main/res/layout/gridview_tag_item.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/list_item_team_member.xml" value="0.240647187856193" />
+        <entry key="app/src/main/res/layout/list_item_team_member.xml" value="0.43801809850072426" />
         <entry key="app/src/main/res/layout/llist_item_team_member.xml" value="0.182370820668693" />
       </map>
     </option>
