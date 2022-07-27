@@ -10,4 +10,5 @@
     <dimen name="line_size">1dp</dimen>
     <dimen name="tag_padding">10dp</dimen>
     <dimen name="tag_margin">5dp</dimen>
+    <dimen name="tag_roundness">20dp</dimen>
 </resources>
