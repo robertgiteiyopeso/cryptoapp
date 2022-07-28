@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.AppCompatButton xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tvGridItem"
     android:layout_width="wrap_content"
@@ -9,8 +9,9 @@
     android:layout_margin="@dimen/tag_margin"
     android:maxLines="1"
     android:padding="@dimen/tag_padding"
+    android:textColor="@color/tag_color"
+    android:background="@drawable/tag_selector"
     android:textAlignment="center"
-    android:clickable="false"
     android:textAllCaps="false"
     tools:text="TEXTVIEW" />
 

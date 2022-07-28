@@ -9,17 +9,16 @@
 
     <TextView
         android:id="@+id/tvTeamLeader"
-        style="@style/title_style"
+        style="?attr/textAppearanceHeadline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/big_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Team leader 1" />
 
     <TextView
         android:id="@+id/tvTeamRole"
-        style="@style/paragraph_style"
+        style="?attr/textAppearanceSubtitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"

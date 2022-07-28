@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="tvStyle">
+    <style name="mainScreenStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="android:background">@color/gray1</item>
@@ -9,37 +9,5 @@
         <item name="android:textSize">@dimen/big_text</item>
         <item name="android:textColor">@color/text</item>
         <item name="android:clickable">true</item>
-    </style>
-
-    <style name="header_style">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text</item>
-        <item name="android:textSize">@dimen/header_text</item>
-    </style>
-
-    <style name="paragraph_style">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text</item>
-    </style>
-
-    <style name="title_style">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/text</item>
-        <item name="android:textSize">@dimen/title_text</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="tag_style">
-        <item name="cornerSize">@dimen/tag_roundness</item>
-        <item name="android:textColor">@color/tag_color</item>
-        <item name="backgroundTint">@color/black</item>
-        <item name="fontFamily">sans-serif-condensed-medium</item>
-    </style>
-
-    <style name="text_view_style">
-        <item name="android:fontFamily">sans-serif-condensed-medium</item>
     </style>
 </resources>

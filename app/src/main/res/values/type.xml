@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.MaterialComponents.Headline1.Details" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/header_text</item>
+    </style>
+
+    <style name="TextAppearance.MaterialComponents.Subtitle1.Details" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text</item>
+    </style>
+
+    <style name="TextAppearance.MaterialComponents.Headline2.Details" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/title_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.MaterialComponents.Headline3.Details" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textSize">@dimen/big_text</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>
