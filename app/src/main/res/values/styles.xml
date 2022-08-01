@@ -2,7 +2,6 @@
 <resources>
 
     <style name="mainScreenStyle">
-        <item name="android:background">@color/gray1</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/big_text</item>
         <item name="android:textColor">@color/text</item>

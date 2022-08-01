@@ -3,11 +3,9 @@ package com.example.cryptoapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoapp.adapter.MainListAdapter
 import com.example.cryptoapp.databinding.ActivityMainBinding
-import com.example.cryptoapp.domain.CryptoCoinModel
 
 const val TAG = "CoinsActivity"
 const val errmsg = "oops n-am reusit sa citim bine"
@@ -27,31 +25,13 @@ class MainActivity : AppCompatActivity() {
 
         //Set up RecyclerView
         binding.rvCoinList.layoutManager = LinearLayoutManager(this)
-        val adapter = MainListAdapter()
-        adapter.list = cryptoList
+        val adapter = MainListAdapter {
+            val intent = Intent(this, CoinDetailsActivity::class.java)
+            intent.putExtra("id_coin", it.id)
+            startActivity(intent)
+        }
+        adapter.list = cryptoList.sortedBy { it.rank }
         binding.rvCoinList.adapter = adapter
 
     }
-
-    private fun setListeners(views: List<TextView>, content: List<CryptoCoinModel>) {
-        for(i in views.indices) {
-            views[i].setOnClickListener {
-                val intent = Intent(this, CoinDetailsActivity::class.java)
-                intent.putExtra("id_coin", content[i].id)
-                startActivity(intent)
-            }
-        }
-    }
-
-    private fun setViews(views: List<TextView>, content: List<CryptoCoinModel>) {
-        if(views.isNotEmpty())
-            for(i in views.indices) {
-                views[i].text = content[i].toString()
-            }
-        else {
-            for(i in views.indices)
-            views[i].text = getString(R.string.error_text)
-        }
-    }
-
 }
