@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cryptoapp.adapter.MainListAdapter
 import com.example.cryptoapp.databinding.ActivityMainBinding
 import com.example.cryptoapp.domain.CryptoCoinModel
 
@@ -22,13 +24,12 @@ class MainActivity : AppCompatActivity() {
         //Get a list of CryptoCoins from input.json
         val fileId = R.raw.input
         val cryptoList = FileUtils.getCryptoCoins(this, fileId)
-        val tvList = listOf(binding.tv1, binding.tv2, binding.tv3)
 
-        //Load the CryptoCoins into the TextViews
-        setViews(tvList, cryptoList)
-
-        //Set click listeners for TextViews
-        setListeners(tvList, cryptoList)
+        //Set up RecyclerView
+        binding.rvCoinList.layoutManager = LinearLayoutManager(this)
+        val adapter = MainListAdapter()
+        adapter.list = cryptoList
+        binding.rvCoinList.adapter = adapter
 
     }
 

@@ -6,35 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tv1"
-        style="@style/mainScreenStyle"
-        app:layout_constraintBottom_toTopOf="@+id/tv2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="prima moneda" />
-
-    <TextView
-        android:id="@+id/tv2"
-        style="@style/mainScreenStyle"
-        android:background="@color/gray2"
-        app:layout_constraintBottom_toTopOf="@+id/tv3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv1"
-        tools:text="a doua moneda" />
-
-    <TextView
-        android:id="@+id/tv3"
-        style="@style/mainScreenStyle"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCoinList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv2"
-        tools:text="a treia moneda" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
