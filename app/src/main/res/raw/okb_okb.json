@@ -1,0 +1,127 @@
+{
+  "id": "okb-okb",
+  "name": "OKB",
+  "symbol": "OKB",
+  "rank": 22,
+  "is_new": false,
+  "is_active": true,
+  "type": "token",
+  "contract": "0x75231f58b43240c9718dd58b4967c5114342a86c",
+  "platform": "eth-ethereum",
+  "contracts": [
+    {
+      "contract": "0x75231f58b43240c9718dd58b4967c5114342a86c",
+      "platform": "eth-ethereum",
+      "type": "ERC20"
+    }
+  ],
+  "parent": {
+    "id": "eth-ethereum",
+    "name": "Ethereum",
+    "symbol": "ETH"
+  },
+  "tags": [
+    {
+      "id": "exchange",
+      "name": "Exchange",
+      "coin_counter": 120,
+      "ico_counter": 75
+    },
+    {
+      "id": "erc20",
+      "name": "ETH Token",
+      "coin_counter": 3615,
+      "ico_counter": 371
+    }
+  ],
+  "team": [],
+  "description": "OKB is a global utility token issued by OK Blockchain foundation. It is a token economy system designed and launched by our world-class development team based on blockchain technology. OKB is set to connect prospective digital asset projects to OKEx users as well as professional investors, creating an OKEx ecosystem that helps to advance the development of blockchain technology and the digital asset industry.\r\n\r\nOKB will be accepted on OKEx and will be a vital piece of OKEx's architecture & development. Through the highly complementary relationship, OKB will be applied not only on OKEx's platform, but also on other related projects invested.",
+  "message": "",
+  "open_source": false,
+  "started_at": null,
+  "development_status": "Only token",
+  "hardware_wallet": false,
+  "proof_type": "Not mineable",
+  "org_structure": "Centralized",
+  "hash_algorithm": "None",
+  "links": {
+    "explorer": [
+      "https://etherscan.io/token/0x75231f58b43240c9718dd58b4967c5114342a86c",
+      "https://ethplorer.io/address/0x75231f58b43240c9718dd58b4967c5114342a86c"
+    ],
+    "facebook": [
+      "https://www.facebook.com/OKExOfficial?ref=br_tf"
+    ],
+    "reddit": [
+      "https://www.reddit.com/r/okex"
+    ],
+    "website": [
+      "https://www.okex.com/",
+      "https://www.okex.com/activity/okbBoss"
+    ],
+    "youtube": [
+      "https://www.youtube.com/watch?v=x9kSkBMcOuo"
+    ]
+  },
+  "links_extended": [
+    {
+      "url": "https://t.me/okex_announcements",
+      "type": "announcement"
+    },
+    {
+      "url": "https://medium.com/okex-blog",
+      "type": "blog"
+    },
+    {
+      "url": "https://etherscan.io/token/0x75231f58b43240c9718dd58b4967c5114342a86c",
+      "type": "explorer"
+    },
+    {
+      "url": "https://ethplorer.io/address/0x75231f58b43240c9718dd58b4967c5114342a86c",
+      "type": "explorer"
+    },
+    {
+      "url": "https://www.facebook.com/OKExOfficial?ref=br_tf",
+      "type": "facebook"
+    },
+    {
+      "url": "https://www.reddit.com/r/okex",
+      "type": "reddit",
+      "stats": {
+        "subscribers": 13409
+      }
+    },
+    {
+      "url": "https://t.me/okexofficial_en",
+      "type": "telegram",
+      "stats": {
+        "members": 2425
+      }
+    },
+    {
+      "url": "https://twitter.com/OKEx",
+      "type": "twitter",
+      "stats": {
+        "followers": 727206
+      }
+    },
+    {
+      "url": "https://www.okex.com/",
+      "type": "website"
+    },
+    {
+      "url": "https://www.okex.com/activity/okbBoss",
+      "type": "website"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=x9kSkBMcOuo",
+      "type": "youtube"
+    }
+  ],
+  "whitepaper": {
+    "link": null,
+    "thumbnail": null
+  },
+  "first_data_at": "2019-01-17T00:00:00Z",
+  "last_data_at": "2022-07-29T07:55:00Z"
+}

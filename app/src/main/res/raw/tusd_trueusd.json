@@ -1,0 +1,229 @@
+{
+  "id": "tusd-trueusd",
+  "name": "TrueUSD",
+  "symbol": "TUSD",
+  "rank": 54,
+  "is_new": false,
+  "is_active": true,
+  "type": "token",
+  "contract": "0x0000000000085d4780b73119b644ae5ecd22b376",
+  "platform": "eth-ethereum",
+  "contracts": [
+    {
+      "contract": "0x0000000000085d4780b73119b644ae5ecd22b376",
+      "platform": "eth-ethereum",
+      "type": "ERC20"
+    }
+  ],
+  "parent": {
+    "id": "eth-ethereum",
+    "name": "Ethereum",
+    "symbol": "ETH"
+  },
+  "tags": [
+    {
+      "id": "stablecoin",
+      "name": "Stablecoin",
+      "coin_counter": 22,
+      "ico_counter": 1
+    },
+    {
+      "id": "erc20",
+      "name": "ETH Token",
+      "coin_counter": 3615,
+      "ico_counter": 371
+    },
+    {
+      "id": "smart-contracts",
+      "name": "Smart Contracts",
+      "coin_counter": 428,
+      "ico_counter": 305
+    },
+    {
+      "id": "bnb-token",
+      "name": "BNB/BSC Token",
+      "coin_counter": 2120,
+      "ico_counter": 17
+    }
+  ],
+  "team": [
+    {
+      "id": "danny-an",
+      "name": "Danny An",
+      "position": "CEO & Co-Founder"
+    },
+    {
+      "id": "rafael-cosman",
+      "name": "Rafael Cosman",
+      "position": "CTO & Co-Founder"
+    },
+    {
+      "id": "stephen-kade",
+      "name": "Stephen Kade",
+      "position": "COO & Co-Founder"
+    },
+    {
+      "id": "charles-christofilis",
+      "name": "Charles Christofilis",
+      "position": "Director of Compliance"
+    },
+    {
+      "id": "patty-weng",
+      "name": "Patty Weng",
+      "position": "Operations"
+    },
+    {
+      "id": "michael-g-bland",
+      "name": "Michael G. Bland",
+      "position": "Legal Counsel"
+    },
+    {
+      "id": "tory-reiss",
+      "name": "Tory Reiss",
+      "position": "VP Corporate"
+    },
+    {
+      "id": "tony-pham",
+      "name": "Tony Pham",
+      "position": "Head of Marketing"
+    },
+    {
+      "id": "david-steinrueck",
+      "name": "David Steinrueck",
+      "position": "Community"
+    },
+    {
+      "id": "baptiste-vauthey",
+      "name": "Baptiste Vauthey",
+      "position": "Software Engineer"
+    },
+    {
+      "id": "joe-vellanikaran",
+      "name": "Joe Vellanikaran",
+      "position": "Business Development"
+    },
+    {
+      "id": "ryan-rodenbaugh",
+      "name": "Ryan Rodenbaugh",
+      "position": "Business Development"
+    },
+    {
+      "id": "kerry-fischer",
+      "name": "Kerry Fischer",
+      "position": "Director of Talent"
+    },
+    {
+      "id": "gerry-zhou",
+      "name": "Gerry Zhou",
+      "position": "Back End Engineer"
+    },
+    {
+      "id": "terry-li",
+      "name": "Terry Li",
+      "position": "Blockchain Developer"
+    },
+    {
+      "id": "marc-pacaldo",
+      "name": "Marc Pacaldo",
+      "position": "Office Manager"
+    },
+    {
+      "id": "daniel-dalton",
+      "name": "Daniel Dalton",
+      "position": "Full Stack Web Developer"
+    },
+    {
+      "id": "anna-arpilleda",
+      "name": "Anna Arpilleda",
+      "position": "Lead Recruiter"
+    },
+    {
+      "id": "al-husein-madhany",
+      "name": "Al-Husein Madhany",
+      "position": "Executive Business Partner"
+    }
+  ],
+  "description": "TrueUSD claim to be a stablecoin that you can redeem 1-for-1 for US dollars.",
+  "message": null,
+  "open_source": true,
+  "started_at": null,
+  "development_status": "Working product",
+  "hardware_wallet": true,
+  "proof_type": "Not mineable",
+  "org_structure": "Centralized",
+  "hash_algorithm": "None",
+  "links": {
+    "explorer": [
+      "https://etherscan.io/token/0x0000000000085d4780B73119b644AE5ecd22b376",
+      "https://ethplorer.io/address/0x0000000000085d4780B73119b644AE5ecd22b376"
+    ],
+    "facebook": [
+      "https://www.facebook.com/TrustToken/?fref=ts"
+    ],
+    "source_code": [
+      "https://github.com/trusttoken/true-currencies"
+    ],
+    "website": [
+      "https://www.trueusd.com/",
+      "https://www.trusttoken.com/"
+    ],
+    "youtube": [
+      "https://youtu.be/GwpT4VXGzoo"
+    ]
+  },
+  "links_extended": [
+    {
+      "url": "https://blog.trusttoken.com/",
+      "type": "blog"
+    },
+    {
+      "url": "https://etherscan.io/token/0x0000000000085d4780B73119b644AE5ecd22b376",
+      "type": "explorer"
+    },
+    {
+      "url": "https://ethplorer.io/address/0x0000000000085d4780B73119b644AE5ecd22b376",
+      "type": "explorer"
+    },
+    {
+      "url": "https://www.facebook.com/TrustToken/?fref=ts",
+      "type": "facebook"
+    },
+    {
+      "url": "https://github.com/trusttoken/true-currencies",
+      "type": "source_code",
+      "stats": {
+        "contributors": 15,
+        "stars": 159
+      }
+    },
+    {
+      "url": "https://t.me/joinchat/HihkMkTja1gIyBRM1J1_vg",
+      "type": "telegram"
+    },
+    {
+      "url": "https://twitter.com/TrustToken",
+      "type": "twitter",
+      "stats": {
+        "followers": 38963
+      }
+    },
+    {
+      "url": "https://www.trueusd.com/",
+      "type": "website"
+    },
+    {
+      "url": "https://www.trusttoken.com/",
+      "type": "website"
+    },
+    {
+      "url": "https://youtu.be/GwpT4VXGzoo",
+      "type": "youtube"
+    }
+  ],
+  "whitepaper": {
+    "link": null,
+    "thumbnail": null
+  },
+  "first_data_at": "2018-03-08T00:00:00Z",
+  "last_data_at": "2022-07-29T07:55:00Z"
+}

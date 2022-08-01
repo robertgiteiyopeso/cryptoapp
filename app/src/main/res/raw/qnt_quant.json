@@ -1,0 +1,145 @@
+{
+  "id": "qnt-quant",
+  "name": "Quant",
+  "symbol": "QNT",
+  "rank": 50,
+  "is_new": false,
+  "is_active": true,
+  "type": "token",
+  "contract": "0x4a220e6096b25eadb88358cb44068a3248254675",
+  "platform": "eth-ethereum",
+  "contracts": [
+    {
+      "contract": "0x4a220e6096b25eadb88358cb44068a3248254675",
+      "platform": "eth-ethereum",
+      "type": "ERC20"
+    }
+  ],
+  "parent": {
+    "id": "eth-ethereum",
+    "name": "Ethereum",
+    "symbol": "ETH"
+  },
+  "tags": [
+    {
+      "id": "erc20",
+      "name": "ETH Token",
+      "coin_counter": 3615,
+      "ico_counter": 371
+    },
+    {
+      "id": "cross-chain",
+      "name": "Cross-chain",
+      "coin_counter": 20,
+      "ico_counter": 13
+    }
+  ],
+  "team": [
+    {
+      "id": "gilbert-verdian",
+      "name": "Gilbert Verdian",
+      "position": "CEO and Founder"
+    },
+    {
+      "id": "colin-paterson",
+      "name": "Colin Paterson",
+      "position": "CTO"
+    }
+  ],
+  "description": "Overledger - The first Blockchain operating system that connects the world’s networks and facilitates the development of multi-chain applications.",
+  "message": null,
+  "open_source": false,
+  "started_at": null,
+  "development_status": "On-going development",
+  "hardware_wallet": true,
+  "proof_type": "Not mineable",
+  "org_structure": "Centralized",
+  "hash_algorithm": "None",
+  "links": {
+    "explorer": [
+      "https://etherscan.io/token/0x4a220e6096b25eadb88358cb44068a3248254675",
+      "https://ethplorer.io/address/0x4a220e6096b25eadb88358cb44068a3248254675"
+    ],
+    "facebook": [
+      "https://www.facebook.com/quantnetwork"
+    ],
+    "reddit": [
+      "https://www.reddit.com/r/QuantNetwork"
+    ],
+    "source_code": [
+      "https://github.com/quantnetwork/eth-contract-metadata"
+    ],
+    "website": [
+      "https://quant.network/"
+    ]
+  },
+  "links_extended": [
+    {
+      "url": "https://bitcointalk.org/index.php?topic=3200795.0",
+      "type": "announcement"
+    },
+    {
+      "url": "https://medium.com/@quant_network",
+      "type": "blog"
+    },
+    {
+      "url": "https://t.me/QuantOverledger",
+      "type": "chat"
+    },
+    {
+      "url": "https://etherscan.io/token/0x4a220e6096b25eadb88358cb44068a3248254675",
+      "type": "explorer"
+    },
+    {
+      "url": "https://ethplorer.io/address/0x4a220e6096b25eadb88358cb44068a3248254675",
+      "type": "explorer"
+    },
+    {
+      "url": "https://www.facebook.com/quantnetwork",
+      "type": "facebook"
+    },
+    {
+      "url": "https://www.reddit.com/r/QuantNetwork",
+      "type": "reddit",
+      "stats": {
+        "subscribers": 13755
+      }
+    },
+    {
+      "url": "https://github.com/quantnetwork/eth-contract-metadata",
+      "type": "source_code",
+      "stats": {
+        "contributors": 82,
+        "stars": 2
+      }
+    },
+    {
+      "url": "http://telegram.quant.network/",
+      "type": "telegram"
+    },
+    {
+      "url": "https://t.me/quantnetworkannouncements",
+      "type": "telegram",
+      "stats": {
+        "members": 3730
+      }
+    },
+    {
+      "url": "https://twitter.com/quant_network",
+      "type": "twitter",
+      "stats": {
+        "followers": 93956
+      }
+    },
+    {
+      "url": "https://quant.network/",
+      "type": "website"
+    }
+  ],
+  "whitepaper": {
+    "link": "https://static.coinpaprika.com/storage/cdn/whitepapers/6398445.pdf",
+    "thumbnail": null
+  },
+  "first_data_at": "2018-08-10T00:00:00Z",
+  "last_data_at": "2022-07-29T07:50:00Z"
+}

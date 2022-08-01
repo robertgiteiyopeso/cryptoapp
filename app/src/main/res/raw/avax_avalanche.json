@@ -1,0 +1,92 @@
+{
+  "id": "avax-avalanche",
+  "name": "Avalanche",
+  "symbol": "AVAX",
+  "rank": 16,
+  "is_new": false,
+  "is_active": true,
+  "type": "coin",
+  "tags": [
+    {
+      "id": "cryptocurrency",
+      "name": "Cryptocurrency",
+      "coin_counter": 859,
+      "ico_counter": 40
+    },
+    {
+      "id": "platform",
+      "name": "Platform",
+      "coin_counter": 324,
+      "ico_counter": 264
+    }
+  ],
+  "team": [],
+  "description": "Avalanche is an open-source platform for launching decentralized finance applications and enterprise blockchain deployments in one interoperable, highly scalable ecosystem. Developers who build on Avalanche can easily create powerful, reliable, and secure applications and custom blockchain networks with complex rulesets or build on existing private or public subnets. Avalanche gives you complete control on both the network and application layers–helping you build anything you can imagine.",
+  "message": "",
+  "open_source": true,
+  "started_at": "2020-07-22T00:00:00Z",
+  "development_status": "Working product",
+  "hardware_wallet": false,
+  "proof_type": "Proof of Stake",
+  "org_structure": "Semi-centralized",
+  "hash_algorithm": "Avalanche",
+  "links": {
+    "explorer": [
+      "https://avascan.info",
+      "https://explorer.avax.network"
+    ],
+    "source_code": [
+      "https://github.com/ava-labs"
+    ],
+    "website": [
+      "https://avalabs.org",
+      "https://www.avax.network/"
+    ],
+    "youtube": [
+      "https://youtu.be/mWBzFmzzBAg"
+    ]
+  },
+  "links_extended": [
+    {
+      "url": "https://medium.com/avalabs",
+      "type": "blog"
+    },
+    {
+      "url": "https://avascan.info",
+      "type": "explorer"
+    },
+    {
+      "url": "https://explorer.avax.network",
+      "type": "explorer"
+    },
+    {
+      "url": "https://github.com/ava-labs",
+      "type": "source_code"
+    },
+    {
+      "url": "https://t.me/avalancheavax",
+      "type": "telegram",
+      "stats": {
+        "members": 47177
+      }
+    },
+    {
+      "url": "https://avalabs.org",
+      "type": "website"
+    },
+    {
+      "url": "https://www.avax.network/",
+      "type": "website"
+    },
+    {
+      "url": "https://youtu.be/mWBzFmzzBAg",
+      "type": "youtube"
+    }
+  ],
+  "whitepaper": {
+    "link": "https://static.coinpaprika.com/storage/cdn/whitepapers/10616029.pdf",
+    "thumbnail": "https://static.coinpaprika.com/storage/cdn/whitepapers/10616031.jpg"
+  },
+  "first_data_at": "2020-08-07T00:00:00Z",
+  "last_data_at": "2022-07-29T07:55:00Z"
+}

@@ -1,0 +1,111 @@
+{
+  "id": "dot-polkadot",
+  "name": "Polkadot",
+  "symbol": "DOT",
+  "rank": 12,
+  "is_new": false,
+  "is_active": true,
+  "type": "coin",
+  "tags": [
+    {
+      "id": "cross-chain",
+      "name": "Cross-chain",
+      "coin_counter": 20,
+      "ico_counter": 13
+    },
+    {
+      "id": "smart-contracts",
+      "name": "Smart Contracts",
+      "coin_counter": 428,
+      "ico_counter": 305
+    },
+    {
+      "id": "identity-verification",
+      "name": "Identity & Verification",
+      "coin_counter": 19,
+      "ico_counter": 16
+    },
+    {
+      "id": "payments",
+      "name": "Payments",
+      "coin_counter": 170,
+      "ico_counter": 39
+    },
+    {
+      "id": "internet-of-things",
+      "name": "Internet Of Things",
+      "coin_counter": 29,
+      "ico_counter": 20
+    }
+  ],
+  "team": [],
+  "description": "Polkadot is a network protocol that allows arbitrary data—not just tokens—to be transferred across blockchains.\r\n\r\nThis means Polkadot is a true multi-chain application environment where things like cross-chain registries and cross-chain computation are possible.\r\n\r\nPolkadot can transfer this data across public, open, permissionless blockchains as well as private, permissioned blockchains.",
+  "message": "On August 21st at 16:40 UTC (block number 1,248,328), Polkadot underwent a redenomination process of 1:100 (1 old token = 100 new tokens), thus price have divided by a factor of 100.",
+  "open_source": true,
+  "started_at": null,
+  "development_status": null,
+  "hardware_wallet": false,
+  "proof_type": null,
+  "org_structure": null,
+  "hash_algorithm": null,
+  "links": {
+    "explorer": [
+      "https://polkascan.io"
+    ],
+    "reddit": [
+      "https://www.reddit.com/r/dot"
+    ],
+    "source_code": [
+      "https://github.com/w3f"
+    ],
+    "website": [
+      "https://polkadot.network"
+    ]
+  },
+  "links_extended": [
+    {
+      "url": "https://polkadot.network/blog",
+      "type": "blog"
+    },
+    {
+      "url": "https://t.me/PolkadotOfficial",
+      "type": "chat"
+    },
+    {
+      "url": "https://polkascan.io",
+      "type": "explorer"
+    },
+    {
+      "url": "https://medium.com/polkadot-network",
+      "type": "message_board"
+    },
+    {
+      "url": "https://www.reddit.com/r/dot",
+      "type": "reddit",
+      "stats": {
+        "subscribers": 40500
+      }
+    },
+    {
+      "url": "https://github.com/w3f",
+      "type": "source_code"
+    },
+    {
+      "url": "https://twitter.com/polkadotnetwork",
+      "type": "twitter",
+      "stats": {
+        "followers": 7333
+      }
+    },
+    {
+      "url": "https://polkadot.network",
+      "type": "website"
+    }
+  ],
+  "whitepaper": {
+    "link": "https://static.coinpaprika.com/storage/cdn/whitepapers/10581291.pdf",
+    "thumbnail": "https://static.coinpaprika.com/storage/cdn/whitepapers/10581293.jpg"
+  },
+  "first_data_at": "2020-08-21T00:00:00Z",
+  "last_data_at": "2022-07-29T08:00:00Z"
+}

@@ -1,0 +1,213 @@
+{
+  "id": "doge-dogecoin",
+  "name": "Dogecoin",
+  "symbol": "DOGE",
+  "rank": 11,
+  "is_new": false,
+  "is_active": true,
+  "type": "coin",
+  "tags": [
+    {
+      "id": "cryptocurrency",
+      "name": "Cryptocurrency",
+      "coin_counter": 859,
+      "ico_counter": 40
+    },
+    {
+      "id": "payments",
+      "name": "Payments",
+      "coin_counter": 170,
+      "ico_counter": 39
+    },
+    {
+      "id": "scrypt",
+      "name": "Scrypt",
+      "coin_counter": 89,
+      "ico_counter": 1
+    },
+    {
+      "id": "proof-of-work",
+      "name": "Proof Of Work",
+      "coin_counter": 425,
+      "ico_counter": 14
+    },
+    {
+      "id": "charity-donations",
+      "name": "Charity & Donations",
+      "coin_counter": 33,
+      "ico_counter": 14
+    },
+    {
+      "id": "auxiliary-proof-of-work",
+      "name": "Auxiliary Proof Of Work",
+      "coin_counter": 2,
+      "ico_counter": 1
+    },
+    {
+      "id": "mining",
+      "name": "Mining",
+      "coin_counter": 274,
+      "ico_counter": 18
+    },
+    {
+      "id": "meme-asset",
+      "name": "Meme Asset",
+      "coin_counter": 19,
+      "ico_counter": 0
+    }
+  ],
+  "team": [
+    {
+      "id": "jackson-palmer",
+      "name": "Jackson Palmer",
+      "position": "Co-Founder"
+    },
+    {
+      "id": "billy-markus",
+      "name": "Billy Markus",
+      "position": "Co-Founder"
+    },
+    {
+      "id": "max-k-",
+      "name": "Max K.",
+      "position": "Core Developer"
+    },
+    {
+      "id": "patrick-lodder",
+      "name": "Patrick Lodder",
+      "position": "Core Developer"
+    },
+    {
+      "id": "ross-nicoll",
+      "name": "Ross Nicoll",
+      "position": "Core Developer"
+    }
+  ],
+  "description": "Dogecoin is an open source peer-to-peer digital currency, favored by Shiba Inus worldwide.\r\nIntroduced as a \"joke currency\" on 6 December 2013, Dogecoin quickly developed its own online community.",
+  "message": "",
+  "open_source": true,
+  "started_at": "2013-12-06T00:00:00Z",
+  "development_status": "Working product",
+  "hardware_wallet": true,
+  "proof_type": "Proof of Work",
+  "org_structure": "Decentralized",
+  "hash_algorithm": "Scrypt",
+  "links": {
+    "explorer": [
+      "https://doge.tokenview.com",
+      "https://blockchair.com/dogecoin",
+      "https://dogechain.info/chain/Dogecoin"
+    ],
+    "facebook": [
+      "https://www.facebook.com/OfficialDogecoin/"
+    ],
+    "reddit": [
+      "https://www.reddit.com/r/dogecoin"
+    ],
+    "source_code": [
+      "https://github.com/dogecoin/dogecoin"
+    ],
+    "website": [
+      "https://dogecoin.com/"
+    ],
+    "youtube": [
+      "https://www.youtube.com/watch?v=xo7SeWcOU1k"
+    ]
+  },
+  "links_extended": [
+    {
+      "url": "https://bitcointalk.org/index.php?topic=361813.0",
+      "type": "announcement"
+    },
+    {
+      "url": "http://foundation.dogecoin.com/news/",
+      "type": "blog"
+    },
+    {
+      "url": "https://medium.com/@dogecoin",
+      "type": "blog"
+    },
+    {
+      "url": "https://webchat.freenode.net/?nick=Shibe..&channels=%23dogecoin&prompt=1",
+      "type": "chat"
+    },
+    {
+      "url": "https://discordapp.com/invite/WrDEkT",
+      "type": "discord"
+    },
+    {
+      "url": "https://doge.tokenview.com",
+      "type": "explorer"
+    },
+    {
+      "url": "https://blockchair.com/dogecoin",
+      "type": "explorer"
+    },
+    {
+      "url": "https://dogechain.info/chain/Dogecoin",
+      "type": "explorer"
+    },
+    {
+      "url": "https://www.facebook.com/OfficialDogecoin/",
+      "type": "facebook"
+    },
+    {
+      "url": "https://www.reddit.com/r/dogecoin",
+      "type": "reddit",
+      "stats": {
+        "subscribers": 2307441
+      }
+    },
+    {
+      "url": "https://dogecoinslack.slack.com/",
+      "type": "slack"
+    },
+    {
+      "url": "https://github.com/dogecoin/dogecoin",
+      "type": "source_code",
+      "stats": {
+        "contributors": 635,
+        "stars": 14180
+      }
+    },
+    {
+      "url": "https://t.me/dogecoin4life",
+      "type": "telegram",
+      "stats": {
+        "members": 18
+      }
+    },
+    {
+      "url": "https://t.me/TheDogeHouse",
+      "type": "telegram",
+      "stats": {
+        "members": 8554
+      }
+    },
+    {
+      "url": "https://twitter.com/dogecoin",
+      "type": "twitter",
+      "stats": {
+        "followers": 3437595
+      }
+    },
+    {
+      "url": "https://dogecoin.com/",
+      "type": "wallet"
+    },
+    {
+      "url": "https://dogecoin.com/",
+      "type": "website"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=xo7SeWcOU1k",
+      "type": "youtube"
+    }
+  ],
+  "whitepaper": {
+    "link": null,
+    "thumbnail": null
+  },
+  "first_data_at": "2013-12-15T00:00:00Z",
+  "last_data_at": "2022-07-29T08:00:00Z"
+}
