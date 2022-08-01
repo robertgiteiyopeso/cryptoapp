@@ -1,4 +1,4 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
