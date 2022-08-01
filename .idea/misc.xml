@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/layout/gridview_tag_item.xml" value="0.375" />
         <entry key="app/src/main/res/layout/list_item_team_member.xml" value="0.43801809850072426" />
         <entry key="app/src/main/res/layout/llist_item_team_member.xml" value="0.182370820668693" />
+        <entry key="app/src/main/res/layout/recycler_main_item.xml" value="0.375" />
       </map>
     </option>
   </component>
