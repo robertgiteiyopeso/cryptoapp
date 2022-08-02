@@ -37,18 +37,25 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.bttnLogin.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                val token = MDBRepo.getNewTokenParsed()
-                println("getNewTokenParsed() ran")
-                val credentials = Credentials("robertyopeso", "filme123", token.requestToken)
-                println("credentials: $credentials")
-                val login = MDBRepo.login(credentials)
-                println("login() ran")
-                val session = MDBRepo.createSession(login)
-                println("createSession() ran")
-                val invalidate = MDBRepo.invalidateSession(session)
-                println("invalidateSession() ran")
-            }
+
+            //Get credentials from input fields
+            val username = binding.tiUsername.editText?.text.toString()
+            val password = binding.tiPassword.editText?.text.toString()
+
+            //If they're not empty, make the request
+            if (username != "" && password != "")
+                lifecycleScope.launch(Dispatchers.IO) {
+                    val token = MDBRepo.getNewTokenParsed()
+                    println("getNewTokenParsed() ran")
+                    val credentials = Credentials(username, password, token.requestToken)
+                    println("credentials: $credentials")
+                    val login = MDBRepo.login(credentials)
+                    println("login() ran")
+                    val session = MDBRepo.createSession(login)
+                    println("createSession() ran")
+                    val invalidate = MDBRepo.invalidateSession(session)
+                    println("invalidateSession() ran")
+                }
         }
     }
 
