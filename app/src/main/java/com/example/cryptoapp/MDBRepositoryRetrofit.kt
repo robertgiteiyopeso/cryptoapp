@@ -15,28 +15,12 @@ class MDBRepositoryRetrofit(private val apiKey: String) {
 
     val service = retrofit.create(MDBService::class.java)
 
-    suspend fun getNewTokenParsed(): Token {
-        val token = service.getNewTokenParsed(apiKey)
-        println("tokenlogin: $token")
-        return token
-    }
+    suspend fun getNewTokenParsed(): Token = service.getNewTokenParsed(apiKey)
 
-    suspend fun login(credentials: Credentials): Token {
-        val token = service.login(apiKey, credentials)
-        println("sessiontoken: $token")
-        return token
-    }
+    suspend fun login(credentials: Credentials): Token = service.login(apiKey, credentials)
 
-    suspend fun createSession(token: Token): Session {
-        val session = service.createSession(apiKey, token)
-        println("sessionID: $session")
-        return session
-    }
+    suspend fun createSession(token: Token): Session = service.createSession(apiKey, token)
 
-    suspend fun invalidateSession(session: Session): Session {
-        val session = service.invalidateSession(apiKey, session)
-        println("invalidate: $session")
-        return session
-    }
+    suspend fun invalidateSession(session: Session): Session = service.invalidateSession(apiKey, session)
 
 }
