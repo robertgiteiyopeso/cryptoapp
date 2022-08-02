@@ -1,6 +1,7 @@
 package com.example.cryptoapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import com.example.cryptoapp.databinding.FragmentLoginBinding
 import com.example.cryptoapp.login.Credentials
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -45,16 +47,27 @@ class LoginFragment : Fragment() {
             //If they're not empty, make the request
             if (username != "" && password != "")
                 lifecycleScope.launch(Dispatchers.IO) {
-                    val token = MDBRepo.getNewTokenParsed()
-                    println("getNewTokenParsed() ran")
-                    val credentials = Credentials(username, password, token.requestToken)
-                    println("credentials: $credentials")
-                    val login = MDBRepo.login(credentials)
-                    println("login() ran")
-                    val session = MDBRepo.createSession(login)
-                    println("createSession() ran")
-                    val invalidate = MDBRepo.invalidateSession(session)
-                    println("invalidateSession() ran")
+                    try {
+                        //Get new token
+                        val token = MDBRepo.getNewTokenParsed()
+                        println("getNewTokenParsed() ran")
+
+                        //Login
+                        val credentials = Credentials(username, password, token.requestToken)
+                        println("credentials: $credentials")
+                        val login = MDBRepo.login(credentials)
+                        println("login() ran")
+
+                        //Create session
+                        val session = MDBRepo.createSession(login)
+                        println("createSession() ran")
+
+                        //Invalidate session
+                        val invalidate = MDBRepo.invalidateSession(session)
+                            println("invalidateSession() ran")
+                    } catch (e: Exception) {
+                        Log.e("LoginFragment: ", e.message.toString())
+                    }
                 }
         }
     }
