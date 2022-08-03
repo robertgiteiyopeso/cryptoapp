@@ -19,4 +19,8 @@
     <string name="login">Login</string>
     <string name="welcome">Welcome</string>
     <string name="please_enter_your_credentials">Please enter your credentials</string>
+    <string name="stars">Stars</string>
+    <string name="top_movies">Top Rated Movies</string>
+    <string name="popular_movies">Popular Movies</string>
+    <string name="airing_today">Airing Today</string>
 </resources>
