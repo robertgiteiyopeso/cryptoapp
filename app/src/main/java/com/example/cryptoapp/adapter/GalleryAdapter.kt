@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptoapp.databinding.GalleryImageBinding
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.*
 
-class GalleryAdapter() : ListAdapter<GalleryModel, GalleryAdapter.GalleryViewHolder>(object :
+class GalleryAdapter : ListAdapter<GalleryModel, GalleryAdapter.GalleryViewHolder>(object :
     DiffUtil.ItemCallback<GalleryModel>() {
     override fun areItemsTheSame(
         oldItem: GalleryModel,
@@ -29,15 +27,16 @@ class GalleryAdapter() : ListAdapter<GalleryModel, GalleryAdapter.GalleryViewHol
         RecyclerView.ViewHolder(binding.root) {
         fun bind(model: GalleryModel) {
             //Load image
-            Glide.with(binding.root.context).load("https://image.tmdb.org/t/p/w500" + model.imageUrl).into(binding.ivGalleryImage)
+            val endpoint = "https://image.tmdb.org/t/p/w500"
+            Glide.with(binding.root.context).load( endpoint + model.imageUrl).into(binding.ivGalleryImage)
 
             //Set tag
             val releaseDate = LocalDate.parse(model.releaseDate)
             val now = LocalDate.now()
             if (releaseDate <= now) {
-                println("cinema let's go")
+                binding.tvReleased.text = "Out In Cinemas"
             } else {
-                println("no cinema :<")
+                binding.tvReleased.text = "Coming Soon"
             }
         }
     }

@@ -11,10 +11,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.databinding.FragmentHomeBinding
 import com.example.cryptoapp.domain.GalleryModel
-import com.example.cryptoapp.domain.MovieModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 /**
@@ -45,7 +43,6 @@ class HomeFragment : Fragment() {
                 //Load gallery images
                 val trending = mdbRepo.getTrendingMovies()
                 val galleryList = trending.results.map { GalleryModel(it.backdropPath, it.releaseDate) }.take(6)
-                println("trending movies: $galleryList")
 
                 //Update UI
                 launch(Dispatchers.Main) {
