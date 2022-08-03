@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import com.example.cryptoapp.databinding.FragmentLoginBinding
-import com.example.cryptoapp.login.Credentials
+import com.example.cryptoapp.login.CredentialsModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -54,7 +54,7 @@ class LoginFragment : Fragment() {
 
                     //Login
                     // val credentials = Credentials(username, password, token.requestToken)
-                    val credentials = Credentials("robertyopeso", "filme123", token.requestToken)
+                    val credentials = CredentialsModel("robertyopeso", "filme123", token.requestToken)
                     val login = MDBRepo.login(credentials)
                     println("login() ran")
 

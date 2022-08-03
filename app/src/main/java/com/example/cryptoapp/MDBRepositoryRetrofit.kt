@@ -1,8 +1,8 @@
 package com.example.cryptoapp
 
-import com.example.cryptoapp.login.Credentials
-import com.example.cryptoapp.login.Session
-import com.example.cryptoapp.login.Token
+import com.example.cryptoapp.login.CredentialsModel
+import com.example.cryptoapp.login.SessionModel
+import com.example.cryptoapp.login.TokenModel
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
@@ -15,12 +15,12 @@ class MDBRepositoryRetrofit(private val apiKey: String) {
 
     val service = retrofit.create(MDBService::class.java)
 
-    suspend fun getNewTokenParsed(): Token = service.getNewTokenParsed(apiKey)
+    suspend fun getNewTokenParsed(): TokenModel = service.getNewTokenParsed(apiKey)
 
-    suspend fun login(credentials: Credentials): Token = service.login(apiKey, credentials)
+    suspend fun login(credentials: CredentialsModel): TokenModel = service.login(apiKey, credentials)
 
-    suspend fun createSession(token: Token): Session = service.createSession(apiKey, token)
+    suspend fun createSession(token: TokenModel): SessionModel = service.createSession(apiKey, token)
 
-    suspend fun invalidateSession(session: Session): Session = service.invalidateSession(apiKey, session)
+    suspend fun invalidateSession(session: SessionModel): SessionModel = service.invalidateSession(apiKey, session)
 
 }

@@ -4,15 +4,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Token(
+data class SessionModel(
     val success: Boolean = false,
-    @SerialName("expires_at")
-    val expiresAt: String = "",
-    @SerialName("request_token")
-    val requestToken: String ="",
+    val failure: Boolean = true,
+    @SerialName("session_id")
+    val sessionId: String = "",
     @SerialName("status_code")
-    val statusCode: Int =0,
+    val statusCode: Int = 0,
     @SerialName("status_message")
-    val statusMessage: String =""
-) {
-}
+    val statusMessage: String = ""
+)
