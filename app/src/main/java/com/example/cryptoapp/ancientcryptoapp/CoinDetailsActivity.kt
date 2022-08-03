@@ -1,8 +1,9 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.ancientcryptoapp
 
 import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.cryptoapp.R
 import com.example.cryptoapp.adapter.GridAdapter
 import com.example.cryptoapp.adapter.ListAdapter
 import com.example.cryptoapp.databinding.ActivityCoinDetailsBinding

@@ -28,11 +28,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CoinDetailsActivity"
+            android:name=".ancientcryptoapp.CoinDetailsActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".ancientcryptoapp.MainActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ancientcryptoapp.MainActivity"
             android:exported="true" />
     </application>
 
