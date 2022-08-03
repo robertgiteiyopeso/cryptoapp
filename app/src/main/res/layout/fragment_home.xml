@@ -24,12 +24,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_default"
             app:layout_constraintBottom_toBottomOf="@id/vpGallery"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:vpi_slider_checked_color="@color/primaryColor" />
 
         <TextView
             android:id="@+id/tvStars"
+            style="@style/HomeCategoryTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/stars"
@@ -48,6 +49,7 @@
 
         <TextView
             android:id="@+id/tvTopMovies"
+            style="@style/HomeCategoryTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/top_movies"
@@ -66,6 +68,7 @@
 
         <TextView
             android:id="@+id/tvPopularMovies"
+            style="@style/HomeCategoryTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/popular_movies"
@@ -84,6 +87,7 @@
 
         <TextView
             android:id="@+id/tvAiring"
+            style="@style/HomeCategoryTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/airing_today"
