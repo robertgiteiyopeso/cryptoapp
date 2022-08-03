@@ -21,10 +21,10 @@ data class MovieModel(
     val mediaType: String = "",
     @SerialName("genre_ids")
     val genreIds: List<Int> = emptyList(),
-    val popularity: Int = 0,
+    val popularity: Double = 0.0,
     @SerialName("release_date")
     val releaseDate: String = "",
-    val vide: Boolean = false,
+    val video: Boolean = false,
     @SerialName("vote_average")
     val voteAverage: Double = 0.0,
     @SerialName("vote_count")

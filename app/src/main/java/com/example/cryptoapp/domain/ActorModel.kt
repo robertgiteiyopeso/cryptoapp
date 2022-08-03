@@ -13,7 +13,7 @@ data class ActorModel(
     @SerialName("known_for_department")
     val knownForDepartment: String = "",
     val name: String = "",
-    val popularity: Int = 0,
+    val popularity: Double = 0.0,
     @SerialName("profile_path")
     val profilePath: String = ""
 )
