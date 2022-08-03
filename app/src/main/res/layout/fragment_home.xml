@@ -13,7 +13,7 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vpGallery"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="250dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +25,7 @@
             android:layout_marginBottom="@dimen/margin_default"
             app:layout_constraintBottom_toBottomOf="@id/vpGallery"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:vpi_slider_checked_color="@color/primaryColor" />
 
         <TextView
@@ -41,6 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvStars" />
 
@@ -58,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvTopMovies" />
 
@@ -75,6 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvPopularMovies" />
 
@@ -92,6 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="150dp"
             android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvAiring" />
 

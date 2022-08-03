@@ -7,9 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.viewpager2.widget.ViewPager2
+import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.databinding.FragmentHomeBinding
+import com.example.cryptoapp.domain.GalleryModel
+import com.example.cryptoapp.domain.MovieModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 /**
@@ -37,20 +42,46 @@ class HomeFragment : Fragment() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {
+                //Load gallery images
                 val trending = mdbRepo.getTrendingMovies()
-                println("got trending: $trending")
-                val popularPeople = mdbRepo.getPopularPeople("en-US", 1)
-                println("got popular people: $popularPeople")
-                val topRatedMovies = mdbRepo.getTopRatedMovies("en-US", 1)
-                println("got top rated movies: $topRatedMovies")
-                val popularMovies = mdbRepo.getPopularMovies("en-US", 1)
-                println("got popular movies: $popularMovies")
-                val airing = mdbRepo.getAiringToday("en-US", 1)
-                println("got airing: $airing")
+                val galleryList = trending.results.map { GalleryModel(it.backdropPath, it.releaseDate) }.take(6)
+                println("trending movies: $galleryList")
+
+                //Update UI
+                launch(Dispatchers.Main) {
+                    //Update ViewPager Gallery
+                    setUpGallery(galleryList)
+                    //Set up indicator
+                    setUpIndicator(galleryList.size)
+                }
             } catch (e: Exception) {
                 Log.e("LoginFragment: ", e.message.toString())
             }
         }
+    }
+
+    private fun setUpGallery(galleryList: List<GalleryModel>) {
+        val galleryAdapter = GalleryAdapter()
+        galleryAdapter.submitList(galleryList)
+        binding.vpGallery.adapter = galleryAdapter
+    }
+
+    private fun setUpIndicator(size: Int) {
+        binding.vpGallery.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                binding.ivGalleryIndicator.onPageScrollStateChanged(state)
+            }
+
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                binding.ivGalleryIndicator.onPageSelected(position)
+            }
+        })
+        binding.ivGalleryIndicator.setPageSize(
+            size
+        )
+        binding.ivGalleryIndicator.notifyDataChanged()
     }
 
     override fun onDestroyView() {
