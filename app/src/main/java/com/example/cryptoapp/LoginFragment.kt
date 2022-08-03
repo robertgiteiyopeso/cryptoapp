@@ -40,35 +40,40 @@ class LoginFragment : Fragment() {
 
         binding.bttnLogin.setOnClickListener {
 
-            //Get credentials from input fields
-            val username = binding.tiUsername.editText?.text.toString()
-            val password = binding.tiPassword.editText?.text.toString()
+//            //Get credentials from input fields
+//            val username = binding.tiUsername.editText?.text.toString()
+//            val password = binding.tiPassword.editText?.text.toString()
+//
+//            //If they're not empty, make the request
+//            if (username != "" && password != "")
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    //Get new token
+                    val token = MDBRepo.getNewTokenParsed()
+                    println("getNewTokenParsed() ran")
 
-            //If they're not empty, make the request
-            if (username != "" && password != "")
-                lifecycleScope.launch(Dispatchers.IO) {
-                    try {
-                        //Get new token
-                        val token = MDBRepo.getNewTokenParsed()
-                        println("getNewTokenParsed() ran")
+                    //Login
+                    // val credentials = Credentials(username, password, token.requestToken)
+                    val credentials = Credentials("robertyopeso", "filme123", token.requestToken)
+                    val login = MDBRepo.login(credentials)
+                    println("login() ran")
 
-                        //Login
-                        val credentials = Credentials(username, password, token.requestToken)
-                        println("credentials: $credentials")
-                        val login = MDBRepo.login(credentials)
-                        println("login() ran")
+                    activity?.supportFragmentManager?.beginTransaction()
+                        ?.replace(R.id.fragment_container_view_tag, HomeFragment(MDBRepo))
+                        ?.commit()
 
-                        //Create session
-                        val session = MDBRepo.createSession(login)
-                        println("createSession() ran")
+//                    //Create session
+//                    val session = MDBRepo.createSession(login)
+//                    println("createSession() ran")
+//
+//                    //Invalidate session
+//                    val invalidate = MDBRepo.invalidateSession(session)
+//                    println("invalidateSession() ran")
 
-                        //Invalidate session
-                        val invalidate = MDBRepo.invalidateSession(session)
-                            println("invalidateSession() ran")
-                    } catch (e: Exception) {
-                        Log.e("LoginFragment: ", e.message.toString())
-                    }
+                } catch (e: Exception) {
+                    Log.e("LoginFragment: ", e.message.toString())
                 }
+            }
         }
     }
 
