@@ -26,7 +26,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                 .into(binding.ivMoviePoster)
 
             //Set up Must Watch
-            if (model.voteAverage > 8.5)
+            if (model.voteAverage >= 8.0)
                 binding.tvMustWatch.visibility = View.VISIBLE
             else
                 binding.tvMustWatch.visibility = View.INVISIBLE

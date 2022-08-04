@@ -24,7 +24,7 @@
             android:id="@+id/tvMustWatch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/black20"
+            android:background="@color/black70"
             android:paddingStart="@dimen/padding_default"
             android:paddingEnd="@dimen/padding_default"
             android:text="@string/must_watch"

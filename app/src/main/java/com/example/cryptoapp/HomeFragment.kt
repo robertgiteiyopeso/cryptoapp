@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cryptoapp.adapter.ActorAdapter
 import com.example.cryptoapp.adapter.GalleryAdapter
@@ -51,6 +52,25 @@ class HomeFragment : Fragment() {
         //Display top rated movies
         displayTopRatedMovies()
 
+        //Display Popular movies
+        displayPopularMovies()
+
+    }
+
+    private fun displayPopularMovies() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                //Load popular movies
+                val popularMovies = mdbRepo.getPopularMovies("en-US", 1)
+
+                //Update UI
+                launch(Dispatchers.Main) {
+                    setUpMovies(popularMovies.results, binding.rvPopularMovies)
+                }
+            } catch (e: Exception) {
+                Log.e("LoginFragment: ", e.message.toString())
+            }
+        }
     }
 
     private fun displayTopRatedMovies() {
@@ -61,7 +81,7 @@ class HomeFragment : Fragment() {
 
                 //Update UI
                 launch(Dispatchers.Main) {
-                    setUpTopRatedMovies(topRatedMovies.results)
+                    setUpMovies(topRatedMovies.results, binding.rvTopMovies)
                 }
             } catch (e: Exception) {
                 Log.e("LoginFragment: ", e.message.toString())
@@ -69,10 +89,10 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setUpTopRatedMovies(movieList: List<MovieModel>) {
+    private fun setUpMovies(movieList: List<MovieModel>, view: RecyclerView) {
         val topRatedMovieAdapter = MovieAdapter()
         topRatedMovieAdapter.list = movieList
-        binding.rvTopMovies.adapter = topRatedMovieAdapter
+        view.adapter = topRatedMovieAdapter
     }
 
     private fun displayActors() {
