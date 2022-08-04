@@ -3,8 +3,10 @@ package com.example.cryptoapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.MovieCardBinding
 import com.example.cryptoapp.domain.ActorModel
 import com.example.cryptoapp.domain.MovieModel
@@ -29,7 +31,33 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
             if (model.voteAverage >= 8.0)
                 binding.tvMustWatch.visibility = View.VISIBLE
             else
-                binding.tvMustWatch.visibility = View.INVISIBLE
+                binding.tvMustWatch.visibility = View.GONE
+
+            //Set up hold listener
+            var isFavorite = false
+            binding.cvCard.setOnLongClickListener {
+                if(isFavorite) {
+                    isFavorite = false
+
+                    //</3
+                    binding.vHeart.visibility = View.GONE
+                    binding.vHeartBorder.visibility = View.GONE
+
+                    //Border
+                    binding.cvCard.strokeColor = ContextCompat.getColor(binding.root.context, R.color.transparent)
+                }
+                else{
+                    isFavorite = true
+
+                    //<3
+                    binding.vHeart.visibility = View.VISIBLE
+                    binding.vHeartBorder.visibility = View.VISIBLE
+
+                    //Border
+                    binding.cvCard.strokeColor = ContextCompat.getColor(binding.root.context, R.color.secondaryColor)
+                }
+               true
+            }
         }
 
     }

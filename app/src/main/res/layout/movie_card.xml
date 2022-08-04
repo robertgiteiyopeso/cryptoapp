@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cvCard"
+    app:strokeWidth="3dp"
+    app:strokeColor="@color/transparent"
     android:layout_width="100dp"
     android:layout_height="150dp"
     android:layout_margin="@dimen/margin_small"
@@ -30,12 +33,36 @@
             android:text="@string/must_watch"
             android:textColor="@color/white"
             android:textSize="12sp"
-            android:visibility="invisible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-             />
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/vHeart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:src="@drawable/ic_heart"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/tvMustWatch"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/vHeartBorder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_heart_border"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/vHeart"
+            app:layout_constraintEnd_toEndOf="@id/vHeart"
+            app:layout_constraintStart_toStartOf="@id/vHeart"
+            app:layout_constraintTop_toTopOf="@id/vHeart"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

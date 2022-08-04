@@ -5,6 +5,8 @@
       <map>
         <entry key="app/src/main/res/drawable/background_doodle_extended_bitmap.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/home_category_text_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_heart.xml" value="0.2695" />
+        <entry key="app/src/main/res/drawable/ic_heart_border.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2655" />
         <entry key="app/src/main/res/drawable/ic_logo_popcorn.xml" value="0.255" />
         <entry key="app/src/main/res/drawable/movie_released_background_1.xml" value="0.139" />
@@ -23,7 +25,7 @@
         <entry key="app/src/main/res/layout/gridview_tag_item.xml" value="0.375" />
         <entry key="app/src/main/res/layout/list_item_team_member.xml" value="0.43801809850072426" />
         <entry key="app/src/main/res/layout/llist_item_team_member.xml" value="0.182370820668693" />
-        <entry key="app/src/main/res/layout/movie_card.xml" value="0.5936370849609378" />
+        <entry key="app/src/main/res/layout/movie_card.xml" value="0.7070938215102975" />
         <entry key="app/src/main/res/layout/recycler_main_item.xml" value="0.375" />
       </map>
     </option>

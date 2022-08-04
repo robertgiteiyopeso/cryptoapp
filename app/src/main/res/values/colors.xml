@@ -11,6 +11,7 @@
 
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#FFFFFF</color>
     <color name="black70">#B3000000</color>
+    <color name="transparent">#00000000</color>
 
     <color name="primaryColor">#e41f2d</color>
     <color name="primaryLightColor">#ff5f57</color>
