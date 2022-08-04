@@ -40,32 +40,37 @@ class LoginFragment : Fragment() {
 
         binding.bttnLogin.setOnClickListener {
 
+            //takes too long, just press the button and we worry about actual login when we need it
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_container_view_tag, HomeFragment())
+                ?.commit()
+
 //            //Get credentials from input fields
 //            val username = binding.tiUsername.editText?.text.toString()
 //            val password = binding.tiPassword.editText?.text.toString()
 //
 //            //If they're not empty, make the request
 //            if (username != "" && password != "")
-            lifecycleScope.launch(Dispatchers.IO) {
-                try {
-                    //Get new token
-                    val token = mdbRepo.getNewTokenParsed()
-                    println("getNewTokenParsed() ran")
-
-                    //Login
-                    // val credentials = Credentials(username, password, token.requestToken)
-                    val credentials = CredentialsModel("robertyopeso", "filme123", token.requestToken)
-                    mdbRepo.login(credentials)
-                    println("login() ran")
-
-                    activity?.supportFragmentManager?.beginTransaction()
-                        ?.replace(R.id.fragment_container_view_tag, HomeFragment())
-                        ?.commit()
-
-                } catch (e: Exception) {
-                    Log.e("LoginFragment: ", e.message.toString())
-                }
-            }
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                try {
+//                    //Get new token
+//                    val token = mdbRepo.getNewTokenParsed()
+//                    println("getNewTokenParsed() ran")
+//
+//                    //Login
+//                    // val credentials = Credentials(username, password, token.requestToken)
+//                    val credentials = CredentialsModel("robertyopeso", "filme123", token.requestToken)
+//                    mdbRepo.login(credentials)
+//                    println("login() ran")
+//
+//                    activity?.supportFragmentManager?.beginTransaction()
+//                        ?.replace(R.id.fragment_container_view_tag, HomeFragment())
+//                        ?.commit()
+//
+//                } catch (e: Exception) {
+//                    Log.e("LoginFragment: ", e.message.toString())
+//                }
+//            }
         }
     }
 

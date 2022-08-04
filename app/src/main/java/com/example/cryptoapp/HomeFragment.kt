@@ -8,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
+import com.example.cryptoapp.adapter.ActorAdapter
 import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.databinding.FragmentHomeBinding
+import com.example.cryptoapp.domain.ActorModel
 import com.example.cryptoapp.domain.GalleryModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,10 +53,25 @@ class HomeFragment : Fragment() {
                     //Set up indicator
                     setUpIndicator(galleryList.size)
                 }
+
+                //Load actors
+                val popularPeople = mdbRepo.getPopularPeople("en-US", 1)
+
+                //Update UI
+                launch(Dispatchers.Main) {
+                    setUpActors(popularPeople.results)
+                }
+
             } catch (e: Exception) {
                 Log.e("LoginFragment: ", e.message.toString())
             }
         }
+    }
+
+    private fun setUpActors(actorList: List<ActorModel>) {
+        val actorAdapter = ActorAdapter()
+        actorAdapter.list = actorList
+        binding.rvStars.adapter = actorAdapter
     }
 
     private fun setUpGallery(galleryList: List<GalleryModel>) {
