@@ -40,9 +40,35 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Display gallery images
+        displayGalleryImages()
+
+        //Display actors
+        displayActors()
+
+    }
+
+    private fun displayActors() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                //Load gallery images
+                //Load actors
+                val popularPeople = mdbRepo.getPopularPeople("en-US", 1)
+
+                //Update UI
+                launch(Dispatchers.Main) {
+                    setUpActors(popularPeople.results)
+                }
+
+            } catch (e: Exception) {
+                Log.e("LoginFragment: ", e.message.toString())
+            }
+        }
+    }
+
+    private fun displayGalleryImages() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                //Load images
                 val trending = mdbRepo.getTrendingMovies()
                 val galleryList = trending.results.map { GalleryModel(it.backdropPath, it.releaseDate) }.take(6)
 
@@ -53,15 +79,6 @@ class HomeFragment : Fragment() {
                     //Set up indicator
                     setUpIndicator(galleryList.size)
                 }
-
-                //Load actors
-                val popularPeople = mdbRepo.getPopularPeople("en-US", 1)
-
-                //Update UI
-                launch(Dispatchers.Main) {
-                    setUpActors(popularPeople.results)
-                }
-
             } catch (e: Exception) {
                 Log.e("LoginFragment: ", e.message.toString())
             }
