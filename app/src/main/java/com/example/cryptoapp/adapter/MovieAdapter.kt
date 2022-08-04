@@ -10,6 +10,8 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.MovieCardBinding
 import com.example.cryptoapp.domain.ActorModel
 import com.example.cryptoapp.domain.MovieModel
+import java.time.LocalDate
+import java.util.*
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
@@ -28,8 +30,14 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                 .into(binding.ivMoviePoster)
 
             //Set up Must Watch
-            if (model.voteAverage >= 8.0)
-                binding.tvMustWatch.visibility = View.VISIBLE
+            if(model.releaseDate != ""){
+                val releaseDate = LocalDate.parse(model.releaseDate)
+                val now = LocalDate.now()
+                if (now.minusMonths(2) < releaseDate)
+                    binding.tvMustWatch.visibility = View.VISIBLE
+                else
+                    binding.tvMustWatch.visibility = View.GONE
+            }
             else
                 binding.tvMustWatch.visibility = View.GONE
 
