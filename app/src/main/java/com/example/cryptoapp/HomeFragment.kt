@@ -10,9 +10,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cryptoapp.adapter.ActorAdapter
 import com.example.cryptoapp.adapter.GalleryAdapter
+import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.databinding.FragmentHomeBinding
 import com.example.cryptoapp.domain.ActorModel
 import com.example.cryptoapp.domain.GalleryModel
+import com.example.cryptoapp.domain.MovieModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -46,6 +48,31 @@ class HomeFragment : Fragment() {
         //Display actors
         displayActors()
 
+        //Display top rated movies
+        displayTopRatedMovies()
+
+    }
+
+    private fun displayTopRatedMovies() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                //Load top rated movies
+                val topRatedMovies = mdbRepo.getTopRatedMovies("en-US", 1)
+
+                //Update UI
+                launch(Dispatchers.Main) {
+                    setUpTopRatedMovies(topRatedMovies.results)
+                }
+            } catch (e: Exception) {
+                Log.e("LoginFragment: ", e.message.toString())
+            }
+        }
+    }
+
+    private fun setUpTopRatedMovies(movieList: List<MovieModel>) {
+        val topRatedMovieAdapter = MovieAdapter()
+        topRatedMovieAdapter.list = movieList
+        binding.rvTopMovies.adapter = topRatedMovieAdapter
     }
 
     private fun displayActors() {
@@ -58,7 +85,6 @@ class HomeFragment : Fragment() {
                 launch(Dispatchers.Main) {
                     setUpActors(popularPeople.results)
                 }
-
             } catch (e: Exception) {
                 Log.e("LoginFragment: ", e.message.toString())
             }
