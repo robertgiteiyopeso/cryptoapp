@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/background_doodle_extended_bitmap.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/home_category_text_background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2655" />
         <entry key="app/src/main/res/drawable/ic_logo_popcorn.xml" value="0.255" />
@@ -15,7 +16,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23970489501953118" />
         <entry key="app/src/main/res/layout/actor_card.xml" value="0.6106414131496263" />
         <entry key="app/src/main/res/layout/content_login.xml" value="0.37604166666666666" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.36967926025390624" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.4075757575757576" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/gallery_image.xml" value="0.27454242928452577" />
