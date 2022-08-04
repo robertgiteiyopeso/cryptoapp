@@ -1,7 +1,9 @@
 package com.example.cryptoapp.domain
 
+import android.util.Log
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.time.LocalDate
 
 @Serializable
 data class MovieModel(
@@ -37,4 +39,15 @@ data class MovieModel(
     val originCountry: List<String> = emptyList(),
     @SerialName("original_name")
     val originalName: String = "",
-)
+
+
+    ) {
+    fun isTwoMonthsOlder(): Boolean =
+        try {
+            LocalDate.now().minusMonths(2) < LocalDate.parse(releaseDate)
+        } catch (exception: Exception) {
+            Log.e("MovieModel", exception.message.toString())
+            false
+        }
+
+}

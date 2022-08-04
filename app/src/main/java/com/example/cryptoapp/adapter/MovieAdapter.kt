@@ -30,21 +30,16 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                 .into(binding.ivMoviePoster)
 
             //Set up Must Watch
-            if(model.releaseDate != ""){
-                val releaseDate = LocalDate.parse(model.releaseDate)
-                val now = LocalDate.now()
-                if (now.minusMonths(2) < releaseDate)
-                    binding.tvMustWatch.visibility = View.VISIBLE
-                else
-                    binding.tvMustWatch.visibility = View.GONE
-            }
-            else
+            if (model.isTwoMonthsOlder()) {
+                binding.tvMustWatch.visibility = View.VISIBLE
+            } else {
                 binding.tvMustWatch.visibility = View.GONE
+            }
 
             //Set up hold listener
             var isFavorite = false
             binding.cvCard.setOnLongClickListener {
-                if(isFavorite) {
+                if (isFavorite) {
                     isFavorite = false
 
                     //</3
@@ -52,9 +47,9 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                     binding.vHeartBorder.visibility = View.GONE
 
                     //Border
-                    binding.cvCard.strokeColor = ContextCompat.getColor(binding.root.context, R.color.transparent)
-                }
-                else{
+                    binding.cvCard.strokeColor =
+                        ContextCompat.getColor(binding.root.context, R.color.transparent)
+                } else {
                     isFavorite = true
 
                     //<3
@@ -62,9 +57,10 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                     binding.vHeartBorder.visibility = View.VISIBLE
 
                     //Border
-                    binding.cvCard.strokeColor = ContextCompat.getColor(binding.root.context, R.color.secondaryColor)
+                    binding.cvCard.strokeColor =
+                        ContextCompat.getColor(binding.root.context, R.color.secondaryColor)
                 }
-               true
+                true
             }
         }
 
