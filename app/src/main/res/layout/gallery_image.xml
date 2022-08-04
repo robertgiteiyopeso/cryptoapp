@@ -19,20 +19,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_huge"
-        android:background="@drawable/movie_released_background_1"
+        android:background="@drawable/movie_released_background"
         android:paddingStart="@dimen/padding_small"
-        android:paddingEnd="@dimen/padding_default"
+        android:paddingEnd="@dimen/padding_large"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/ivGalleryImage"
         app:layout_constraintStart_toStartOf="parent"
         tools:text="testamtestamtestam" />
-
-    <ImageView
-        android:id="@+id/ivBackgroundEnd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/movie_released_background_2"
-        app:layout_constraintStart_toEndOf="@id/tvReleased"
-        app:layout_constraintTop_toTopOf="@id/tvReleased" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

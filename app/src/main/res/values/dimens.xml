@@ -14,4 +14,5 @@
     <dimen name="tag_margin">5dp</dimen>
     <dimen name="tag_roundness">20dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="padding_large">32dp</dimen>
 </resources>
