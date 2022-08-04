@@ -52,9 +52,28 @@ class HomeFragment : Fragment() {
         //Display top rated movies
         displayTopRatedMovies()
 
-        //Display Popular movies
+        //Display popular movies
         displayPopularMovies()
 
+        //Display movies airing today
+        displayAiringMovies()
+
+    }
+
+    private fun displayAiringMovies() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                //Load movies airing today
+                val airingMovies = mdbRepo.getAiringToday("en-US", 1)
+
+                //Update UI
+                launch(Dispatchers.Main) {
+                    setUpMovies(airingMovies.results, binding.rvAiring)
+                }
+            } catch (e: Exception) {
+                Log.e("LoginFragment: ", e.message.toString())
+            }
+        }
     }
 
     private fun displayPopularMovies() {
