@@ -1,5 +1,6 @@
 package com.example.cryptoapp.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -31,12 +32,17 @@ class GalleryAdapter : ListAdapter<GalleryModel, GalleryAdapter.GalleryViewHolde
             Glide.with(binding.root.context).load( endpoint + model.imageUrl).into(binding.ivGalleryImage)
 
             //Set tag
-            val releaseDate = LocalDate.parse(model.releaseDate)
-            val now = LocalDate.now()
-            if (releaseDate <= now) {
-                binding.tvReleased.text = "Out In Cinemas"
-            } else {
-                binding.tvReleased.text = "Coming Soon"
+            try {
+                val releaseDate = LocalDate.parse(model.releaseDate)
+                val now = LocalDate.now()
+                if (releaseDate <= now) {
+                    binding.tvReleased.text = "Out In Cinemas"
+                } else {
+                    binding.tvReleased.text = "Coming Soon"
+                }
+            } catch (exception: Exception) {
+                Log.e("GalleryAdapter: ", exception.message.toString())
+                binding.tvReleased.text = "No release date???"
             }
         }
     }
