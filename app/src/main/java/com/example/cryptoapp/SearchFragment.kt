@@ -10,7 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.cryptoapp.adapter.GridAdapter
+import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.databinding.FragmentSearchBinding
+import com.example.cryptoapp.domain.MovieModel
 import com.google.android.material.internal.TextWatcherAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,15 +64,26 @@ class SearchFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 //Search for the movies
-                val searchResults = mdbRepo.getSearch("en-US", 1, query)
+                val searchResults1 = mdbRepo.getSearch("en-US", 1, query)
+                val searchResults2 = mdbRepo.getSearch("en-US", 2, query)
 
-                //Print
-                for(movie in searchResults.results)
-                    println(movie)
+
+                //Update UI
+                launch(Dispatchers.Main) {
+                    displayResults(searchResults1.results + searchResults2.results)
+                }
             } catch (e: Exception) {
                 Log.e("LoginFragment: ", e.message.toString())
             }
         }
+    }
+
+    private fun displayResults(movieList: List<MovieModel>) {
+        val resultGridLayoutManager = GridLayoutManager(activity, 3)
+        binding.rvResults.layoutManager = resultGridLayoutManager
+        val resultsMovieAdapter = MovieAdapter()
+        resultsMovieAdapter.list = movieList
+        binding.rvResults.adapter = resultsMovieAdapter
     }
 
 //    private fun setUpSearchBarHelp() {
