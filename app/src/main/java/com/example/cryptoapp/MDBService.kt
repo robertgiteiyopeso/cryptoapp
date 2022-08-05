@@ -65,4 +65,12 @@ interface MDBService {
         @Query("page") page: Int
     ) : ResultsMovieModel
 
+    @GET("/3/search/movie")
+    suspend fun getSearch(
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String,
+        @Query("page") page: Int,
+        @Query("query") query: String
+    ) : ResultsMovieModel
+
 }

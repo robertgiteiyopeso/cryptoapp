@@ -47,4 +47,7 @@ object MDBRepositoryRetrofit {
     suspend fun getAiringToday(language: String, page: Int): ResultsMovieModel =
         service.getAiringToday(apiKey, language, page)
 
+    suspend fun getSearch(language: String, page: Int, query: String): ResultsMovieModel =
+        service.getSearch(apiKey, language, page, query)
+
 }
