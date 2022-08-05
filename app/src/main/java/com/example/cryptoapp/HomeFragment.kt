@@ -58,6 +58,17 @@ class HomeFragment : Fragment() {
         //Display movies airing today
         displayAiringMovies()
 
+        //Set up search button
+        setUpSearchButton()
+
+    }
+
+    private fun setUpSearchButton() {
+        binding.ivSearchIcon.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_container_view_tag, SearchFragment())
+                ?.commit()
+        }
     }
 
     private fun displayAiringMovies() {
