@@ -26,6 +26,7 @@
         android:focusableInTouchMode="true"
         android:scrollHorizontally="true"
         android:textSize="12sp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@id/ivProfilePhoto"
         app:layout_constraintStart_toStartOf="@id/ivProfilePhoto"
         app:layout_constraintTop_toBottomOf="@id/ivProfilePhoto"
