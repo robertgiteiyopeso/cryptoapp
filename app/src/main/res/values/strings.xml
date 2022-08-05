@@ -24,4 +24,5 @@
     <string name="popular_movies">Popular Movies</string>
     <string name="airing_today">Airing Today</string>
     <string name="must_watch">Must Watch</string>
+    <string name="search">Search</string>
 </resources>
