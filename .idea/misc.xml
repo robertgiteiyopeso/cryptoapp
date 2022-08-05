@@ -20,6 +20,7 @@
         <entry key="app/src/main/res/layout/content_login.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.4075757575757576" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/gallery_image.xml" value="0.27454242928452577" />
         <entry key="app/src/main/res/layout/gridview_tag_item.xml" value="0.375" />
