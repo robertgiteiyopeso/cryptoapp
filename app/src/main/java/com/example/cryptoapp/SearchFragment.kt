@@ -16,11 +16,8 @@ import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.databinding.FragmentSearchBinding
 import com.example.cryptoapp.domain.MovieModel
 import com.google.android.material.internal.TextWatcherAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.actor
-import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class SearchFragment : Fragment() {
@@ -50,16 +47,6 @@ class SearchFragment : Fragment() {
 
     }
 
-    private fun setUpSearchBar() {
-        binding.etSearchField.setOnKeyListener(View.OnKeyListener {_, keyCode, event ->
-            if(keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                loadSearchResults(binding.etSearchField.text.toString())
-                return@OnKeyListener true
-            }
-            false
-        })
-    }
-
     private fun loadSearchResults(query: String) {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
@@ -67,10 +54,9 @@ class SearchFragment : Fragment() {
                 val searchResults1 = mdbRepo.getSearch("en-US", 1, query)
                 val searchResults2 = mdbRepo.getSearch("en-US", 2, query)
 
-
                 //Update UI
                 launch(Dispatchers.Main) {
-                    displayResults(searchResults1.results + searchResults2.results)
+                    displayResults((searchResults1.results + searchResults2.results).filter { it.posterPath.isNotEmpty() })
                 }
             } catch (e: Exception) {
                 Log.e("LoginFragment: ", e.message.toString())
@@ -86,29 +72,25 @@ class SearchFragment : Fragment() {
         binding.rvResults.adapter = resultsMovieAdapter
     }
 
-//    private fun setUpSearchBarHelp() {
-//        binding.etSearchField.addTextChangedListener(object : TextWatcher {
-//
-//            var job: Job = Job()
-//
-//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-//
-//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-//
-//            override fun afterTextChanged(editText: Editable?) {
-//                println("${editText.toString()}")
-//
-//                job.cancel()
-//
-//                job = lifecycleScope.launch(Dispatchers.IO) {
-//                    println("la somn")
-//                    Thread.sleep(1000)
-//                    println("trezit")
-//                }
-//                println("main")
-//            }
-//        })
-//    }
+    private fun setUpSearchBar() {
+        binding.etSearchField.addTextChangedListener(object : TextWatcher {
+
+            var job: Job = Job()
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun afterTextChanged(editText: Editable?) {
+                job.cancel()
+
+                job = lifecycleScope.launch(Dispatchers.IO) {
+                    delay(300)
+                    loadSearchResults(editText.toString())
+                }
+            }
+        })
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
