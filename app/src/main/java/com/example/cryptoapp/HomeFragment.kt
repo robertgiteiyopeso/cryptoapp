@@ -17,6 +17,7 @@ import com.example.cryptoapp.domain.ActorModel
 import com.example.cryptoapp.domain.GalleryModel
 import com.example.cryptoapp.domain.MovieModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -29,6 +30,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val mdbRepo = MDBRepositoryRetrofit
+
+    private val jobs = mutableListOf<Job>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +75,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun displayAiringMovies() {
-        lifecycleScope.launch(Dispatchers.IO) {
+        val airingJob = lifecycleScope.launch(Dispatchers.IO) {
             try {
                 //Load movies airing today
                 val airingMovies = mdbRepo.getAiringToday("en-US", 1)
@@ -85,10 +88,11 @@ class HomeFragment : Fragment() {
                 Log.e("LoginFragment: ", e.message.toString())
             }
         }
+        jobs.add(airingJob)
     }
 
     private fun displayPopularMovies() {
-        lifecycleScope.launch(Dispatchers.IO) {
+        val popularMoviesJob = lifecycleScope.launch(Dispatchers.IO) {
             try {
                 //Load popular movies
                 val popularMovies = mdbRepo.getPopularMovies("en-US", 1)
@@ -101,10 +105,11 @@ class HomeFragment : Fragment() {
                 Log.e("LoginFragment: ", e.message.toString())
             }
         }
+        jobs.add(popularMoviesJob)
     }
 
     private fun displayTopRatedMovies() {
-        lifecycleScope.launch(Dispatchers.IO) {
+        val topRatedMoviesJob = lifecycleScope.launch(Dispatchers.IO) {
             try {
                 //Load top rated movies
                 val topRatedMovies = mdbRepo.getTopRatedMovies("en-US", 1)
@@ -117,6 +122,7 @@ class HomeFragment : Fragment() {
                 Log.e("LoginFragment: ", e.message.toString())
             }
         }
+        jobs.add(topRatedMoviesJob)
     }
 
     private fun setUpMovies(movieList: List<MovieModel>, view: RecyclerView) {
@@ -126,7 +132,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun displayActors() {
-        lifecycleScope.launch(Dispatchers.IO) {
+        val actorsJob = lifecycleScope.launch(Dispatchers.IO) {
             try {
                 //Load actors
                 val popularPeople = mdbRepo.getPopularPeople("en-US", 1)
@@ -139,10 +145,11 @@ class HomeFragment : Fragment() {
                 Log.e("LoginFragment: ", e.message.toString())
             }
         }
+        jobs.add(actorsJob)
     }
 
     private fun displayGalleryImages() {
-        lifecycleScope.launch(Dispatchers.IO) {
+        val galleryImagesJob = lifecycleScope.launch(Dispatchers.IO) {
             try {
                 //Load images
                 val trending = mdbRepo.getTrendingMovies()
@@ -159,6 +166,7 @@ class HomeFragment : Fragment() {
                 Log.e("LoginFragment: ", e.message.toString())
             }
         }
+        jobs.add(galleryImagesJob)
     }
 
     private fun setUpActors(actorList: List<ActorModel>) {
@@ -193,6 +201,10 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        for(job in jobs)
+            job.cancel()
+
         _binding = null
     }
 }
