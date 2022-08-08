@@ -42,7 +42,7 @@ class GalleryAdapter : ListAdapter<GalleryModel, GalleryAdapter.GalleryViewHolde
                 }
             } catch (exception: Exception) {
                 Log.e("GalleryAdapter: ", exception.message.toString())
-                binding.tvReleased.text = "No release date???"
+                binding.tvReleased.text = "Coming Soon"
             }
         }
     }
