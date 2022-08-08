@@ -6,7 +6,7 @@
     app:strokeWidth="3dp"
     app:strokeColor="@color/transparent"
     android:layout_width="100dp"
-    android:layout_height="200dp"
+    android:layout_height="115dp"
     android:layout_margin="@dimen/margin_small"
     app:cardCornerRadius="20dp">
 
