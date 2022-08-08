@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.example.cryptoapp.adapter.ActorAdapter
 import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
@@ -85,7 +86,7 @@ class HomeFragment : Fragment() {
                     setUpMovies(airingMovies.results, binding.rvAiring)
                 }
             } catch (e: Exception) {
-                Log.e("LoginFragment: ", e.message.toString())
+                Log.e("HomeFragment: ", e.message.toString())
             }
         }
         jobs.add(airingJob)
@@ -102,7 +103,7 @@ class HomeFragment : Fragment() {
                     setUpMovies(popularMovies.results, binding.rvPopularMovies)
                 }
             } catch (e: Exception) {
-                Log.e("LoginFragment: ", e.message.toString())
+                Log.e("HomeFragment: ", e.message.toString())
             }
         }
         jobs.add(popularMoviesJob)
@@ -119,7 +120,7 @@ class HomeFragment : Fragment() {
                     setUpMovies(topRatedMovies.results, binding.rvTopMovies)
                 }
             } catch (e: Exception) {
-                Log.e("LoginFragment: ", e.message.toString())
+                Log.e("HomeFragment: ", e.message.toString())
             }
         }
         jobs.add(topRatedMoviesJob)
@@ -142,7 +143,7 @@ class HomeFragment : Fragment() {
                     setUpActors(popularPeople.results)
                 }
             } catch (e: Exception) {
-                Log.e("LoginFragment: ", e.message.toString())
+                Log.e("HomeFragment: ", e.message.toString())
             }
         }
         jobs.add(actorsJob)
@@ -153,7 +154,8 @@ class HomeFragment : Fragment() {
             try {
                 //Load images
                 val trending = mdbRepo.getTrendingMovies()
-                val galleryList = trending.results.map { GalleryModel(it.backdropPath, it.releaseDate) }.take(6)
+                val galleryList =
+                    trending.results.map { GalleryModel(it.backdropPath, it.releaseDate) }.take(6)
 
                 //Update UI
                 launch(Dispatchers.Main) {
@@ -163,10 +165,23 @@ class HomeFragment : Fragment() {
                     setUpIndicator(galleryList.size)
                 }
             } catch (e: Exception) {
-                Log.e("LoginFragment: ", e.message.toString())
+                Log.e("HomeFragment: ", e.message.toString())
             }
         }
+        val galleryImagesJobGraphQL = lifecycleScope.launch(Dispatchers.IO) {
+            loadGalleryImagesGraphQL()
+        }
         jobs.add(galleryImagesJob)
+        jobs.add(galleryImagesJobGraphQL)
+    }
+
+    private suspend fun loadGalleryImagesGraphQL() {
+        try {
+            val response = apolloClient.query(PokemonsQuery(1)).execute()
+            Log.d("HomeFragment: ", response.data.toString())
+        } catch (e: ApolloNetworkException) {
+            Log.e("HomeFragment: ", e.toString())
+        }
     }
 
     private fun setUpActors(actorList: List<ActorModel>) {
@@ -202,7 +217,7 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        for(job in jobs)
+        for (job in jobs)
             job.cancel()
 
         _binding = null
