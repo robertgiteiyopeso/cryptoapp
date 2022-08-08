@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.example.cryptoapp.adapter.ActorAdapter
 import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
+import com.example.cryptoapp.adapter.PokemonAdapter
 import com.example.cryptoapp.databinding.FragmentHomeBinding
 import com.example.cryptoapp.domain.ActorModel
 import com.example.cryptoapp.domain.GalleryModel
@@ -61,6 +63,9 @@ class HomeFragment : Fragment() {
 
         //Display movies airing today
         displayAiringMovies()
+
+        //Display Pokemons
+        displayPokemons()
 
         //Set up search button
         setUpSearchButton()
@@ -168,20 +173,30 @@ class HomeFragment : Fragment() {
                 Log.e("HomeFragment: ", e.message.toString())
             }
         }
-        val galleryImagesJobGraphQL = lifecycleScope.launch(Dispatchers.IO) {
-            loadGalleryImagesGraphQL()
-        }
         jobs.add(galleryImagesJob)
-        jobs.add(galleryImagesJobGraphQL)
     }
 
-    private suspend fun loadGalleryImagesGraphQL() {
-        try {
-            val response = apolloClient.query(PokemonsQuery(1)).execute()
-            Log.d("HomeFragment: ", response.data.toString())
-        } catch (e: ApolloNetworkException) {
-            Log.e("HomeFragment: ", e.toString())
+    private fun displayPokemons() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            var pokemonList = listOf<PokemonsQuery.Pokemon?>()
+            try {
+                val response = apolloClient.query(PokemonsQuery(10)).execute()
+                pokemonList = response.data?.pokemons?: listOf()
+            } catch (e: Exception) {
+                Log.e("HomeFragment: ", e.toString())
+            }
+
+            //Update UI
+            launch(Dispatchers.Main) {
+                setUpPokemons(pokemonList)
+            }
         }
+    }
+
+    private fun setUpPokemons(pokemonList: List<PokemonsQuery.Pokemon?>) {
+        val pokemonAdapter = PokemonAdapter()
+        pokemonAdapter.list = pokemonList
+        binding.rvPokemons.adapter = pokemonAdapter
     }
 
     private fun setUpActors(actorList: List<ActorModel>) {
