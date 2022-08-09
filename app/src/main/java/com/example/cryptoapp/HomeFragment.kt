@@ -9,8 +9,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.apollographql.apollo3.api.ApolloResponse
-import com.apollographql.apollo3.exception.ApolloNetworkException
 import com.example.cryptoapp.adapter.ActorAdapter
 import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
@@ -132,9 +130,44 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpMovies(movieList: List<MovieModel>, view: RecyclerView) {
-        val topRatedMovieAdapter = MovieAdapter()
-        topRatedMovieAdapter.list = movieList
-        view.adapter = topRatedMovieAdapter
+        val topRatedMovieAdapter = MovieAdapter { model -> onMovieCardHold(model) }
+        lifecycleScope.launch(Dispatchers.IO) {
+            val favoriteMovies = MDBRoomDatabase.getInstance(requireActivity())
+                ?.getMovieDao()?.queryAll()
+
+            if (favoriteMovies != null)
+                for (favoriteMovie in favoriteMovies) {
+                    for (movie in movieList) {
+                        if (movie.id.toString() == favoriteMovie.id) {
+                            movie.isFavorite = true
+                            break
+                        }
+                    }
+                }
+            lifecycleScope.launch(Dispatchers.Main) {
+                topRatedMovieAdapter.list = movieList
+                view.adapter = topRatedMovieAdapter
+            }
+        }
+    }
+
+    private fun onMovieCardHold(model: MovieModel) {
+
+        if (model.isFavorite) {
+            //</3
+            lifecycleScope.launch(Dispatchers.IO) {
+                MDBRoomDatabase.getInstance(requireActivity())
+                    ?.getMovieDao()?.deleteById(model.id.toString())
+            }
+        } else {
+            //<3
+            lifecycleScope.launch(Dispatchers.IO) {
+                MDBRoomDatabase.getInstance(requireActivity())
+                    ?.getMovieDao()?.insertOne(
+                        MovieDatabaseModel(model.id.toString(), model.title)
+                    )
+            }
+        }
     }
 
     private fun displayActors() {
@@ -181,7 +214,7 @@ class HomeFragment : Fragment() {
             var pokemonList = listOf<PokemonsQuery.Pokemon?>()
             try {
                 val response = apolloClient.query(PokemonsQuery(10)).execute()
-                pokemonList = response.data?.pokemons?: listOf()
+                pokemonList = response.data?.pokemons ?: listOf()
             } catch (e: Exception) {
                 Log.e("HomeFragment: ", e.toString())
             }

@@ -8,12 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.MovieCardBinding
-import com.example.cryptoapp.domain.ActorModel
 import com.example.cryptoapp.domain.MovieModel
-import java.time.LocalDate
-import java.util.*
 
-class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter(private val onMovieCardHold: (model: MovieModel) -> Unit) :
+    RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     var list = listOf<MovieModel>()
         set(value) {
@@ -21,7 +19,10 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
             notifyDataSetChanged()
         }
 
-    inner class MovieViewHolder(private val binding: MovieCardBinding) :
+    inner class MovieViewHolder(
+        private val binding: MovieCardBinding,
+        private val onMovieCardHold: (model: MovieModel) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(model: MovieModel) {
             //Set up background
@@ -36,11 +37,30 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                 binding.tvMustWatch.visibility = View.GONE
             }
 
+            //Set up border
+            if (model.isFavorite) {
+                //<3
+                binding.vHeart.visibility = View.VISIBLE
+                binding.vHeartBorder.visibility = View.VISIBLE
+
+                //Border
+                binding.cvCard.strokeColor =
+                    ContextCompat.getColor(binding.root.context, R.color.secondaryColor)
+            } else {
+                //</3
+                binding.vHeart.visibility = View.GONE
+                binding.vHeartBorder.visibility = View.GONE
+
+                //Border
+                binding.cvCard.strokeColor =
+                    ContextCompat.getColor(binding.root.context, R.color.transparent)
+            }
+
             //Set up hold listener
-            var isFavorite = false
             binding.cvCard.setOnLongClickListener {
-                if (isFavorite) {
-                    isFavorite = false
+                if (model.isFavorite) {
+                    onMovieCardHold(model)
+                    model.isFavorite = false
 
                     //</3
                     binding.vHeart.visibility = View.GONE
@@ -50,7 +70,8 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                     binding.cvCard.strokeColor =
                         ContextCompat.getColor(binding.root.context, R.color.transparent)
                 } else {
-                    isFavorite = true
+                    onMovieCardHold(model)
+                    model.isFavorite = true
 
                     //<3
                     binding.vHeart.visibility = View.VISIBLE
@@ -68,7 +89,7 @@ class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val view = MovieCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(view)
+        return MovieViewHolder(view, onMovieCardHold)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {

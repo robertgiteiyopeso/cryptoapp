@@ -3,6 +3,7 @@ package com.example.cryptoapp.domain
 import android.util.Log
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import java.time.LocalDate
 
 @Serializable
@@ -39,7 +40,8 @@ data class MovieModel(
     val originCountry: List<String> = emptyList(),
     @SerialName("original_name")
     val originalName: String = "",
-
+    @Transient
+    var isFavorite: Boolean = false
 
     ) {
     fun isTwoMonthsOlder(): Boolean =
