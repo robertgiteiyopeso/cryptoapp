@@ -113,6 +113,33 @@ class SearchFragment : Fragment() {
 
     private fun setUpSearchBar() {
         //TextWatcher
+        setUpTextWatcher()
+
+        //Set up history dropdown
+        setUpHistoryDropdown()
+
+        //Pressing done on the keyboard
+        setUpDoneAction()
+    }
+
+    private fun setUpDoneAction() {
+        binding.acSearchField.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                //Hide keyboard
+                val inputMethodManager =
+                    context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+
+                //Save search term
+                saveNewSearchTerm()
+
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+    }
+
+    private fun setUpTextWatcher() {
         binding.acSearchField.addTextChangedListener(object : TextWatcher {
 
             var job: Job = Job()
@@ -130,25 +157,6 @@ class SearchFragment : Fragment() {
                 }
             }
         })
-
-        //Set up history dropdown
-        setUpHistoryDropdown()
-
-        //Pressing done on the keyboard
-        binding.acSearchField.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                //Hide keyboard
-                val inputMethodManager =
-                    context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
-
-                //Save search term
-                saveNewSearchTerm()
-
-                return@setOnEditorActionListener true
-            }
-            false
-        }
     }
 
     private fun setUpHistoryDropdown() {
@@ -159,13 +167,16 @@ class SearchFragment : Fragment() {
         //Split
         val history = sharedPref.getString(getString(R.string.search_history_10), "")!!
         val historyTerms = history.split("|")
-        println("ROBERT: $historyTerms")
 
         //Set up adapter
+        setUpSearchFieldAdapter(historyTerms)
+    }
+
+    private fun setUpSearchFieldAdapter(list: List<String>) {
         val searchAdapter: ArrayAdapter<String> = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
-            historyTerms.reversed()
+            list.reversed()
         )
         binding.acSearchField.setAdapter(searchAdapter)
     }
@@ -194,12 +205,7 @@ class SearchFragment : Fragment() {
         }
 
         //Update dropdown list
-        val searchAdapter: ArrayAdapter<String> = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                history.split("|").reversed()
-            )
-        binding.acSearchField.setAdapter(searchAdapter)
+        setUpSearchFieldAdapter(history.split("|"))
     }
 
     override fun onDestroyView() {
