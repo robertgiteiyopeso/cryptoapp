@@ -166,7 +166,7 @@ class SearchFragment : Fragment() {
 
         //Split
         val history = sharedPref.getString(getString(R.string.search_history_10), "")!!
-        val historyTerms = history.split("|")
+        val historyTerms = history.split("|").dropLast(1)
 
         //Set up adapter
         setUpSearchFieldAdapter(historyTerms)
@@ -205,7 +205,7 @@ class SearchFragment : Fragment() {
         }
 
         //Update dropdown list
-        setUpSearchFieldAdapter(history.split("|"))
+        setUpSearchFieldAdapter(history.split("|").dropLast(1))
     }
 
     override fun onDestroyView() {
