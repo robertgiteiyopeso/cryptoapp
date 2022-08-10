@@ -130,7 +130,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpMovies(movieList: List<MovieModel>, view: RecyclerView) {
-        val topRatedMovieAdapter = MovieAdapter { model -> onMovieCardHold(model) }
+        val movieAdapter = MovieAdapter { model -> onMovieCardHold(model) }
         lifecycleScope.launch(Dispatchers.IO) {
             val favoriteMovies = MDBRoomDatabase.getInstance(requireActivity())
                 ?.getMovieDao()?.queryAll()
@@ -144,9 +144,10 @@ class HomeFragment : Fragment() {
                         }
                     }
                 }
+
             lifecycleScope.launch(Dispatchers.Main) {
-                topRatedMovieAdapter.list = movieList
-                view.adapter = topRatedMovieAdapter
+                movieAdapter.list = movieList
+                view.adapter = movieAdapter
             }
         }
     }

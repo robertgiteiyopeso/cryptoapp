@@ -65,11 +65,49 @@ class SearchFragment : Fragment() {
     }
 
     private fun displayResults(movieList: List<MovieModel>) {
+
         val resultGridLayoutManager = GridLayoutManager(activity, 3)
         binding.rvResults.layoutManager = resultGridLayoutManager
-        val resultsMovieAdapter = MovieAdapter { model -> println(model.name) }
-        resultsMovieAdapter.list = movieList
-        binding.rvResults.adapter = resultsMovieAdapter
+        val movieAdapter = MovieAdapter { model -> onMovieCardHold(model) }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val favoriteMovies = MDBRoomDatabase.getInstance(requireActivity())
+                ?.getMovieDao()?.queryAll()
+
+            if (favoriteMovies != null)
+                for (favoriteMovie in favoriteMovies) {
+                    for (movie in movieList) {
+                        if (movie.id.toString() == favoriteMovie.id) {
+                            movie.isFavorite = true
+                            break
+                        }
+                    }
+                }
+
+            lifecycleScope.launch(Dispatchers.Main) {
+                movieAdapter.list = movieList
+                binding.rvResults.adapter = movieAdapter
+            }
+        }
+    }
+
+    private fun onMovieCardHold(model: MovieModel) {
+
+        if (model.isFavorite) {
+            //</3
+            lifecycleScope.launch(Dispatchers.IO) {
+                MDBRoomDatabase.getInstance(requireActivity())
+                    ?.getMovieDao()?.deleteById(model.id.toString())
+            }
+        } else {
+            //<3
+            lifecycleScope.launch(Dispatchers.IO) {
+                MDBRoomDatabase.getInstance(requireActivity())
+                    ?.getMovieDao()?.insertOne(
+                        MovieDatabaseModel(model.id.toString(), model.title)
+                    )
+            }
+        }
     }
 
     private fun setUpSearchBar() {
