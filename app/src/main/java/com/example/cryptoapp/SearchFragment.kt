@@ -1,23 +1,23 @@
 package com.example.cryptoapp
 
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.cryptoapp.adapter.GridAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.databinding.FragmentSearchBinding
 import com.example.cryptoapp.domain.MovieModel
-import com.google.android.material.internal.TextWatcherAdapter
 import kotlinx.coroutines.*
-import kotlinx.coroutines.channels.actor
 import java.lang.Exception
 
 class SearchFragment : Fragment() {
@@ -111,6 +111,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun setUpSearchBar() {
+        //TextWatcher
         binding.etSearchField.addTextChangedListener(object : TextWatcher {
 
             var job: Job = Job()
@@ -128,6 +129,46 @@ class SearchFragment : Fragment() {
                 }
             }
         })
+
+        //Pressing done on the keyboard
+        binding.etSearchField.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                //Hide keyboard
+                val inputMethodManager =
+                    context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+
+                //Save search term
+                saveNewSearchTerm()
+
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+    }
+
+    private fun saveNewSearchTerm() {
+        val sharedPref =
+            activity?.getSharedPreferences("search_history", Context.MODE_PRIVATE) ?: return
+
+        //Get new term
+        val searchTerm = binding.etSearchField.text.toString()
+
+        //Get old terms
+        var history = sharedPref.getString(getString(R.string.search_history_10), "")
+
+        //Concatenate old terms with new term
+        val count = history?.count { it == '|' }!!
+        if (count >= 10)
+            history = history.substring(history.indexOf('|') + 1)
+        history += "$searchTerm|"
+
+
+        //Save new term
+        with(sharedPref.edit()) {
+            putString(getString(R.string.search_history_10), history)
+            apply()
+        }
     }
 
     override fun onDestroyView() {
