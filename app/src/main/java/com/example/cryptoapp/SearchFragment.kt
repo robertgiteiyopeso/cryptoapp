@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.cryptoapp.adapter.MovieAdapter
@@ -112,7 +113,7 @@ class SearchFragment : Fragment() {
 
     private fun setUpSearchBar() {
         //TextWatcher
-        binding.etSearchField.addTextChangedListener(object : TextWatcher {
+        binding.acSearchField.addTextChangedListener(object : TextWatcher {
 
             var job: Job = Job()
 
@@ -130,8 +131,11 @@ class SearchFragment : Fragment() {
             }
         })
 
+        //Set up history dropdown
+        setUpHistoryDropdown()
+
         //Pressing done on the keyboard
-        binding.etSearchField.setOnEditorActionListener { _, actionId, _ ->
+        binding.acSearchField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 //Hide keyboard
                 val inputMethodManager =
@@ -147,28 +151,55 @@ class SearchFragment : Fragment() {
         }
     }
 
+    private fun setUpHistoryDropdown() {
+        //Get history
+        val sharedPref =
+            activity?.getSharedPreferences("search_history", Context.MODE_PRIVATE) ?: return
+
+        //Split
+        val history = sharedPref.getString(getString(R.string.search_history_10), "")!!
+        val historyTerms = history.split("|")
+        println("ROBERT: $historyTerms")
+
+        //Set up adapter
+        val searchAdapter: ArrayAdapter<String> = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_list_item_1,
+            historyTerms.reversed()
+        )
+        binding.acSearchField.setAdapter(searchAdapter)
+    }
+
     private fun saveNewSearchTerm() {
         val sharedPref =
             activity?.getSharedPreferences("search_history", Context.MODE_PRIVATE) ?: return
 
         //Get new term
-        val searchTerm = binding.etSearchField.text.toString()
+        val searchTerm = binding.acSearchField.text.toString()
+        if (searchTerm.isEmpty()) return
 
         //Get old terms
-        var history = sharedPref.getString(getString(R.string.search_history_10), "")
+        var history = sharedPref.getString(getString(R.string.search_history_10), "")!!
 
         //Concatenate old terms with new term
-        val count = history?.count { it == '|' }!!
+        val count = history.count { it == '|' }
         if (count >= 10)
             history = history.substring(history.indexOf('|') + 1)
         history += "$searchTerm|"
-
 
         //Save new term
         with(sharedPref.edit()) {
             putString(getString(R.string.search_history_10), history)
             apply()
         }
+
+        //Update dropdown list
+        val searchAdapter: ArrayAdapter<String> = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_list_item_1,
+                history.split("|").reversed()
+            )
+        binding.acSearchField.setAdapter(searchAdapter)
     }
 
     override fun onDestroyView() {
