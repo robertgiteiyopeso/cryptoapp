@@ -211,7 +211,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun displayPokemons() {
-        lifecycleScope.launch(Dispatchers.IO) {
+        val pokemonJob = lifecycleScope.launch(Dispatchers.IO) {
             var pokemonList = listOf<PokemonsQuery.Pokemon?>()
             try {
                 val response = apolloClient.query(PokemonsQuery(10)).execute()
@@ -225,6 +225,7 @@ class HomeFragment : Fragment() {
                 setUpPokemons(pokemonList)
             }
         }
+        jobs.add(pokemonJob)
     }
 
     private fun setUpPokemons(pokemonList: List<PokemonsQuery.Pokemon?>) {
