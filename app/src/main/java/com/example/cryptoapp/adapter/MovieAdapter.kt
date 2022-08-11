@@ -13,11 +13,26 @@ import com.example.cryptoapp.domain.MovieModel
 class MovieAdapter(private val onMovieCardHold: (model: MovieModel) -> Unit) :
     RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
+    companion object {
+        const val endpoint = "https://image.tmdb.org/t/p/w500"
+    }
+
     var list = listOf<MovieModel>()
         set(value) {
             field = value
             notifyDataSetChanged()
         }
+
+    fun modifyOneElement(model: MovieModel) {
+        val position = list.indexOf(model)
+        list = list.map {
+            if (model.id == it.id) {
+                return@map it.copy(isFavorite = !it.isFavorite)
+            } else
+                it
+        }
+        notifyItemChanged(position)
+    }
 
     inner class MovieViewHolder(
         private val binding: MovieCardBinding,
@@ -26,19 +41,24 @@ class MovieAdapter(private val onMovieCardHold: (model: MovieModel) -> Unit) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(model: MovieModel) {
             //Set up background
-            val endpoint = "https://image.tmdb.org/t/p/w500"
             Glide.with(binding.root.context).load(endpoint + model.posterPath)
                 .into(binding.ivMoviePoster)
 
             //Set up Must Watch
-            if (model.isTwoMonthsOlder()) {
-                binding.tvMustWatch.visibility = View.VISIBLE
-            } else {
-                binding.tvMustWatch.visibility = View.GONE
-            }
+            binding.tvMustWatch.visibility = if(model.isTwoMonthsOlder()) View.VISIBLE else View.GONE
 
-            //Set up border
-            if (model.isFavorite) {
+            //Border and <3 if favorite
+            setFavorite(model.isFavorite)
+
+            //Set up hold listener
+            binding.cvCard.setOnLongClickListener {
+                onMovieCardHold(model)
+                true
+            }
+        }
+
+        private fun setFavorite(isFavorite: Boolean) {
+            if (isFavorite) {
                 //<3
                 binding.vHeart.visibility = View.VISIBLE
                 binding.vHeartBorder.visibility = View.VISIBLE
@@ -54,34 +74,6 @@ class MovieAdapter(private val onMovieCardHold: (model: MovieModel) -> Unit) :
                 //Border
                 binding.cvCard.strokeColor =
                     ContextCompat.getColor(binding.root.context, R.color.transparent)
-            }
-
-            //Set up hold listener
-            binding.cvCard.setOnLongClickListener {
-                if (model.isFavorite) {
-                    onMovieCardHold(model)
-                    model.isFavorite = false
-
-                    //</3
-                    binding.vHeart.visibility = View.GONE
-                    binding.vHeartBorder.visibility = View.GONE
-
-                    //Border
-                    binding.cvCard.strokeColor =
-                        ContextCompat.getColor(binding.root.context, R.color.transparent)
-                } else {
-                    onMovieCardHold(model)
-                    model.isFavorite = true
-
-                    //<3
-                    binding.vHeart.visibility = View.VISIBLE
-                    binding.vHeartBorder.visibility = View.VISIBLE
-
-                    //Border
-                    binding.cvCard.strokeColor =
-                        ContextCompat.getColor(binding.root.context, R.color.secondaryColor)
-                }
-                true
             }
         }
 

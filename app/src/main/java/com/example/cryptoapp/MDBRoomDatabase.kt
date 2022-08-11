@@ -5,7 +5,7 @@ import androidx.room.Room
 
 object MDBRoomDatabase {
 
-    const val MOVIE_DATABASE_TAG = "movie_database"
+    private const val MOVIE_DATABASE_TAG = "movie_database"
     var database: MovieDatabase? = null
 
     fun getInstance(context: Context): MovieDatabase? {

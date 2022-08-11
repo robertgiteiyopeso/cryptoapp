@@ -1,13 +1,13 @@
 package com.example.cryptoapp.domain
 
 data class CryptoCoinModel(
-    val id: String,
-    val name: String,
-    val symbol: String,
-    val rank: Int,
-    val is_new: Boolean,
-    val is_active: Boolean,
-    val type: String
+    val id: String = "",
+    val name: String = "",
+    val symbol: String = "",
+    val rank: Int = 0,
+    val is_new: Boolean = false,
+    val is_active: Boolean = false,
+    val type: String = ""
 ) {
     override fun toString(): String {
         return "#$rank $symbol ($name), " +

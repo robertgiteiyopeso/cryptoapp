@@ -43,5 +43,4 @@ data class CryptoCoinDetailsModel(
     val firstDataAt: Date = Date(),
     @SerializedName("last_data_at")
     val lastDataAt: Date = Date()
-) {
-}
+)

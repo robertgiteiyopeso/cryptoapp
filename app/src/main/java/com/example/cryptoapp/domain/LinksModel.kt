@@ -10,5 +10,4 @@ data class LinksModel(
     val sourceCode: List<String> = emptyList(),
     val website: List<String> = emptyList(),
     val youtube: List<String> = emptyList(),
-) {
-}
+)

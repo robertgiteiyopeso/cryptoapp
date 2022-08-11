@@ -14,11 +14,14 @@ import com.example.cryptoapp.domain.ListItemTeamMemberModel
 class CoinDetailsActivity : AppCompatActivity() {
 
     private val TAG = "CoinDetailsActivity"
-    private lateinit var binding: ActivityCoinDetailsBinding
+    private val binding: ActivityCoinDetailsBinding by lazy {
+        ActivityCoinDetailsBinding.inflate(
+            layoutInflater
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCoinDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         //Get the coin's details

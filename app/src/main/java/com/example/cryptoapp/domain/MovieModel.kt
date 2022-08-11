@@ -41,7 +41,7 @@ data class MovieModel(
     @SerialName("original_name")
     val originalName: String = "",
     @Transient
-    var isFavorite: Boolean = false
+    val isFavorite: Boolean = false
 
     ) {
     fun isTwoMonthsOlder(): Boolean =

@@ -2,6 +2,8 @@ package com.example.cryptoapp
 
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Context.MODE_PRIVATE
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,6 +17,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.databinding.FragmentSearchBinding
 import com.example.cryptoapp.domain.MovieModel
@@ -30,6 +33,17 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val mdbRepo = MDBRepositoryRetrofit
+    private val dao: MovieDao? by lazy {
+        MDBRoomDatabase.getInstance(requireContext())?.getMovieDao()
+    }
+
+    private val sharedPref: SharedPreferences? by lazy {
+        activity?.getSharedPreferences(
+            "search_history",
+            Context.MODE_PRIVATE
+        )
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,12 +66,13 @@ class SearchFragment : Fragment() {
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 //Search for the movies
-                val searchResults1 = mdbRepo.getSearch("en-US", 1, query)
-                val searchResults2 = mdbRepo.getSearch("en-US", 2, query)
+                val results = (mdbRepo.getSearch("en-US", 1, query).results +
+                        mdbRepo.getSearch("en-US", 2, query).results)
+                    .filter { it.posterPath.isNotEmpty() }
 
                 //Update UI
                 launch(Dispatchers.Main) {
-                    displayResults((searchResults1.results + searchResults2.results).filter { it.posterPath.isNotEmpty() })
+                    displayResults(results)
                 }
             } catch (e: Exception) {
                 Log.e("LoginFragment: ", e.message.toString())
@@ -69,46 +84,33 @@ class SearchFragment : Fragment() {
 
         val resultGridLayoutManager = GridLayoutManager(activity, 3)
         binding.rvResults.layoutManager = resultGridLayoutManager
-        val movieAdapter = MovieAdapter { model -> onMovieCardHold(model) }
+
+        val movieAdapter = MovieAdapter { model -> onMovieCardHold(model, binding.rvResults) }
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val favoriteMovies = MDBRoomDatabase.getInstance(requireActivity())
-                ?.getMovieDao()?.queryAll()
-
-            if (favoriteMovies != null)
-                for (favoriteMovie in favoriteMovies) {
-                    for (movie in movieList) {
-                        if (movie.id.toString() == favoriteMovie.id) {
-                            movie.isFavorite = true
-                            break
-                        }
-                    }
-                }
+            val favoriteMovies = dao?.queryAll()
 
             lifecycleScope.launch(Dispatchers.Main) {
-                movieAdapter.list = movieList
+                movieAdapter.list = movieList.map { movie ->
+                    if (favoriteMovies?.firstOrNull { it.id == movie.id.toString() } != null) {
+                        return@map movie.copy(isFavorite = true)
+                    }
+                    return@map movie
+                }
                 binding.rvResults.adapter = movieAdapter
             }
         }
     }
 
-    private fun onMovieCardHold(model: MovieModel) {
-
-        if (model.isFavorite) {
-            //</3
-            lifecycleScope.launch(Dispatchers.IO) {
-                MDBRoomDatabase.getInstance(requireActivity())
-                    ?.getMovieDao()?.deleteById(model.id.toString())
-            }
-        } else {
-            //<3
-            lifecycleScope.launch(Dispatchers.IO) {
-                MDBRoomDatabase.getInstance(requireActivity())
-                    ?.getMovieDao()?.insertOne(
-                        MovieDatabaseModel(model.id.toString(), model.title)
-                    )
+    private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            if (model.isFavorite) {
+                dao?.deleteById(model.id.toString())
+            } else {
+                dao?.insertOne(MovieDatabaseModel(model.id.toString(), model.title))
             }
         }
+        (view.adapter as? MovieAdapter)?.modifyOneElement(model)
     }
 
     private fun setUpSearchBar() {
@@ -160,16 +162,16 @@ class SearchFragment : Fragment() {
     }
 
     private fun setUpHistoryDropdown() {
-        //Get history
-        val sharedPref =
-            activity?.getSharedPreferences("search_history", Context.MODE_PRIVATE) ?: return
+        sharedPref?.apply {
+            //Get history as list of search terms
+            val history = this.getString(getString(R.string.search_history_10), "")
+                ?.split("|")
+                ?.dropLast(1)
 
-        //Split
-        val history = sharedPref.getString(getString(R.string.search_history_10), "")!!
-        val historyTerms = history.split("|").dropLast(1)
-
-        //Set up adapter
-        setUpSearchFieldAdapter(historyTerms)
+            //Set up adapter
+            if (history != null)
+                setUpSearchFieldAdapter(history)
+        }
     }
 
     private fun setUpSearchFieldAdapter(list: List<String>) {
@@ -182,30 +184,30 @@ class SearchFragment : Fragment() {
     }
 
     private fun saveNewSearchTerm() {
-        val sharedPref =
-            activity?.getSharedPreferences("search_history", Context.MODE_PRIVATE) ?: return
+        sharedPref?.apply {
+            //Get new term
+            val searchTerm = binding.acSearchField.text.toString()
+            if (searchTerm.isEmpty()) return
 
-        //Get new term
-        val searchTerm = binding.acSearchField.text.toString()
-        if (searchTerm.isEmpty()) return
+            //Get old terms
+            val history = this.getString(getString(R.string.search_history_10), "")!!
 
-        //Get old terms
-        var history = sharedPref.getString(getString(R.string.search_history_10), "")!!
+            //Concatenate old terms with new term
+            val newHistory = buildString {
+                if(history.count{it == '|'} >= 10)
+                    append(history.substring(history.indexOf('|') + 1))
+                append("$searchTerm|")
+            }
 
-        //Concatenate old terms with new term
-        val count = history.count { it == '|' }
-        if (count >= 10)
-            history = history.substring(history.indexOf('|') + 1)
-        history += "$searchTerm|"
+            //Save new term
+            with(this.edit()) {
+                putString(getString(R.string.search_history_10), newHistory)
+                apply()
+            }
 
-        //Save new term
-        with(sharedPref.edit()) {
-            putString(getString(R.string.search_history_10), history)
-            apply()
+            //Update dropdown list
+            setUpSearchFieldAdapter(newHistory.split("|").dropLast(1))
         }
-
-        //Update dropdown list
-        setUpSearchFieldAdapter(history.split("|").dropLast(1))
     }
 
     override fun onDestroyView() {

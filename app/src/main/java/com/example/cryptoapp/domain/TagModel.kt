@@ -9,5 +9,4 @@ data class TagModel(
     val coinCounter: Int,
     @SerializedName("ico_counter")
     val ico_counter: Int
-) {
-}
+)
