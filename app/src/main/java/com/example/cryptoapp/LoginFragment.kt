@@ -1,78 +1,79 @@
 package com.example.cryptoapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import com.example.cryptoapp.databinding.FragmentLoginBinding
-import com.example.cryptoapp.login.CredentialsModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.lang.Exception
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class LoginFragment : Fragment() {
 
-    private var _binding: FragmentLoginBinding? = null
+    private val viewModel: LoginViewModel by viewModels()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    private val mdbRepo = MDBRepositoryRetrofit
+    private lateinit var binding: FragmentLoginBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.bttnLogin.setOnClickListener {
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.loginViewModel = viewModel
 
+        binding.bttnLogin.setOnClickListener {
 //            //takes too long, just press the button and we worry about actual login when we need it
 //            activity?.supportFragmentManager?.beginTransaction()
 //                ?.replace(R.id.fragment_container_view_tag, HomeFragment())
 //                ?.commit()
+            viewModel.doLogin()
+        }
 
-            //Try to login
-            lifecycleScope.launch(Dispatchers.IO) {
-                try {
-                    //Get new token
-                    val token = mdbRepo.getNewTokenParsed()
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            loginStateObserver(state)
+        }
 
-                    //Login
-                    mdbRepo.login(
-                        CredentialsModel(
-                            binding.tiUsername.editText?.text.toString(),
-                            binding.tiPassword.editText?.text.toString(),
-                            token.requestToken
-                        )
-                    )
+    }
 
-                    activity?.supportFragmentManager?.beginTransaction()
-                        ?.replace(R.id.fragment_container_view_tag, HomeFragment())
-                        ?.commit()
+    private fun loginStateObserver(state: LoginState) {
+        when (state) {
+            is LoginState.Error -> {
+                binding.bttnLogin.text = "Login"
+                binding.bttnLogin.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
 
-                } catch (e: Exception) {
-                    Log.e("LoginFragment: ", e.message.toString())
-                }
+                Toast.makeText(
+                    requireContext(),
+                    state.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            LoginState.InProgress -> {
+                binding.bttnLogin.text = "In progress"
+                binding.bttnLogin.setBackgroundColor(R.color.transparent)
+            }
+            LoginState.Success -> {
+                binding.bttnLogin.text = "Login"
+                binding.bttnLogin.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.replace(R.id.fragment_container_view_tag, HomeFragment())
+                    ?.commit()
             }
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 }

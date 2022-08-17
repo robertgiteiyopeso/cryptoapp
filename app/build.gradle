@@ -4,6 +4,8 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.10'
     id("com.apollographql.apollo3").version("3.5.0")
     id 'com.google.devtools.ksp' version "1.7.10-1.0.6"
+    id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 apply plugin: 'kotlin-kapt'
@@ -22,6 +24,7 @@ android {
     }
 
     buildFeatures {
+        dataBinding true
         viewBinding true
     }
 
