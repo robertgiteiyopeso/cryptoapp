@@ -15,5 +15,6 @@ data class ActorModel(
     val name: String = "",
     val popularity: Double = 0.0,
     @SerialName("profile_path")
-    val profilePath: String = ""
+    val profilePath: String = "",
+    val character: String = ""
 )

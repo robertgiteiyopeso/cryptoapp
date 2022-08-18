@@ -2,6 +2,7 @@ package com.example.cryptoapp
 
 import com.example.cryptoapp.domain.MovieModel
 import com.example.cryptoapp.domain.ResultsActorModel
+import com.example.cryptoapp.domain.ResultsCreditsModel
 import com.example.cryptoapp.domain.ResultsMovieModel
 import com.example.cryptoapp.login.CredentialsModel
 import com.example.cryptoapp.login.SessionModel
@@ -56,5 +57,8 @@ object MDBRepositoryRetrofit {
 
     suspend fun getMovieById(movieId: String): MovieModel =
         service.getMovieById(apiKey = apiKey, movieId = movieId)
+
+    suspend fun getMovieCredits(movieId: String): ResultsCreditsModel =
+        service.getMovieCredits(apiKey = apiKey, movieId = movieId)
 
 }
