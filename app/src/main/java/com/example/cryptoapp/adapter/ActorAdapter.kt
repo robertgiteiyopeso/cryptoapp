@@ -1,6 +1,7 @@
 package com.example.cryptoapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -26,6 +27,12 @@ class ActorAdapter : RecyclerView.Adapter<ActorAdapter.ActorViewHolder>() {
             //Set up name
             binding.tvName.text = model.name
             binding.tvName.isSelected = true
+
+            //Set up character
+            if (model.character.isNotEmpty()){
+                binding.tvCharacter.text = model.character
+                binding.tvCharacter.visibility = View.VISIBLE
+            }
         }
     }
 

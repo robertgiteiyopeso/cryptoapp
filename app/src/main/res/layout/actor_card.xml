@@ -6,13 +6,33 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/margin_small">
 
+    <TextView
+        android:id="@+id/tvCharacter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxWidth="80dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="Spiderman" />
+
     <ImageView
         android:id="@+id/ivProfilePhoto"
         android:layout_width="80dp"
         android:layout_height="80dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tvCharacter" />
 
     <TextView
         android:id="@+id/tvName"
