@@ -86,7 +86,7 @@ class SearchFragment : Fragment() {
 
         val movieAdapter = MovieAdapter(
             { model -> onMovieCardHold(model, binding.rvResults)},
-            { model -> onMovieCardClick(model) }
+            { movieId -> onMovieCardClick(movieId) }
         )
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -104,9 +104,9 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun onMovieCardClick(model: MovieModel) {
+    private fun onMovieCardClick(movieId: Int) {
         activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.fragment_container_view_tag, MovieDetailsFragment.newInstance(model.id))
+            ?.replace(R.id.fragment_container_view_tag, MovieDetailsFragment.newInstance(movieId))
             ?.addToBackStack(null)?.commit()
     }
 

@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
         val favoriteMovies = dao?.queryAll()
         val movieAdapter = MovieAdapter(
             { model -> onMovieCardHold(model, view) },
-            { model -> onMovieCardClick(model) }
+            { movieId -> onMovieCardClick(movieId) }
         )
 
         lifecycleScope.launch(Dispatchers.Main) {
@@ -143,9 +143,9 @@ class HomeFragment : Fragment() {
 
     }
 
-    private fun onMovieCardClick(model: MovieModel) {
+    private fun onMovieCardClick(movieId: Int) {
         activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.fragment_container_view_tag, MovieDetailsFragment.newInstance(model.id))
+            ?.replace(R.id.fragment_container_view_tag, MovieDetailsFragment.newInstance(movieId))
             ?.addToBackStack(null)?.commit()
     }
 
@@ -182,7 +182,7 @@ class HomeFragment : Fragment() {
                 //Load images
                 val galleryList =
                     mdbRepo.getTrendingMovies().results.map {
-                        GalleryModel(it.backdropPath, it.releaseDate)
+                        GalleryModel(it.id, it.backdropPath, it.releaseDate)
                     }.take(6)
 
                 //Update UI
@@ -228,7 +228,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpGallery(galleryList: List<GalleryModel>) {
-        val galleryAdapter = GalleryAdapter()
+        val galleryAdapter = GalleryAdapter { movieId ->
+            onMovieCardClick(movieId)
+        }
         galleryAdapter.submitList(galleryList)
         binding.vpGallery.adapter = galleryAdapter
     }

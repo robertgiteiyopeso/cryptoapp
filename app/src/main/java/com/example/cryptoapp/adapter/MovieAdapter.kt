@@ -12,7 +12,7 @@ import com.example.cryptoapp.domain.MovieModel
 
 class MovieAdapter(
     private val onMovieCardHold: (model: MovieModel) -> Unit,
-    private val onMovieCardClick: (model: MovieModel) -> Unit
+    private val onMovieCardClick: (movieId: Int) -> Unit
 ) :
     RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
@@ -40,7 +40,7 @@ class MovieAdapter(
     inner class MovieViewHolder(
         private val binding: MovieCardBinding,
         private val onMovieCardHold: (model: MovieModel) -> Unit,
-        private val onMovieCardClick: (model: MovieModel) -> Unit
+        private val onMovieCardClick: (movieId: Int) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(model: MovieModel) {
@@ -63,7 +63,7 @@ class MovieAdapter(
 
             //Set up click listener
             binding.cvCard.setOnClickListener {
-                onMovieCardClick(model)
+                onMovieCardClick(model.id)
             }
         }
 
