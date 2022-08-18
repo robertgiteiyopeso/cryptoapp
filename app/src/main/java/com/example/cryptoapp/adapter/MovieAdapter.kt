@@ -10,7 +10,10 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.MovieCardBinding
 import com.example.cryptoapp.domain.MovieModel
 
-class MovieAdapter(private val onMovieCardHold: (model: MovieModel) -> Unit) :
+class MovieAdapter(
+    private val onMovieCardHold: (model: MovieModel) -> Unit,
+    private val onMovieCardClick: (model: MovieModel) -> Unit
+) :
     RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     companion object {
@@ -36,7 +39,8 @@ class MovieAdapter(private val onMovieCardHold: (model: MovieModel) -> Unit) :
 
     inner class MovieViewHolder(
         private val binding: MovieCardBinding,
-        private val onMovieCardHold: (model: MovieModel) -> Unit
+        private val onMovieCardHold: (model: MovieModel) -> Unit,
+        private val onMovieCardClick: (model: MovieModel) -> Unit
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(model: MovieModel) {
@@ -45,7 +49,8 @@ class MovieAdapter(private val onMovieCardHold: (model: MovieModel) -> Unit) :
                 .into(binding.ivMoviePoster)
 
             //Set up Must Watch
-            binding.tvMustWatch.visibility = if(model.isTwoMonthsOlder()) View.VISIBLE else View.GONE
+            binding.tvMustWatch.visibility =
+                if (model.isTwoMonthsOlder()) View.VISIBLE else View.GONE
 
             //Border and <3 if favorite
             setFavorite(model.isFavorite)
@@ -54,6 +59,11 @@ class MovieAdapter(private val onMovieCardHold: (model: MovieModel) -> Unit) :
             binding.cvCard.setOnLongClickListener {
                 onMovieCardHold(model)
                 true
+            }
+
+            //Set up click listener
+            binding.cvCard.setOnClickListener {
+                onMovieCardClick(model)
             }
         }
 
@@ -81,7 +91,7 @@ class MovieAdapter(private val onMovieCardHold: (model: MovieModel) -> Unit) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val view = MovieCardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MovieViewHolder(view, onMovieCardHold)
+        return MovieViewHolder(view, onMovieCardHold, onMovieCardClick)
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {

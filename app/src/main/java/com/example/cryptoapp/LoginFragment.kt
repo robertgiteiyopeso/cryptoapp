@@ -35,11 +35,12 @@ class LoginFragment : Fragment() {
         binding.loginViewModel = viewModel
 
         binding.bttnLogin.setOnClickListener {
-//            //takes too long, just press the button and we worry about actual login when we need it
-//            activity?.supportFragmentManager?.beginTransaction()
-//                ?.replace(R.id.fragment_container_view_tag, HomeFragment())
-//                ?.commit()
-            viewModel.doLogin()
+            //takes too long, just press the button and we worry about actual login when we need it
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragment_container_view_tag, HomeFragment())
+                ?.commit()
+//            //actual login
+//            viewModel.doLogin()
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->

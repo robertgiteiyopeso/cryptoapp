@@ -1,6 +1,5 @@
 package com.example.cryptoapp
 
-import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
@@ -40,7 +39,7 @@ class SearchFragment : Fragment() {
     private val sharedPref: SharedPreferences? by lazy {
         activity?.getSharedPreferences(
             "search_history",
-            Context.MODE_PRIVATE
+            MODE_PRIVATE
         )
     }
 
@@ -85,7 +84,10 @@ class SearchFragment : Fragment() {
         val resultGridLayoutManager = GridLayoutManager(activity, 3)
         binding.rvResults.layoutManager = resultGridLayoutManager
 
-        val movieAdapter = MovieAdapter { model -> onMovieCardHold(model, binding.rvResults) }
+        val movieAdapter = MovieAdapter(
+            { model -> onMovieCardHold(model, binding.rvResults)},
+            { model -> onMovieCardClick(model) }
+        )
 
         lifecycleScope.launch(Dispatchers.IO) {
             val favoriteMovies = dao?.queryAll()
@@ -100,6 +102,10 @@ class SearchFragment : Fragment() {
                 binding.rvResults.adapter = movieAdapter
             }
         }
+    }
+
+    private fun onMovieCardClick(model: MovieModel) {
+        println("Robert: click pe ${model.title}")
     }
 
     private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {
@@ -194,7 +200,7 @@ class SearchFragment : Fragment() {
 
             //Concatenate old terms with new term
             val newHistory = buildString {
-                if(history.count{it == '|'} >= 10)
+                if (history.count { it == '|' } >= 10)
                     append(history.substring(history.indexOf('|') + 1))
                 append("$searchTerm|")
             }

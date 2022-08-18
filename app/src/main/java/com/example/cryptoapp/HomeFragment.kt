@@ -126,7 +126,10 @@ class HomeFragment : Fragment() {
     private suspend fun setUpMovies(movieList: List<MovieModel>, view: RecyclerView) {
 
         val favoriteMovies = dao?.queryAll()
-        val movieAdapter = MovieAdapter { model -> onMovieCardHold(model, view) }
+        val movieAdapter = MovieAdapter(
+            { model -> onMovieCardHold(model, view) },
+            { model -> onMovieCardClick(model) }
+        )
 
         lifecycleScope.launch(Dispatchers.Main) {
             movieAdapter.list = movieList.map { movie ->
@@ -138,6 +141,10 @@ class HomeFragment : Fragment() {
             view.adapter = movieAdapter
         }
 
+    }
+
+    private fun onMovieCardClick(model: MovieModel) {
+        println("Robert: click pe ${model.title}")
     }
 
     private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {
