@@ -31,7 +31,7 @@ class MovieDetailsViewModel : ViewModel() {
                 movieTitle.postValue(movieDetails.title)
                 movieDescription.postValue(movieDetails.overview)
                 movieImage.postValue(movieDetails.backdropPath)
-                actors.postValue(credits.cast.map { it.name }.toString())
+                actors.postValue(credits.cast.map { "${it.name} as ${it.character}" }.toString())
             } catch (e: Exception) {
                 Log.e("MovieDetailsViewModel: ", e.toString())
             }

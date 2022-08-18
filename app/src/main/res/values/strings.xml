@@ -27,4 +27,6 @@
     <string name="search">Search</string>
     <string name="pokemons">Pokemons</string>
     <string name="search_history_10">search_history_10</string>
+    <string name="cast">Cast</string>
+    <string name="overview">Overview</string>
 </resources>
