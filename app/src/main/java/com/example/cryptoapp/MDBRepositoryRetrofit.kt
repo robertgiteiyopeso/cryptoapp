@@ -1,5 +1,6 @@
 package com.example.cryptoapp
 
+import com.example.cryptoapp.domain.MovieModel
 import com.example.cryptoapp.domain.ResultsActorModel
 import com.example.cryptoapp.domain.ResultsMovieModel
 import com.example.cryptoapp.login.CredentialsModel
@@ -14,7 +15,10 @@ import retrofit2.Retrofit
 object MDBRepositoryRetrofit {
 
     private const val apiKey = "96d31308896f028f63b8801331250f03"
-    private val json = Json { coerceInputValues = true }
+    private val json = Json {
+        coerceInputValues = true
+        ignoreUnknownKeys = true
+    }
 
     @OptIn(ExperimentalSerializationApi::class)
     val retrofit = Retrofit.Builder().baseUrl("https://api.themoviedb.org")
@@ -49,5 +53,8 @@ object MDBRepositoryRetrofit {
 
     suspend fun getSearch(language: String, page: Int, query: String): ResultsMovieModel =
         service.getSearch(apiKey, language, page, query)
+
+    suspend fun getMovieById(movieId: String): MovieModel =
+        service.getMovieById(apiKey = apiKey, movieId = movieId)
 
 }
