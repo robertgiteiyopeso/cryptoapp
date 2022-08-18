@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ActorCardBinding
 import com.example.cryptoapp.domain.ActorModel
 
@@ -21,7 +22,10 @@ class ActorAdapter : RecyclerView.Adapter<ActorAdapter.ActorViewHolder>() {
         fun bind(model: ActorModel) {
             //Set up profile photo
             val endpoint = "https://image.tmdb.org/t/p/w500"
-            Glide.with(binding.root.context).load(endpoint + model.profilePath).circleCrop()
+            Glide.with(binding.root.context)
+                .load(endpoint + model.profilePath)
+                .placeholder(R.drawable.logo)
+                .circleCrop()
                 .into(binding.ivProfilePhoto)
 
             //Set up name
