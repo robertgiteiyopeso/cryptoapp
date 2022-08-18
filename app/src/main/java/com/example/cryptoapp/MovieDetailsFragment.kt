@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.example.cryptoapp.adapter.ActorAdapter
 import com.example.cryptoapp.databinding.FragmentMovieDetailsBinding
+import com.example.cryptoapp.domain.ActorModel
 
 class MovieDetailsFragment : Fragment() {
 
@@ -52,9 +54,21 @@ class MovieDetailsFragment : Fragment() {
                 .into(binding.ivMovieImage)
         }
 
+        viewModel.actors.observe(
+            viewLifecycleOwner
+        ) { newList ->
+            setUpCast(newList)
+        }
+
         binding.lifecycleOwner = viewLifecycleOwner
         binding.movieDetailsViewModel = viewModel
 
         viewModel.displayMovieDetails(movieId.toString())
+    }
+
+    private fun setUpCast(cast: List<ActorModel>) {
+        val actorAdapter = ActorAdapter()
+        actorAdapter.list = cast
+        binding.rvCast.adapter = actorAdapter
     }
 }

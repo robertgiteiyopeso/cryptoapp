@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cryptoapp.domain.ActorModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -17,7 +18,7 @@ class MovieDetailsViewModel : ViewModel() {
     val movieTitle = MutableLiveData<String>()
     val movieDescription = MutableLiveData<String>()
     val movieImage = MutableLiveData<String>()
-    val actors = MutableLiveData<String>()
+    val actors = MutableLiveData<List<ActorModel>>()
 
     fun displayMovieDetails(movieId: String) {
         job.cancel()
@@ -31,7 +32,7 @@ class MovieDetailsViewModel : ViewModel() {
                 movieTitle.postValue(movieDetails.title)
                 movieDescription.postValue(movieDetails.overview)
                 movieImage.postValue(movieDetails.backdropPath)
-                actors.postValue(credits.cast.map { "${it.name} as ${it.character}" }.toString())
+                actors.postValue(credits.cast.take(15))
             } catch (e: Exception) {
                 Log.e("MovieDetailsViewModel: ", e.toString())
             }

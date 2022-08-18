@@ -32,6 +32,7 @@ class ActorAdapter : RecyclerView.Adapter<ActorAdapter.ActorViewHolder>() {
             if (model.character.isNotEmpty()){
                 binding.tvCharacter.text = model.character
                 binding.tvCharacter.visibility = View.VISIBLE
+                binding.tvCharacter.isSelected = true
             }
         }
     }

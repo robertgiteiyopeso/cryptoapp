@@ -97,17 +97,15 @@
                     app:layout_constraintTop_toBottomOf="@id/tvDescription"
                     tools:text="ui actori din film" />
 
-                <TextView
-                    android:id="@+id/tvActors"
-                    style="@style/TextAppearance.MaterialComponents.Subtitle1.Details"
-                    android:layout_width="match_parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCast"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_default"
-                    android:paddingStart="@dimen/padding_default"
-                    android:paddingEnd="@dimen/padding_default"
-                    android:text="@={movieDetailsViewModel.actors}"
-                    app:layout_constraintTop_toBottomOf="@id/tvActorsHeader"
-                    tools:text="actori nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula" />
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvActorsHeader" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
