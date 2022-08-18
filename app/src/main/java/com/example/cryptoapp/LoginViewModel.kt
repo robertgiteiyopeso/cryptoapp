@@ -7,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-import java.lang.Exception
 
 class LoginViewModel : ViewModel() {
 
