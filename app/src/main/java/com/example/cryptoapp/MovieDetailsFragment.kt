@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.cryptoapp.databinding.FragmentMovieDetailsBinding
 
 class MovieDetailsFragment : Fragment() {
@@ -43,9 +44,17 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.movieImage.observe(
+            viewLifecycleOwner
+        ) { newImage ->
+            val endpoint = "https://image.tmdb.org/t/p/w500"
+            Glide.with(binding.root.context).load(endpoint + newImage)
+                .into(binding.ivMovieImage)
+        }
+
         binding.lifecycleOwner = viewLifecycleOwner
         binding.movieDetailsViewModel = viewModel
 
-        viewModel.movieId.postValue(movieId.toString())
+        viewModel.displayMovieDetails(movieId.toString())
     }
 }

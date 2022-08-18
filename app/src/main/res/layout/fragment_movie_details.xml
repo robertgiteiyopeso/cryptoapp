@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="movieDetailsViewModel"
             type="com.example.cryptoapp.MovieDetailsViewModel" />
@@ -35,6 +34,7 @@
             android:id="@+id/ivMovieImage"
             android:layout_width="match_parent"
             android:layout_height="250dp"
+            android:scaleType="fitXY"
             app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
         <TextView
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginBottom="@dimen/margin_small"
-            android:text="@={movieDetailsViewModel.movieId}"
+            android:text="@={movieDetailsViewModel.movieTitle}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivMovieImage"
@@ -58,7 +58,7 @@
             android:layout_marginTop="@dimen/margin_default"
             android:paddingStart="@dimen/padding_default"
             android:paddingEnd="@dimen/padding_default"
-            android:text="@={movieDetailsViewModel.movieId}"
+            android:text="@={movieDetailsViewModel.movieDescription}"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"
             tools:text="descriere aici o sa scriem mult blah blah blah test test hai sa fie si mai multe randuri tot for testing purposes" />
 
@@ -70,6 +70,7 @@
             android:layout_marginTop="@dimen/margin_default"
             android:paddingStart="@dimen/padding_default"
             android:paddingEnd="@dimen/padding_default"
+            android:text="@={movieDetailsViewModel.actors}"
             app:layout_constraintTop_toBottomOf="@id/tvDescription"
             tools:text="actori nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula" />
 
