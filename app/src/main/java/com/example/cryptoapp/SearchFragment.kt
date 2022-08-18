@@ -105,7 +105,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun onMovieCardClick(model: MovieModel) {
-        println("Robert: click pe ${model.title}")
+        activity?.supportFragmentManager?.beginTransaction()
+            ?.replace(R.id.fragment_container_view_tag, MovieDetailsFragment.newInstance(model.id))
+            ?.addToBackStack(null)?.commit()
     }
 
     private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {

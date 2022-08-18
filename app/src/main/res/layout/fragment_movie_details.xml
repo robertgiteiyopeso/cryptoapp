@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="movieDetailsViewModel"
+            type="com.example.cryptoapp.MovieDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MovieDetailsFragment"
-        android:background="@drawable/background_doodle_extended_bitmap">
+        android:background="@drawable/background_doodle_extended_bitmap"
+        tools:context=".MovieDetailsFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -36,37 +39,39 @@
 
         <TextView
             android:id="@+id/tvTitle"
+            style="@style/TextAppearance.MaterialComponents.Headline2.Details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/ivMovieImage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Titlu de la film"
             android:layout_marginTop="@dimen/margin_small"
             android:layout_marginBottom="@dimen/margin_small"
-            style="@style/TextAppearance.MaterialComponents.Headline2.Details" />
+            android:text="@={movieDetailsViewModel.movieId}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivMovieImage"
+            tools:text="Titlu de la film" />
 
         <TextView
             android:id="@+id/tvDescription"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1.Details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="descriere aici o sa scriem mult blah blah blah test test hai sa fie si mai multe randuri tot for testing purposes"
-            style="@style/TextAppearance.MaterialComponents.Subtitle1.Details"
-            app:layout_constraintTop_toBottomOf="@id/tvTitle"
             android:layout_marginTop="@dimen/margin_default"
             android:paddingStart="@dimen/padding_default"
-            android:paddingEnd="@dimen/padding_default" />
+            android:paddingEnd="@dimen/padding_default"
+            android:text="@={movieDetailsViewModel.movieId}"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"
+            tools:text="descriere aici o sa scriem mult blah blah blah test test hai sa fie si mai multe randuri tot for testing purposes" />
 
         <TextView
             android:id="@+id/tvActors"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1.Details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="actori nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula"
-            style="@style/TextAppearance.MaterialComponents.Subtitle1.Details"
-            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+            android:layout_marginTop="@dimen/margin_default"
             android:paddingStart="@dimen/padding_default"
             android:paddingEnd="@dimen/padding_default"
-            android:layout_marginTop="@dimen/margin_default" />
+            app:layout_constraintTop_toBottomOf="@id/tvDescription"
+            tools:text="actori nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula nume virgula" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
