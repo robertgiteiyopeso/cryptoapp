@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cryptoapp.adapter.ActorAdapter
@@ -116,9 +117,7 @@ class HomeFragment : Fragment() {
 
     private fun setUpSearchButton() {
         binding.ivSearchIcon.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragment_container_view_tag, SearchFragment())
-                ?.addToBackStack(null)?.commit()
+            findNavController().navigate(R.id.search_action)
         }
     }
 
@@ -144,9 +143,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun onMovieCardClick(movieId: Int) {
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.fragment_container_view_tag, MovieDetailsFragment.newInstance(movieId))
-            ?.addToBackStack(null)?.commit()
+        findNavController().navigate(HomeFragmentDirections.detailsAction(movieId))
     }
 
     private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {

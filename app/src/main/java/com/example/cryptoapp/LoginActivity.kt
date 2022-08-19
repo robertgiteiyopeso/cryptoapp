@@ -13,9 +13,5 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container_view_tag, LoginFragment()).commit()
-        }
     }
 }

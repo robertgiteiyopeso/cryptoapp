@@ -7,8 +7,8 @@
     <string name="team_members">Team members</string>
     <string name="title_activity_login">LoginActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="login_fragment_label">Login Fragment</string>
+    <string name="home_fragment_label">Home Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -29,4 +29,5 @@
     <string name="search_history_10">search_history_10</string>
     <string name="cast">Cast</string>
     <string name="overview">Overview</string>
+    <string name="in_progress">In progress</string>
 </resources>

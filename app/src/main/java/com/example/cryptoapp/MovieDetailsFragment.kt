@@ -8,10 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.cryptoapp.adapter.ActorAdapter
 import com.example.cryptoapp.databinding.FragmentMovieDetailsBinding
-import com.example.cryptoapp.domain.ActorModel
 
 class MovieDetailsFragment : Fragment() {
 
@@ -20,14 +20,6 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var binding: FragmentMovieDetailsBinding
 
     private var movieId: Int = 0
-
-    companion object {
-        fun newInstance(movieId: Int) = MovieDetailsFragment().apply {
-            arguments = Bundle().apply {
-                putInt("movie_id", movieId)
-            }
-        }
-    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,6 +32,8 @@ class MovieDetailsFragment : Fragment() {
     ): View {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.fragment_movie_details, container, false)
+        val safeArgs: MovieDetailsFragmentArgs by navArgs()
+        movieId = safeArgs.movieId
         return binding.root
     }
 

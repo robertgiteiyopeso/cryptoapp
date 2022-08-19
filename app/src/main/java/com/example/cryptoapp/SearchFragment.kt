@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
@@ -27,7 +28,7 @@ class SearchFragment : Fragment() {
 
     private val viewModel: SearchViewModel by viewModels()
 
-    private lateinit var binding : FragmentSearchBinding
+    private lateinit var binding: FragmentSearchBinding
 
     private val dao: MovieDao? by lazy {
         MDBRoomDatabase.getInstance(requireContext())?.getMovieDao()
@@ -56,9 +57,9 @@ class SearchFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.searchViewModel = viewModel
 
-        viewModel.list.observe(viewLifecycleOwner) {newList ->
-                resultsObserver(newList)
-            }
+        viewModel.list.observe(viewLifecycleOwner) { newList ->
+            resultsObserver(newList)
+        }
 
         //Set up search bar functionality
         setUpSearchBar()
@@ -77,7 +78,7 @@ class SearchFragment : Fragment() {
         binding.rvResults.layoutManager = resultGridLayoutManager
 
         val movieAdapter = MovieAdapter(
-            { model -> onMovieCardHold(model, binding.rvResults)},
+            { model -> onMovieCardHold(model, binding.rvResults) },
             { movieId -> onMovieCardClick(movieId) }
         )
 
@@ -97,9 +98,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun onMovieCardClick(movieId: Int) {
-        activity?.supportFragmentManager?.beginTransaction()
-            ?.replace(R.id.fragment_container_view_tag, MovieDetailsFragment.newInstance(movieId))
-            ?.addToBackStack(null)?.commit()
+        findNavController().navigate(HomeFragmentDirections.detailsAction(movieId))
     }
 
     private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {
@@ -154,7 +153,7 @@ class SearchFragment : Fragment() {
                 job.cancel()
 
                 job = lifecycleScope.launch(Dispatchers.IO) {
-                    delay(300)
+                    delay(450)
                     viewModel.loadSearchResults(editText.toString())
                 }
             }

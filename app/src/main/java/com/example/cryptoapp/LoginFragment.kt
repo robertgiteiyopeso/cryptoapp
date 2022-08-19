@@ -9,6 +9,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import com.example.cryptoapp.databinding.FragmentLoginBinding
 
 /**
@@ -36,9 +38,10 @@ class LoginFragment : Fragment() {
 
         binding.bttnLogin.setOnClickListener {
             //takes too long, just press the button and we worry about actual login when we need it
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragment_container_view_tag, HomeFragment())
-                ?.commit()
+            findNavController().navigate(
+                R.id.home_action,
+                null,
+                navOptions { popUpTo(R.id.login_fragment) { inclusive = true } })
 //            //actual login
 //            viewModel.doLogin()
         }
@@ -52,8 +55,14 @@ class LoginFragment : Fragment() {
     private fun loginStateObserver(state: LoginState) {
         when (state) {
             is LoginState.Error -> {
-                binding.bttnLogin.text = "Login"
-                binding.bttnLogin.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                binding.bttnLogin.text = getString(R.string.login)
+                binding.bttnLogin.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.secondaryColor
+                    )
+                )
+                binding.bttnLogin.isClickable = true
 
                 Toast.makeText(
                     requireContext(),
@@ -62,16 +71,30 @@ class LoginFragment : Fragment() {
                 ).show()
             }
             LoginState.InProgress -> {
-                binding.bttnLogin.text = "In progress"
-                binding.bttnLogin.setBackgroundColor(R.color.transparent)
+                binding.bttnLogin.text = getString(R.string.in_progress)
+                binding.bttnLogin.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.secondaryDarkColor
+                    )
+                )
+                binding.bttnLogin.isClickable = false
             }
             LoginState.Success -> {
-                binding.bttnLogin.text = "Login"
-                binding.bttnLogin.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondaryColor))
+                binding.bttnLogin.text = getString(R.string.login)
+                binding.bttnLogin.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.secondaryColor
+                    )
+                )
+                binding.bttnLogin.isClickable = true
 
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.replace(R.id.fragment_container_view_tag, HomeFragment())
-                    ?.commit()
+                //Change screen
+                findNavController().navigate(
+                    R.id.home_action,
+                    null,
+                    navOptions { popUpTo(R.id.login_fragment) { inclusive = true } })
             }
         }
     }
