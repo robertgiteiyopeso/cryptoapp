@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +13,8 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,17 +22,13 @@ import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.databinding.FragmentSearchBinding
 import com.example.cryptoapp.domain.MovieModel
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 class SearchFragment : Fragment() {
 
-    private var _binding: FragmentSearchBinding? = null
+    private val viewModel: SearchViewModel by viewModels()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
+    private lateinit var binding : FragmentSearchBinding
 
-    private val mdbRepo = MDBRepositoryRetrofit
     private val dao: MovieDao? by lazy {
         MDBRoomDatabase.getInstance(requireContext())?.getMovieDao()
     }
@@ -49,34 +46,29 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_search, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.searchViewModel = viewModel
+
+        viewModel.list.observe(viewLifecycleOwner) {newList ->
+                resultsObserver(newList)
+            }
+
         //Set up search bar functionality
         setUpSearchBar()
 
     }
 
-    private fun loadSearchResults(query: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                //Search for the movies
-                val results = (mdbRepo.getSearch("en-US", 1, query).results +
-                        mdbRepo.getSearch("en-US", 2, query).results)
-                    .filter { it.posterPath.isNotEmpty() }
-
-                //Update UI
-                launch(Dispatchers.Main) {
-                    displayResults(results)
-                }
-            } catch (e: Exception) {
-                Log.e("LoginFragment: ", e.message.toString())
-            }
-        }
+    private fun resultsObserver(results: List<MovieModel>?) {
+        if (results == null)
+            return
+        displayResults(results)
     }
 
     private fun displayResults(movieList: List<MovieModel>) {
@@ -163,7 +155,7 @@ class SearchFragment : Fragment() {
 
                 job = lifecycleScope.launch(Dispatchers.IO) {
                     delay(300)
-                    loadSearchResults(editText.toString())
+                    viewModel.loadSearchResults(editText.toString())
                 }
             }
         })
@@ -216,10 +208,5 @@ class SearchFragment : Fragment() {
             //Update dropdown list
             setUpSearchFieldAdapter(newHistory.split("|").dropLast(1))
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
