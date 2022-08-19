@@ -17,23 +17,46 @@ class HomeViewModel : ViewModel() {
     private val _galleryList = MutableLiveData<List<GalleryModel>>()
     val galleryList: LiveData<List<GalleryModel>>
         get() = _galleryList
+
     private val _actorsList = MutableLiveData<List<ActorModel>>()
     val actorsList: LiveData<List<ActorModel>>
         get() = _actorsList
+
     private val _popularMovies = MutableLiveData<List<MovieModel>>()
     val popularMovies: LiveData<List<MovieModel>>
         get() = _popularMovies
+
     private val _topRatedMovies = MutableLiveData<List<MovieModel>>()
     val topRatedMovies: LiveData<List<MovieModel>>
         get() = _topRatedMovies
+
     private val _airingMovies = MutableLiveData<List<MovieModel>>()
     val airingMovies: LiveData<List<MovieModel>>
         get() = _airingMovies
+
     private val _pokemons = MutableLiveData<List<PokemonsQuery.Pokemon?>>()
     val pokemons: LiveData<List<PokemonsQuery.Pokemon?>>
         get() = _pokemons
 
+    val userAvatar = MutableLiveData<String>()
+
+    //TODO zice cu NoSuchMethodError
+//    private val _userAvatar = MutableLiveData<String>()
+//    val userAvatar: LiveData<String>
+//        get() = _userAvatar
+
     private val jobs = mutableListOf<Job>()
+
+    fun loadUserAvatar(sessionId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val userDetails = MDBRepositoryRetrofit.getUserDetails(sessionId)
+                userAvatar.postValue(userDetails.avatar.tmdb.avatarPath)
+            } catch (e: Exception) {
+                Log.d("HomeViewModel: ", e.message.toString())
+            }
+        }
+    }
 
     fun loadPopularMovies() {
         jobs.add(viewModelScope.launch(Dispatchers.IO) {

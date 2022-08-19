@@ -1,5 +1,7 @@
 package com.example.cryptoapp
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,6 +23,13 @@ class LoginFragment : Fragment() {
     private val viewModel: LoginViewModel by viewModels()
 
     private lateinit var binding: FragmentLoginBinding
+
+    private val sharedPref: SharedPreferences? by lazy {
+        activity?.getSharedPreferences(
+            "session_id",
+            Context.MODE_PRIVATE
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,7 +89,7 @@ class LoginFragment : Fragment() {
                 )
                 binding.bttnLogin.isClickable = false
             }
-            LoginState.Success -> {
+            is LoginState.Success -> {
                 binding.bttnLogin.text = getString(R.string.login)
                 binding.bttnLogin.setBackgroundColor(
                     ContextCompat.getColor(
@@ -89,6 +98,12 @@ class LoginFragment : Fragment() {
                     )
                 )
                 binding.bttnLogin.isClickable = true
+
+                //Save session id
+                with(sharedPref?.edit()) {
+                    this?.putString(getString(R.string.session_id), state.sessionId)
+                    this?.apply()
+                }
 
                 //Change screen
                 findNavController().navigate(

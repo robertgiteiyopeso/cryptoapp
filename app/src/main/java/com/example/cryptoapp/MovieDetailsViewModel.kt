@@ -19,6 +19,18 @@ class MovieDetailsViewModel : ViewModel() {
     val movieDescription = MutableLiveData<String>()
     val movieImage = MutableLiveData<String>()
     val actors = MutableLiveData<List<ActorModel>>()
+    val userAvatar = MutableLiveData<String>()
+
+    fun loadUserAvatar(sessionId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val userDetails = MDBRepositoryRetrofit.getUserDetails(sessionId)
+                userAvatar.postValue(userDetails.avatar.tmdb.avatarPath)
+            } catch (e: Exception) {
+                Log.d("MovieDetailsViewModel: ", e.message.toString())
+            }
+        }
+    }
 
     fun displayMovieDetails(movieId: String) {
         job.cancel()

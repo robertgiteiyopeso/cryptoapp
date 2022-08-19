@@ -1,9 +1,6 @@
 package com.example.cryptoapp
 
-import com.example.cryptoapp.domain.MovieModel
-import com.example.cryptoapp.domain.ResultsActorModel
-import com.example.cryptoapp.domain.ResultsCreditsModel
-import com.example.cryptoapp.domain.ResultsMovieModel
+import com.example.cryptoapp.domain.*
 import com.example.cryptoapp.login.CredentialsModel
 import com.example.cryptoapp.login.SessionModel
 import com.example.cryptoapp.login.TokenModel
@@ -86,5 +83,11 @@ interface MDBService {
         @Path("movie_id") movieId: String,
         @Query("api_key") apiKey: String
     ): ResultsCreditsModel
+
+    @GET("/3/account")
+    suspend fun getUserDetails(
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String
+    ): ResultsUserModel
 
 }

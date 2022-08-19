@@ -46,7 +46,7 @@ class LoginViewModel : ViewModel() {
                 val token = mdbRepo.getNewTokenParsed()
 
                 //Login
-                 mdbRepo.login(
+                 val login = mdbRepo.login(
                     CredentialsModel(
                         usernameValue,
                         passwordValue,
@@ -54,7 +54,10 @@ class LoginViewModel : ViewModel() {
                     )
                 )
 
-                _state.postValue(LoginState.Success)
+                //Create session
+                val session = mdbRepo.createSession(login)
+
+                _state.postValue(LoginState.Success(session.sessionId))
 
             } catch (e: HttpException) {
                 _state.postValue(LoginState.Error("Incorrect username or password"))

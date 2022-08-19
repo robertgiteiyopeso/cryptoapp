@@ -1,5 +1,7 @@
 package com.example.cryptoapp
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.bumptech.glide.Glide
 import com.example.cryptoapp.adapter.ActorAdapter
 import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
@@ -31,8 +34,17 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
 
+    //TODO cum fac asta sa fie in viewmodel?
     private val dao: MovieDao? by lazy {
         MDBRoomDatabase.getInstance(requireContext())?.getMovieDao()
+    }
+
+    //TODO cum fac si asta sa fie in viewmodel?
+    private val sharedPref: SharedPreferences? by lazy {
+        activity?.getSharedPreferences(
+            "session_id",
+            Context.MODE_PRIVATE
+        )
     }
 
     override fun onCreateView(
@@ -48,6 +60,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Set up viewmodel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
 
@@ -60,6 +73,16 @@ class HomeFragment : Fragment() {
         //Set up search button
         setUpSearchButton()
 
+        //Set up user avatar
+        setUpUserAvatar()
+
+    }
+
+    private fun setUpUserAvatar() {
+        val sessionId = sharedPref?.getString(getString(R.string.session_id), "")
+
+        if (sessionId != null)
+            viewModel.loadUserAvatar(sessionId)
     }
 
     private fun loadData() {
@@ -83,6 +106,16 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpObservers() {
+
+        //User avatar
+        viewModel.userAvatar.observe(viewLifecycleOwner) { newImage ->
+            Glide.with(binding.root.context)
+                .load("https://image.tmdb.org/t/p/w500$newImage")
+                .placeholder(R.drawable.logo)
+                .circleCrop()
+                .into(binding.ivUserPhoto)
+        }
+
         //Gallery images
         viewModel.galleryList.observe(viewLifecycleOwner) { newList ->
             setUpGallery(newList)
