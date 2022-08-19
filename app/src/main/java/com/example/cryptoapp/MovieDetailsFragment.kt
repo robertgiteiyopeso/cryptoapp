@@ -46,19 +46,9 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.movieImage.observe(
-            viewLifecycleOwner
-        ) { newImage ->
-            val endpoint = "https://image.tmdb.org/t/p/w500"
-            Glide.with(binding.root.context).load(endpoint + newImage)
-                .into(binding.ivMovieImage)
-        }
+        setUpObservers()
 
-        viewModel.actors.observe(
-            viewLifecycleOwner
-        ) { newList ->
-            setUpCast(newList)
-        }
+        binding.rvCast.adapter = ActorAdapter()
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.movieDetailsViewModel = viewModel
@@ -66,9 +56,22 @@ class MovieDetailsFragment : Fragment() {
         viewModel.displayMovieDetails(movieId.toString())
     }
 
-    private fun setUpCast(cast: List<ActorModel>) {
-        val actorAdapter = ActorAdapter()
-        actorAdapter.list = cast
-        binding.rvCast.adapter = actorAdapter
+    private fun setUpObservers() {
+
+        //Movie image
+        viewModel.movieImage.observe(
+            viewLifecycleOwner
+        ) { newImage ->
+            Glide.with(binding.root.context)
+                .load("https://image.tmdb.org/t/p/w500$newImage")
+                .into(binding.ivMovieImage)
+        }
+
+        //Cast
+        viewModel.actors.observe(
+            viewLifecycleOwner
+        ) { newList ->
+            (binding.rvCast.adapter as? ActorAdapter)?.list = newList
+        }
     }
 }
