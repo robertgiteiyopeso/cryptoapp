@@ -1,11 +1,12 @@
 package com.example.cryptoapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -20,29 +21,26 @@ import com.example.cryptoapp.domain.MovieModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class HomeFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+    private val viewModel: HomeViewModel by viewModels()
 
-    private val mdbRepo = MDBRepositoryRetrofit
+    private lateinit var binding: FragmentHomeBinding
+
     private val dao: MovieDao? by lazy {
         MDBRoomDatabase.getInstance(requireContext())?.getMovieDao()
     }
-
-    private val jobs = mutableListOf<Job>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
         return binding.root
 
     }
@@ -50,27 +48,71 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Display gallery images
-        displayGalleryImages()
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.homeViewModel = viewModel
 
-        //Display actors
-        displayActors()
+        //Set up observers
+        setUpObservers()
 
-        //Display top rated movies
-        displayTopRatedMovies()
-
-        //Display popular movies
-        displayPopularMovies()
-
-        //Display movies airing today
-        displayAiringMovies()
-
-        //Display Pokemons
-        displayPokemons()
+        //Load data
+        loadData()
 
         //Set up search button
         setUpSearchButton()
 
+    }
+
+    private fun loadData() {
+        //Gallery images
+        viewModel.loadGalleryImages()
+
+        //Actors
+        viewModel.loadActors()
+
+        //Top rated movies
+        viewModel.loadTopRatedMovies()
+
+        //Popular movies
+        viewModel.loadPopularMovies()
+
+        //Movies airing today
+        viewModel.loadAiringMovies()
+
+        //Pokemons
+        viewModel.loadPokemons()
+    }
+
+    private fun setUpObservers() {
+        //Gallery images
+        viewModel.galleryList.observe(viewLifecycleOwner) { newList ->
+            setUpGallery(newList)
+            setUpIndicator(newList.size)
+        }
+
+        //Actors
+        viewModel.actorsList.observe(viewLifecycleOwner) { newList ->
+            setUpActors(newList)
+        }
+
+        //Top rated movies
+        viewModel.topRatedMovies.observe(viewLifecycleOwner) { newList ->
+            setUpMovies(newList, binding.rvTopMovies)
+        }
+
+        //Popular movies
+        viewModel.popularMovies.observe(viewLifecycleOwner) { newList ->
+            setUpMovies(newList, binding.rvPopularMovies)
+        }
+
+        //Movies airing today
+        viewModel.airingMovies.observe(viewLifecycleOwner) { newList ->
+            setUpMovies(newList, binding.rvAiring)
+        }
+
+        //Pokemons
+        viewModel.pokemons.observe(viewLifecycleOwner) { newList ->
+            setUpPokemons(newList)
+        }
     }
 
     private fun setUpSearchButton() {
@@ -81,66 +123,25 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun displayAiringMovies() {
-        jobs.add(lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                //Load movies airing today
-                val airingMovies = mdbRepo.getAiringToday("en-US", 1)
+    private fun setUpMovies(movieList: List<MovieModel>, view: RecyclerView) {
 
-                //Update UI
-                setUpMovies(airingMovies.results, binding.rvAiring)
-            } catch (e: Exception) {
-                Log.e("HomeFragment: ", e.message.toString())
-            }
-        })
-    }
+        lifecycleScope.launch(Dispatchers.IO) {
+            val favoriteMovies = dao?.queryAll()
+            val movieAdapter = MovieAdapter(
+                { model -> onMovieCardHold(model, view) },
+                { movieId -> onMovieCardClick(movieId) }
+            )
 
-    private fun displayPopularMovies() {
-        jobs.add(lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                //Load popular movies
-                val popularMovies = mdbRepo.getPopularMovies("en-US", 1)
-
-                //Update UI
-                setUpMovies(popularMovies.results, binding.rvPopularMovies)
-            } catch (e: Exception) {
-                Log.e("HomeFragment: ", e.message.toString())
-            }
-        })
-    }
-
-    private fun displayTopRatedMovies() {
-        jobs.add(lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                //Load top rated movies
-                val topRatedMovies = mdbRepo.getTopRatedMovies("en-US", 1)
-
-                //Update UI
-                setUpMovies(topRatedMovies.results, binding.rvTopMovies)
-            } catch (e: Exception) {
-                Log.e("HomeFragment: ", e.message.toString())
-            }
-        })
-    }
-
-    private suspend fun setUpMovies(movieList: List<MovieModel>, view: RecyclerView) {
-
-        val favoriteMovies = dao?.queryAll()
-        val movieAdapter = MovieAdapter(
-            { model -> onMovieCardHold(model, view) },
-            { movieId -> onMovieCardClick(movieId) }
-        )
-
-        lifecycleScope.launch(Dispatchers.Main) {
-            movieAdapter.list = movieList.map { movie ->
-                if (favoriteMovies?.firstOrNull { it.id == movie.id.toString() } != null) {
-                    return@map movie.copy(isFavorite = true)
+            lifecycleScope.launch(Dispatchers.Main) {
+                movieAdapter.list = movieList.map { movie ->
+                    if (favoriteMovies?.firstOrNull { it.id == movie.id.toString() } != null) {
+                        return@map movie.copy(isFavorite = true)
+                    }
+                    return@map movie
                 }
-                return@map movie
+                view.adapter = movieAdapter
             }
-            view.adapter = movieAdapter
         }
-
     }
 
     private fun onMovieCardClick(movieId: Int) {
@@ -158,61 +159,6 @@ class HomeFragment : Fragment() {
             }
         }
         (view.adapter as? MovieAdapter)?.modifyOneElement(model)
-    }
-
-    private fun displayActors() {
-        jobs.add(lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                //Load actors
-                val popularPeople = mdbRepo.getPopularPeople("en-US", 1)
-
-                //Update UI
-                launch(Dispatchers.Main) {
-                    setUpActors(popularPeople.results)
-                }
-            } catch (e: Exception) {
-                Log.e("HomeFragment: ", e.message.toString())
-            }
-        })
-    }
-
-    private fun displayGalleryImages() {
-        jobs.add(lifecycleScope.launch(Dispatchers.IO) {
-            try {
-                //Load images
-                val galleryList =
-                    mdbRepo.getTrendingMovies().results.map {
-                        GalleryModel(it.id, it.backdropPath, it.releaseDate)
-                    }.take(6)
-
-                //Update UI
-                launch(Dispatchers.Main) {
-                    //Update ViewPager Gallery
-                    setUpGallery(galleryList)
-                    //Set up indicator
-                    setUpIndicator(galleryList.size)
-                }
-            } catch (e: Exception) {
-                Log.e("HomeFragment: ", e.message.toString())
-            }
-        })
-    }
-
-    private fun displayPokemons() {
-        jobs.add(lifecycleScope.launch(Dispatchers.IO) {
-            var pokemonList = listOf<PokemonsQuery.Pokemon?>()
-            try {
-                val response = apolloClient.query(PokemonsQuery(10)).execute()
-                pokemonList = response.data?.pokemons ?: listOf()
-            } catch (e: Exception) {
-                Log.e("HomeFragment: ", e.toString())
-            }
-
-            //Update UI
-            launch(Dispatchers.Main) {
-                setUpPokemons(pokemonList)
-            }
-        })
     }
 
     private fun setUpPokemons(pokemonList: List<PokemonsQuery.Pokemon?>) {
@@ -255,8 +201,6 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        jobs.forEach { it.cancel() }
-
-        _binding = null
+        viewModel.cancelJobs()
     }
 }
