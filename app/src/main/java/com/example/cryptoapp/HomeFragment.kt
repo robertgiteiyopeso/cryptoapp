@@ -1,7 +1,5 @@
 package com.example.cryptoapp
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -19,33 +16,21 @@ import com.example.cryptoapp.adapter.GalleryAdapter
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.adapter.PokemonAdapter
 import com.example.cryptoapp.databinding.FragmentHomeBinding
-import com.example.cryptoapp.domain.ActorModel
-import com.example.cryptoapp.domain.GalleryModel
 import com.example.cryptoapp.domain.MovieModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
 class HomeFragment : Fragment() {
 
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels {
+        HomeViewModelFactory(
+            requireContext().applicationContext as MovieApplication
+        )
+    }
 
     private lateinit var binding: FragmentHomeBinding
 
-    //TODO cum fac asta sa fie in viewmodel?
-    private val dao: MovieDao? by lazy {
-        MDBRoomDatabase.getInstance(requireContext())?.getMovieDao()
-    }
-
-    //TODO cum fac si asta sa fie in viewmodel?
-    private val sharedPref: SharedPreferences? by lazy {
-        activity?.getSharedPreferences(
-            "session_id",
-            Context.MODE_PRIVATE
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,45 +49,47 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
 
+        //Set up adapters
+        setUpAdapters()
+
         //Set up observers
         setUpObservers()
-
-        //Load data
-        loadData()
 
         //Set up search button
         setUpSearchButton()
 
-        //Set up user avatar
-        setUpUserAvatar()
+        //Set up logout on avatar image
+        setUpLogout()
 
     }
 
-    private fun setUpUserAvatar() {
-        val sessionId = sharedPref?.getString(getString(R.string.session_id), "")
-
-        if (sessionId != null)
-            viewModel.loadUserAvatar(sessionId)
+    private fun setUpLogout() {
+        binding.ivUserPhoto.setOnClickListener {
+            viewModel.logout()
+            findNavController().navigate(R.id.login_action)
+        }
     }
 
-    private fun loadData() {
-        //Gallery images
-        viewModel.loadGalleryImages()
+    private fun setUpAdapters() {
+
+        //Gallery
+        binding.vpGallery.adapter = GalleryAdapter { movieId ->
+            onMovieCardClick(movieId)
+        }
 
         //Actors
-        viewModel.loadActors()
+        binding.rvStars.adapter = ActorAdapter()
 
-        //Top rated movies
-        viewModel.loadTopRatedMovies()
-
-        //Popular movies
-        viewModel.loadPopularMovies()
-
-        //Movies airing today
-        viewModel.loadAiringMovies()
+        //Movies
+        listOf(binding.rvTopMovies, binding.rvPopularMovies, binding.rvAiring).forEach {
+            it.adapter = MovieAdapter(
+                { model -> onMovieCardHold(model, it) },
+                { movieId -> onMovieCardClick(movieId) }
+            )
+        }
 
         //Pokemons
-        viewModel.loadPokemons()
+        binding.rvPokemons.adapter = PokemonAdapter()
     }
 
     private fun setUpObservers() {
@@ -118,33 +105,33 @@ class HomeFragment : Fragment() {
 
         //Gallery images
         viewModel.galleryList.observe(viewLifecycleOwner) { newList ->
-            setUpGallery(newList)
+            (binding.vpGallery.adapter as GalleryAdapter).submitList(newList)
             setUpIndicator(newList.size)
         }
 
         //Actors
         viewModel.actorsList.observe(viewLifecycleOwner) { newList ->
-            setUpActors(newList)
+            (binding.rvStars.adapter as ActorAdapter).list = newList
         }
 
         //Top rated movies
         viewModel.topRatedMovies.observe(viewLifecycleOwner) { newList ->
-            setUpMovies(newList, binding.rvTopMovies)
+            (binding.rvTopMovies.adapter as MovieAdapter).list = newList
         }
 
         //Popular movies
         viewModel.popularMovies.observe(viewLifecycleOwner) { newList ->
-            setUpMovies(newList, binding.rvPopularMovies)
+            (binding.rvPopularMovies.adapter as MovieAdapter).list = newList
         }
 
         //Movies airing today
         viewModel.airingMovies.observe(viewLifecycleOwner) { newList ->
-            setUpMovies(newList, binding.rvAiring)
+            (binding.rvAiring.adapter as MovieAdapter).list = newList
         }
 
         //Pokemons
         viewModel.pokemons.observe(viewLifecycleOwner) { newList ->
-            setUpPokemons(newList)
+            (binding.rvPokemons.adapter as PokemonAdapter).list = newList
         }
     }
 
@@ -154,60 +141,13 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setUpMovies(movieList: List<MovieModel>, view: RecyclerView) {
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            val favoriteMovies = dao?.queryAll()
-            val movieAdapter = MovieAdapter(
-                { model -> onMovieCardHold(model, view) },
-                { movieId -> onMovieCardClick(movieId) }
-            )
-
-            lifecycleScope.launch(Dispatchers.Main) {
-                movieAdapter.list = movieList.map { movie ->
-                    if (favoriteMovies?.firstOrNull { it.id == movie.id.toString() } != null) {
-                        return@map movie.copy(isFavorite = true)
-                    }
-                    return@map movie
-                }
-                view.adapter = movieAdapter
-            }
-        }
-    }
-
     private fun onMovieCardClick(movieId: Int) {
         findNavController().navigate(HomeFragmentDirections.detailsAction(movieId))
     }
 
     private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {
-        lifecycleScope.launch(Dispatchers.IO) {
-            if (model.isFavorite) {
-                dao?.deleteById(model.id.toString())
-            } else {
-                dao?.insertOne(MovieDatabaseModel(model.id.toString(), model.title))
-            }
-        }
+        viewModel.handleMovieCardHold(model)
         (view.adapter as? MovieAdapter)?.modifyOneElement(model)
-    }
-
-    private fun setUpPokemons(pokemonList: List<PokemonsQuery.Pokemon?>) {
-        val pokemonAdapter = PokemonAdapter()
-        pokemonAdapter.list = pokemonList
-        binding.rvPokemons.adapter = pokemonAdapter
-    }
-
-    private fun setUpActors(actorList: List<ActorModel>) {
-        val actorAdapter = ActorAdapter()
-        actorAdapter.list = actorList
-        binding.rvStars.adapter = actorAdapter
-    }
-
-    private fun setUpGallery(galleryList: List<GalleryModel>) {
-        val galleryAdapter = GalleryAdapter { movieId ->
-            onMovieCardClick(movieId)
-        }
-        galleryAdapter.submitList(galleryList)
-        binding.vpGallery.adapter = galleryAdapter
     }
 
     private fun setUpIndicator(size: Int) {

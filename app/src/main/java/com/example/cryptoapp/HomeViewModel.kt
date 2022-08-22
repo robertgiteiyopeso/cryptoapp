@@ -1,5 +1,6 @@
 package com.example.cryptoapp
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.cryptoapp.domain.ActorModel
@@ -10,9 +11,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class HomeViewModel : ViewModel() {
-
-    private val mdbRepo = MDBRepositoryRetrofit
+class HomeViewModel(
+    private val dao: MovieDao,
+    private val mdbRepo: MDBRepositoryRetrofit,
+    private val sharedPrefSession: SharedPreferences
+) : ViewModel() {
 
     private val _galleryList = MutableLiveData<List<GalleryModel>>()
     val galleryList: LiveData<List<GalleryModel>>
@@ -38,69 +41,89 @@ class HomeViewModel : ViewModel() {
     val pokemons: LiveData<List<PokemonsQuery.Pokemon?>>
         get() = _pokemons
 
-    val userAvatar = MutableLiveData<String>()
-
-    //TODO zice cu NoSuchMethodError
-//    private val _userAvatar = MutableLiveData<String>()
-//    val userAvatar: LiveData<String>
-//        get() = _userAvatar
+    private val _userAvatar = MutableLiveData<String>()
+    val userAvatar: LiveData<String>
+        get() = _userAvatar
 
     private val jobs = mutableListOf<Job>()
 
-    fun loadUserAvatar(sessionId: String) {
+    init {
+        loadUserAvatar()
+        loadPopularMovies()
+        loadTopRatedMovies()
+        loadAiringMovies()
+        loadGalleryImages()
+        loadPokemons()
+        loadActors()
+    }
+
+    private fun loadUserAvatar() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val userDetails = MDBRepositoryRetrofit.getUserDetails(sessionId)
-                userAvatar.postValue(userDetails.avatar.tmdb.avatarPath)
+                val userDetails = mdbRepo.getUserDetails()
+                _userAvatar.postValue(userDetails.avatar.tmdb.avatarPath)
             } catch (e: Exception) {
                 Log.d("HomeViewModel: ", e.message.toString())
             }
         }
     }
 
-    fun loadPopularMovies() {
+    private fun loadPopularMovies() {
         jobs.add(viewModelScope.launch(Dispatchers.IO) {
             try {
                 //Load popular movies
                 val popularMovies = mdbRepo.getPopularMovies("en-US", 1)
 
                 //Update UI
-                _popularMovies.postValue(popularMovies.results)
+                _popularMovies.postValue(checkFavoriteMovies(popularMovies.results))
             } catch (e: Exception) {
                 Log.e("HomeViewModel: ", e.message.toString())
             }
         })
     }
 
-    fun loadTopRatedMovies() {
+    private suspend fun checkFavoriteMovies(movieList: List<MovieModel>): List<MovieModel> {
+        //Get favorite movies
+        val favoriteMovies = dao.queryAll()
+
+        //Compare results with favorite movies
+        return movieList.map { movie ->
+            if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
+                return@map movie.copy(isFavorite = true)
+            }
+            return@map movie
+        }
+    }
+
+    private fun loadTopRatedMovies() {
         jobs.add(viewModelScope.launch(Dispatchers.IO) {
             try {
                 //Load top rated movies
                 val topRatedMovies = mdbRepo.getTopRatedMovies("en-US", 1)
 
                 //Update UI
-                _topRatedMovies.postValue(topRatedMovies.results)
+                _topRatedMovies.postValue(checkFavoriteMovies(topRatedMovies.results))
             } catch (e: Exception) {
                 Log.e("HomeViewModel: ", e.message.toString())
             }
         })
     }
 
-    fun loadAiringMovies() {
+    private fun loadAiringMovies() {
         jobs.add(viewModelScope.launch(Dispatchers.IO) {
             try {
                 //Load movies airing today
                 val airingMovies = mdbRepo.getAiringToday("en-US", 1)
 
                 //Update UI
-                _airingMovies.postValue(airingMovies.results)
+                _airingMovies.postValue(checkFavoriteMovies(airingMovies.results))
             } catch (e: Exception) {
                 Log.e("HomeViewModel: ", e.message.toString())
             }
         })
     }
 
-    fun loadGalleryImages() {
+    private fun loadGalleryImages() {
         jobs.add(viewModelScope.launch(Dispatchers.IO) {
             //Load images
             _galleryList.postValue(
@@ -111,7 +134,7 @@ class HomeViewModel : ViewModel() {
         })
     }
 
-    fun loadActors() {
+    private fun loadActors() {
         jobs.add(viewModelScope.launch(Dispatchers.IO) {
             try {
                 //Load actors
@@ -125,7 +148,7 @@ class HomeViewModel : ViewModel() {
         })
     }
 
-    fun loadPokemons() {
+    private fun loadPokemons() {
         jobs.add(viewModelScope.launch(Dispatchers.IO) {
             var pokemonList = listOf<PokemonsQuery.Pokemon?>()
             try {
@@ -140,7 +163,35 @@ class HomeViewModel : ViewModel() {
         })
     }
 
+    fun handleMovieCardHold(movie: MovieModel) {
+        viewModelScope.launch(Dispatchers.IO) {
+            if (movie.isFavorite) {
+                dao.deleteById(movie.id.toString())
+            } else {
+                dao.insertOne(MovieDatabaseModel(movie.id.toString(), movie.title))
+            }
+        }
+    }
+
     fun cancelJobs() {
         jobs.forEach { it.cancel() }
+    }
+
+    fun logout() {
+        mdbRepo.sessionId = null
+        with(sharedPrefSession.edit()) {
+            putString("session_id", "")
+            commit()
+        }
+    }
+}
+
+class HomeViewModelFactory(private val application: MovieApplication) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return HomeViewModel(
+            application.dao,
+            application.appContainer.mdbRepo,
+            application.sharedPrefSession
+        ) as T
     }
 }

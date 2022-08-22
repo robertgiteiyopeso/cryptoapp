@@ -10,32 +10,43 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
-object MDBRepositoryRetrofit {
+class MDBRepositoryRetrofit {
 
-    private const val apiKey = "96d31308896f028f63b8801331250f03"
     private val json = Json {
         coerceInputValues = true
         ignoreUnknownKeys = true
     }
 
+    companion object {
+        private const val apiKey = "96d31308896f028f63b8801331250f03"
+    }
+
+    var sessionId: String? = null
+
     @OptIn(ExperimentalSerializationApi::class)
     val retrofit = Retrofit.Builder().baseUrl("https://api.themoviedb.org")
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType())).build()
 
-    val service = retrofit.create(MDBService::class.java)
+    private val service = retrofit.create(MDBService::class.java)
 
-    suspend fun getNewTokenParsed(): TokenModel = service.getNewTokenParsed(apiKey)
+    suspend fun getNewTokenParsed(): TokenModel =
+        service.getNewTokenParsed(apiKey)
 
     suspend fun login(credentials: CredentialsModel): TokenModel =
         service.login(apiKey, credentials)
 
-    suspend fun createSession(token: TokenModel): SessionModel =
-        service.createSession(apiKey, token)
+    suspend fun createSession(token: TokenModel): SessionModel {
+        val session = service.createSession(apiKey, token)
+        sessionId = session.sessionId
+
+        return session
+    }
 
     suspend fun invalidateSession(session: SessionModel): SessionModel =
         service.invalidateSession(apiKey, session)
 
-    suspend fun getTrendingMovies(): ResultsMovieModel = service.getTrendingMovies(apiKey)
+    suspend fun getTrendingMovies(): ResultsMovieModel =
+        service.getTrendingMovies(apiKey)
 
     suspend fun getPopularPeople(language: String, page: Int): ResultsActorModel =
         service.getPopularPeople(apiKey, language, page)
@@ -58,6 +69,10 @@ object MDBRepositoryRetrofit {
     suspend fun getMovieCredits(movieId: String): ResultsCreditsModel =
         service.getMovieCredits(apiKey = apiKey, movieId = movieId)
 
-    suspend fun getUserDetails(sessionId: String): ResultsUserModel =
-        service.getUserDetails(apiKey, sessionId)
+    suspend fun getUserDetails(): ResultsUserModel =
+        sessionId.let {
+            if (it == null)
+                throw IllegalStateException("User is not logged in")
+            service.getUserDetails(apiKey, it)
+        }
 }

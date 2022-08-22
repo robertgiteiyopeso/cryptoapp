@@ -1,7 +1,5 @@
 package com.example.cryptoapp
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -20,16 +18,13 @@ import com.example.cryptoapp.databinding.FragmentLoginBinding
  */
 class LoginFragment : Fragment() {
 
-    private val viewModel: LoginViewModel by viewModels()
-
-    private lateinit var binding: FragmentLoginBinding
-
-    private val sharedPref: SharedPreferences? by lazy {
-        activity?.getSharedPreferences(
-            "session_id",
-            Context.MODE_PRIVATE
+    private val viewModel: LoginViewModel by viewModels {
+        LoginViewModelFactory(
+            requireContext().applicationContext as MovieApplication
         )
     }
+
+    private lateinit var binding: FragmentLoginBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,14 +40,16 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.loginViewModel = viewModel
 
+        viewModel.checkOldLogin()
+
         binding.bttnLogin.setOnClickListener {
-            //takes too long, just press the button and we worry about actual login when we need it
-            findNavController().navigate(
-                R.id.home_action,
-                null,
-                navOptions { popUpTo(R.id.login_fragment) { inclusive = true } })
-//            //actual login
-//            viewModel.doLogin()
+//            //takes too long, just press the button and we worry about actual login when we need it
+//            findNavController().navigate(
+//                R.id.home_action,
+//                null,
+//                navOptions { popUpTo(R.id.login_fragment) { inclusive = true } })
+            //actual login
+            viewModel.doLogin()
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
@@ -98,12 +95,6 @@ class LoginFragment : Fragment() {
                     )
                 )
                 binding.bttnLogin.isClickable = true
-
-                //Save session id
-                with(sharedPref?.edit()) {
-                    this?.putString(getString(R.string.session_id), state.sessionId)
-                    this?.apply()
-                }
 
                 //Change screen
                 findNavController().navigate(

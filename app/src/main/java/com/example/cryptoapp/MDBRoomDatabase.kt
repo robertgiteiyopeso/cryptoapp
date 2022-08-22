@@ -6,10 +6,10 @@ import androidx.room.Room
 object MDBRoomDatabase {
 
     private const val MOVIE_DATABASE_TAG = "movie_database"
-    var database: MovieDatabase? = null
+    private lateinit var database: MovieDatabase
 
-    fun getInstance(context: Context): MovieDatabase? {
-        if (database == null) {
+    fun getInstance(context: Context): MovieDatabase {
+        if (!this::database.isInitialized) {
             database = Room.databaseBuilder(
                 context, MovieDatabase::class.java,
                 MOVIE_DATABASE_TAG

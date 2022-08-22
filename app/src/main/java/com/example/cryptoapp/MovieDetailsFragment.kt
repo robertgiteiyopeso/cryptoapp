@@ -1,7 +1,5 @@
 package com.example.cryptoapp
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,18 +14,15 @@ import com.example.cryptoapp.databinding.FragmentMovieDetailsBinding
 
 class MovieDetailsFragment : Fragment() {
 
-    private val viewModel: MovieDetailsViewModel by viewModels()
+    private val viewModel: MovieDetailsViewModel by viewModels {
+        MovieDetailsViewModelFactory(
+            requireContext().applicationContext as MovieApplication
+        )
+    }
 
     private lateinit var binding: FragmentMovieDetailsBinding
 
     private var movieId: Int = 0
-
-    private val sharedPref: SharedPreferences? by lazy {
-        activity?.getSharedPreferences(
-            "session_id",
-            Context.MODE_PRIVATE
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,19 +45,11 @@ class MovieDetailsFragment : Fragment() {
         //Set up observers
         setUpObservers()
 
-        //Set up user avatar
-        setUpUserAvatar()
-
         //Display movie details
         viewModel.displayMovieDetails(movieId.toString())
+
+        //Set up cast adapter
         binding.rvCast.adapter = ActorAdapter()
-    }
-
-    private fun setUpUserAvatar() {
-        val sessionId = sharedPref?.getString(getString(R.string.session_id), "")
-
-        if (sessionId != null)
-            viewModel.loadUserAvatar(sessionId)
     }
 
     private fun setUpObservers() {
