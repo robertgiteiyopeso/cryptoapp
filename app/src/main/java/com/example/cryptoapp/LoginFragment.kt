@@ -46,13 +46,13 @@ class LoginFragment : Fragment() {
         binding.loginViewModel = viewModel
 
         binding.bttnLogin.setOnClickListener {
-            //takes too long, just press the button and we worry about actual login when we need it
-            findNavController().navigate(
-                R.id.home_action,
-                null,
-                navOptions { popUpTo(R.id.login_fragment) { inclusive = true } })
-//            //actual login
-//            viewModel.doLogin()
+//            //takes too long, just press the button and we worry about actual login when we need it
+//            findNavController().navigate(
+//                R.id.home_action,
+//                null,
+//                navOptions { popUpTo(R.id.login_fragment) { inclusive = true } })
+            //actual login
+            viewModel.doLogin()
         }
 
         viewModel.state.observe(viewLifecycleOwner) { state ->

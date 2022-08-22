@@ -1,5 +1,8 @@
 package com.example.cryptoapp
 
+import android.app.Application
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.cryptoapp.domain.ActorModel
@@ -10,7 +13,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(val sharedPref: SharedPreferences) : ViewModel() {
 
     private val mdbRepo = MDBRepositoryRetrofit
 
@@ -38,20 +41,20 @@ class HomeViewModel : ViewModel() {
     val pokemons: LiveData<List<PokemonsQuery.Pokemon?>>
         get() = _pokemons
 
-    val userAvatar = MutableLiveData<String>()
+//    val userAvatar = MutableLiveData<String>()
 
     //TODO zice cu NoSuchMethodError
-//    private val _userAvatar = MutableLiveData<String>()
-//    val userAvatar: LiveData<String>
-//        get() = _userAvatar
+    private val _userAvatar = MutableLiveData<String>()
+    val userAvatar: LiveData<String>
+        get() = _userAvatar
 
     private val jobs = mutableListOf<Job>()
 
-    fun loadUserAvatar(sessionId: String) {
+    fun loadUserAvatar() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val userDetails = MDBRepositoryRetrofit.getUserDetails(sessionId)
-                userAvatar.postValue(userDetails.avatar.tmdb.avatarPath)
+                val userDetails = MDBRepositoryRetrofit.getUserDetails()
+                _userAvatar.postValue(userDetails.avatar.tmdb.avatarPath)
             } catch (e: Exception) {
                 Log.d("HomeViewModel: ", e.message.toString())
             }
@@ -142,5 +145,11 @@ class HomeViewModel : ViewModel() {
 
     fun cancelJobs() {
         jobs.forEach { it.cancel() }
+    }
+}
+
+class HomeViewModelFactory(private val application: MovieApplication) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return HomeViewModel(application.sharedPref) as T
     }
 }

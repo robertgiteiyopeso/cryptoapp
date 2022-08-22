@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
  */
 class HomeFragment : Fragment() {
 
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels{HomeViewModelFactory(requireContext().applicationContext as MovieApplication)}
 
     private lateinit var binding: FragmentHomeBinding
 
@@ -40,12 +40,12 @@ class HomeFragment : Fragment() {
     }
 
     //TODO cum fac si asta sa fie in viewmodel?
-    private val sharedPref: SharedPreferences? by lazy {
-        activity?.getSharedPreferences(
-            "session_id",
-            Context.MODE_PRIVATE
-        )
-    }
+//    private val sharedPref: SharedPreferences? by lazy {
+//        activity?.getSharedPreferences(
+//            "session_id",
+//            Context.MODE_PRIVATE
+//        )
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,6 +64,7 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
 
+
         //Set up observers
         setUpObservers()
 
@@ -79,10 +80,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpUserAvatar() {
-        val sessionId = sharedPref?.getString(getString(R.string.session_id), "")
+        val sessionId = viewModel.sharedPref.getString(getString(R.string.session_id), "")
 
         if (sessionId != null)
-            viewModel.loadUserAvatar(sessionId)
+            viewModel.loadUserAvatar()
     }
 
     private fun loadData() {

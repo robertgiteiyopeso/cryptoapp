@@ -18,6 +18,8 @@ object MDBRepositoryRetrofit {
         ignoreUnknownKeys = true
     }
 
+    private var sessionId: String? = null
+
     @OptIn(ExperimentalSerializationApi::class)
     val retrofit = Retrofit.Builder().baseUrl("https://api.themoviedb.org")
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType())).build()
@@ -29,8 +31,11 @@ object MDBRepositoryRetrofit {
     suspend fun login(credentials: CredentialsModel): TokenModel =
         service.login(apiKey, credentials)
 
-    suspend fun createSession(token: TokenModel): SessionModel =
-        service.createSession(apiKey, token)
+    suspend fun createSession(token: TokenModel): SessionModel {
+        val session = service.createSession(apiKey, token)
+        sessionId = session.sessionId
+        return session
+    }
 
     suspend fun invalidateSession(session: SessionModel): SessionModel =
         service.invalidateSession(apiKey, session)
@@ -58,6 +63,10 @@ object MDBRepositoryRetrofit {
     suspend fun getMovieCredits(movieId: String): ResultsCreditsModel =
         service.getMovieCredits(apiKey = apiKey, movieId = movieId)
 
-    suspend fun getUserDetails(sessionId: String): ResultsUserModel =
-        service.getUserDetails(apiKey, sessionId)
+    suspend fun getUserDetails(): ResultsUserModel =
+        sessionId.let {
+            if (it == null)
+                throw IllegalStateException("User is not logged in")
+            service.getUserDetails(apiKey, it)
+        }
 }

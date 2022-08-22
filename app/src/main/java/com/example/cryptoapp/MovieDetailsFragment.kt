@@ -62,7 +62,7 @@ class MovieDetailsFragment : Fragment() {
         val sessionId = sharedPref?.getString(getString(R.string.session_id), "")
 
         if (sessionId != null)
-            viewModel.loadUserAvatar(sessionId)
+            viewModel.loadUserAvatar()
     }
 
     private fun setUpObservers() {

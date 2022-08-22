@@ -21,10 +21,14 @@ class MovieDetailsViewModel : ViewModel() {
     val actors = MutableLiveData<List<ActorModel>>()
     val userAvatar = MutableLiveData<String>()
 
-    fun loadUserAvatar(sessionId: String) {
+    init{
+        loadUserAvatar()
+    }
+
+    private fun loadUserAvatar() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val userDetails = MDBRepositoryRetrofit.getUserDetails(sessionId)
+                val userDetails = MDBRepositoryRetrofit.getUserDetails()
                 userAvatar.postValue(userDetails.avatar.tmdb.avatarPath)
             } catch (e: Exception) {
                 Log.d("MovieDetailsViewModel: ", e.message.toString())
