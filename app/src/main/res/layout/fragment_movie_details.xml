@@ -71,9 +71,36 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/overview"
+                    app:layout_constraintEnd_toStartOf="@id/tvRating"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tvTitle"
                     tools:text="ni descriere no" />
+
+                <TextView
+                    android:id="@+id/tvRating"
+                    style="@style/HomeCategoryTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/home_category_text_background_mirrored"
+                    android:paddingStart="@dimen/padding_small"
+                    android:paddingEnd="@dimen/padding_large"
+                    android:text="@={movieDetailsViewModel.movieRating}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvDescriptionHeader"
+                    app:layout_constraintTop_toTopOf="@+id/tvDescriptionHeader"
+                    tools:text="stelutza" />
+
+                <ImageView
+                    android:id="@+id/ivRatingStar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star"
+                    android:layout_marginEnd="@dimen/margin_small"
+                    app:layout_constraintBottom_toBottomOf="@id/tvRating"
+                    app:layout_constraintEnd_toEndOf="@id/tvRating"
+                    app:layout_constraintTop_toTopOf="@id/tvRating" />
 
                 <TextView
                     android:id="@+id/tvDescription"

@@ -5,10 +5,12 @@
       <map>
         <entry key="app/src/main/res/drawable/background_doodle_extended_bitmap.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/home_category_text_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/home_category_text_background_mirrored.xml" value="0.1995" />
         <entry key="app/src/main/res/drawable/ic_heart.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_heart_border.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2655" />
         <entry key="app/src/main/res/drawable/ic_logo_popcorn.xml" value="0.255" />
+        <entry key="app/src/main/res/drawable/ic_star.xml" value="0.1995" />
         <entry key="app/src/main/res/drawable/movie_released_background_1.xml" value="0.139" />
         <entry key="app/src/main/res/drawable/movie_released_background_2.xml" value="0.139" />
         <entry key="app/src/main/res/drawable/tag_background.xml" value="0.13" />
@@ -20,7 +22,7 @@
         <entry key="app/src/main/res/layout/content_login.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_movie_details.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_movie_details.xml" value="0.4040878295898437" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.31493506493506496" />
         <entry key="app/src/main/res/layout/fragment_second.xml" value="0.37604166666666666" />
         <entry key="app/src/main/res/layout/gallery_image.xml" value="0.1" />

@@ -15,6 +15,7 @@ class MovieDetailsViewModel(private val mdbRepo: MDBRepositoryRetrofit) : ViewMo
     val movieTitle = MutableLiveData<String>()
     val movieDescription = MutableLiveData<String>()
     val movieImage = MutableLiveData<String>()
+    val movieRating = MutableLiveData<String>()
 
     private val _userAvatar = MutableLiveData<String>()
     val userAvatar: LiveData<String>
@@ -51,6 +52,7 @@ class MovieDetailsViewModel(private val mdbRepo: MDBRepositoryRetrofit) : ViewMo
                 movieTitle.postValue(movieDetails.title)
                 movieDescription.postValue(movieDetails.overview)
                 movieImage.postValue(movieDetails.backdropPath)
+                movieRating.postValue(movieDetails.voteAverage.toString())
                 _actors.postValue(credits.cast.take(15))
             } catch (e: Exception) {
                 Log.e("MovieDetailsViewModel: ", e.toString())
