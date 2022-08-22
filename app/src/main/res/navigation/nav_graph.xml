@@ -27,9 +27,6 @@
         <action
             android:id="@+id/details_action"
             app:destination="@id/movie_details_fragment" />
-        <action
-            android:id="@+id/login_action"
-            app:destination="@id/login_fragment" />
     </fragment>
 
     <fragment

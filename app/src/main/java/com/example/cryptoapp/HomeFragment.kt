@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
     private fun setUpLogout() {
         binding.ivUserPhoto.setOnClickListener {
             viewModel.logout()
-            findNavController().navigate(R.id.login_action)
+            findNavController().navigateUp()
         }
     }
 
