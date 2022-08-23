@@ -11,14 +11,12 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.cryptoapp.adapter.ActorAdapter
 import com.example.cryptoapp.databinding.FragmentMovieDetailsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
 
-    private val viewModel: MovieDetailsViewModel by viewModels {
-        MovieDetailsViewModelFactory(
-            requireContext().applicationContext as MovieApplication
-        )
-    }
+    private val viewModel: MovieDetailsViewModel by viewModels()
 
     private lateinit var binding: FragmentMovieDetailsBinding
 

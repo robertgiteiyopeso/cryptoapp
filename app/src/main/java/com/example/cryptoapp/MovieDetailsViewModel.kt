@@ -3,12 +3,17 @@ package com.example.cryptoapp
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.cryptoapp.domain.ActorModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class MovieDetailsViewModel(private val mdbRepo: MDBRepositoryRetrofit) : ViewModel() {
+@HiltViewModel
+class MovieDetailsViewModel @Inject constructor(
+    private val mdbRepo: MDBRepositoryRetrofit
+) : ViewModel() {
 
     private var job: Job = Job()
 
@@ -69,12 +74,5 @@ class MovieDetailsViewModel(private val mdbRepo: MDBRepositoryRetrofit) : ViewMo
                 Log.e("MovieDetailsViewModel: ", e.toString())
             }
         }
-    }
-}
-
-class MovieDetailsViewModelFactory(private val application: MovieApplication) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MovieDetailsViewModel(application.mdbRepo) as T
     }
 }

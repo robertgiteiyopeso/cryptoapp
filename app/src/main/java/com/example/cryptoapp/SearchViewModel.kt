@@ -3,12 +3,15 @@ package com.example.cryptoapp
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.cryptoapp.domain.MovieModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class SearchViewModel(
+@HiltViewModel
+class SearchViewModel @Inject constructor(
     private val mdbRepo: MDBRepositoryRetrofit
 ) :
     ViewModel() {
@@ -69,14 +72,5 @@ class SearchViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             mdbRepo.handleMovieCardHold(movie)
         }
-    }
-}
-
-class SearchViewModelFactory(private val application: MovieApplication) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return SearchViewModel(
-            application.mdbRepo
-        ) as T
     }
 }

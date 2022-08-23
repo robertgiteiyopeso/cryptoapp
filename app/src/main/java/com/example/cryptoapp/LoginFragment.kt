@@ -12,17 +12,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import com.example.cryptoapp.databinding.FragmentLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
 
-    private val viewModel: LoginViewModel by viewModels {
-        LoginViewModelFactory(
-            requireContext().applicationContext as MovieApplication
-        )
-    }
+    private val viewModel: LoginViewModel by viewModels()
 
     private lateinit var binding: FragmentLoginBinding
 

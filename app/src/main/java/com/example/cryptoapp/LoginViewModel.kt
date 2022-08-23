@@ -4,12 +4,15 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.cryptoapp.login.CredentialsModel
 import com.example.cryptoapp.login.SessionModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import javax.inject.Inject
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val mdbRepo: MDBRepositoryRetrofit
 ) : ViewModel() {
 
@@ -81,13 +84,5 @@ class LoginViewModel(
     fun checkOldLogin() {
         if (mdbRepo.isUserLoggedIn())
             _state.postValue(LoginState.Success)
-    }
-}
-
-class LoginViewModelFactory(private val application: MovieApplication) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return LoginViewModel(
-            application.mdbRepo
-        ) as T
     }
 }

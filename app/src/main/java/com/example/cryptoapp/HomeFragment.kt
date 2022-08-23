@@ -17,17 +17,15 @@ import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.adapter.PokemonAdapter
 import com.example.cryptoapp.databinding.FragmentHomeBinding
 import com.example.cryptoapp.domain.MovieModel
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
-    private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory(
-            requireContext().applicationContext as MovieApplication
-        )
-    }
+    private val viewModel: HomeViewModel by viewModels()
 
     private lateinit var binding: FragmentHomeBinding
 

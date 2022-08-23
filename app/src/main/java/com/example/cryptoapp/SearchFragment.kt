@@ -20,15 +20,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.databinding.FragmentSearchBinding
 import com.example.cryptoapp.domain.MovieModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private val viewModel: SearchViewModel by viewModels {
-        SearchViewModelFactory(
-            requireContext().applicationContext as MovieApplication
-        )
-    }
+    private val viewModel: SearchViewModel by viewModels()
 
     private lateinit var binding: FragmentSearchBinding
 

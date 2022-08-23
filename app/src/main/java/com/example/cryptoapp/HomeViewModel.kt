@@ -5,12 +5,15 @@ import androidx.lifecycle.*
 import com.example.cryptoapp.domain.ActorModel
 import com.example.cryptoapp.domain.GalleryModel
 import com.example.cryptoapp.domain.MovieModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val mdbRepo: MDBRepositoryRetrofit
 ) : ViewModel() {
 
@@ -159,13 +162,5 @@ class HomeViewModel(
 
     fun logout() {
         mdbRepo.logout()
-    }
-}
-
-class HomeViewModelFactory(private val application: MovieApplication) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return HomeViewModel(
-            application.mdbRepo
-        ) as T
     }
 }

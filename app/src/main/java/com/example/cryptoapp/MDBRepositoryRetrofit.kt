@@ -1,26 +1,24 @@
 package com.example.cryptoapp
 
 import android.content.SharedPreferences
+import com.example.android.hilt.di.SharedPreferencesHistory
+import com.example.android.hilt.di.SharedPreferencesSession
 import com.example.cryptoapp.domain.*
 import com.example.cryptoapp.login.CredentialsModel
 import com.example.cryptoapp.login.SessionModel
 import com.example.cryptoapp.login.TokenModel
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
-import retrofit2.Retrofit
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MDBRepositoryRetrofit(
+@Singleton
+class MDBRepositoryRetrofit @Inject constructor(
+    @SharedPreferencesSession
     private val sharedPrefSession: SharedPreferences,
+    @SharedPreferencesHistory
     private val sharedPrefHistory: SharedPreferences,
-    private val movieDao: MovieDao
+    private val movieDao: MovieDao,
+    private val service: MDBService
 ) {
-
-    private val json = Json {
-        coerceInputValues = true
-        ignoreUnknownKeys = true
-    }
 
     companion object {
         private const val apiKey = "96d31308896f028f63b8801331250f03"
@@ -31,12 +29,6 @@ class MDBRepositoryRetrofit(
     init {
         sessionId = sharedPrefSession.getString("session_id", "")
     }
-
-    @OptIn(ExperimentalSerializationApi::class)
-    val retrofit = Retrofit.Builder().baseUrl("https://api.themoviedb.org")
-        .addConverterFactory(json.asConverterFactory("application/json".toMediaType())).build()
-
-    private val service = retrofit.create(MDBService::class.java)
 
     suspend fun getNewTokenParsed(): TokenModel =
         service.getNewTokenParsed(apiKey)
