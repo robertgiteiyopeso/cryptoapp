@@ -1,6 +1,5 @@
 package com.example.cryptoapp
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.cryptoapp.domain.MovieModel
@@ -10,7 +9,6 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class SearchViewModel(
-    private val sharedPrefHistory: SharedPreferences,
     private val dao: MovieDao,
     private val mdbRepo: MDBRepositoryRetrofit
 ) :
@@ -61,40 +59,20 @@ class SearchViewModel(
     }
 
     private fun setUpHistoryDropdown() {
-        sharedPrefHistory.apply {
-            //Get history as list of search terms
-            val history = this.getString("search_history_10", "")
-
-            //Update UI
-            if (history != null) {
-                _history.postValue(
-                    history.split("|")
-                        .dropLast(1)
-                )
-            }
-        }
+        _history.postValue(
+            mdbRepo.getSearchHistory()
+                .split("|")
+                .dropLast(1)
+        )
     }
 
     fun saveNewSearchTerm(searchTerm: String) {
-        //Get old terms
-        val history = sharedPrefHistory.getString("search_history_10", "") ?: return
-
-        //Concatenate old terms with new term
-        val newHistory = buildString {
-            if (history.count { it == '|' } >= 10)
-                append(history.substring(history.indexOf('|') + 1))
-            append("$searchTerm|")
-        }
-
-        //Save new term
-        with(sharedPrefHistory.edit()) {
-            putString("search_history_10", newHistory)
-            apply()
-        }
+        mdbRepo.saveNewSearchTerm(searchTerm)
 
         //Update dropdown list
         _history.postValue(
-            history.split("|")
+            mdbRepo.getSearchHistory()
+                .split("|")
                 .dropLast(1)
         )
     }
@@ -114,9 +92,8 @@ class SearchViewModelFactory(private val application: MovieApplication) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return SearchViewModel(
-            application.sharedPrefHistory,
             application.dao,
-            application.appContainer.mdbRepo
+            application.mdbRepo
         ) as T
     }
 }

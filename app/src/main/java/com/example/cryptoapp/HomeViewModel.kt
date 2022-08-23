@@ -1,6 +1,5 @@
 package com.example.cryptoapp
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.cryptoapp.domain.ActorModel
@@ -13,8 +12,7 @@ import java.lang.Exception
 
 class HomeViewModel(
     private val dao: MovieDao,
-    private val mdbRepo: MDBRepositoryRetrofit,
-    private val sharedPrefSession: SharedPreferences
+    private val mdbRepo: MDBRepositoryRetrofit
 ) : ViewModel() {
 
     private val _galleryList = MutableLiveData<List<GalleryModel>>()
@@ -178,11 +176,7 @@ class HomeViewModel(
     }
 
     fun logout() {
-        mdbRepo.sessionId = null
-        with(sharedPrefSession.edit()) {
-            putString("session_id", "")
-            commit()
-        }
+        mdbRepo.logout()
     }
 }
 
@@ -190,8 +184,7 @@ class HomeViewModelFactory(private val application: MovieApplication) : ViewMode
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return HomeViewModel(
             application.dao,
-            application.appContainer.mdbRepo,
-            application.sharedPrefSession
+            application.mdbRepo
         ) as T
     }
 }

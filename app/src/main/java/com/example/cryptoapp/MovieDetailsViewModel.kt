@@ -64,6 +64,6 @@ class MovieDetailsViewModel(private val mdbRepo: MDBRepositoryRetrofit) : ViewMo
 class MovieDetailsViewModelFactory(private val application: MovieApplication) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MovieDetailsViewModel(application.appContainer.mdbRepo) as T
+        return MovieDetailsViewModel(application.mdbRepo) as T
     }
 }

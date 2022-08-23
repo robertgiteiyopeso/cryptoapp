@@ -5,14 +5,14 @@ import android.content.SharedPreferences
 
 class MovieApplication : Application() {
 
-    val sharedPrefSession: SharedPreferences by lazy {
+    private val sharedPrefSession: SharedPreferences by lazy {
         this.getSharedPreferences(
             "session_id",
             MODE_PRIVATE
         )
     }
 
-    val sharedPrefHistory: SharedPreferences by lazy {
+    private val sharedPrefHistory: SharedPreferences by lazy {
         this.getSharedPreferences(
             "search_history",
             MODE_PRIVATE
@@ -23,5 +23,7 @@ class MovieApplication : Application() {
         MDBRoomDatabase.getInstance(this).getMovieDao()
     }
 
-    val appContainer = AppContainer()
+    val mdbRepo: MDBRepositoryRetrofit by lazy {
+        MDBRepositoryRetrofit(sharedPrefSession, sharedPrefHistory)
+    }
 }

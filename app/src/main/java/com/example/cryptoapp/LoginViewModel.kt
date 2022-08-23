@@ -1,6 +1,5 @@
 package com.example.cryptoapp
 
-import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.cryptoapp.login.CredentialsModel
@@ -11,8 +10,7 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class LoginViewModel(
-    private val mdbRepo: MDBRepositoryRetrofit,
-    private val sharedPrefSession: SharedPreferences
+    private val mdbRepo: MDBRepositoryRetrofit
 ) : ViewModel() {
 
     private var job: Job = Job()
@@ -23,6 +21,10 @@ class LoginViewModel(
     private val _state = MutableLiveData<LoginState>()
     val state: LiveData<LoginState>
         get() = _state
+
+    init {
+        checkOldLogin()
+    }
 
     fun doLogin() {
 
@@ -47,7 +49,7 @@ class LoginViewModel(
                 _state.postValue(LoginState.InProgress)
 
                 val session = getSession(usernameValue, passwordValue)
-                saveNewSessionId(session.sessionId)
+                mdbRepo.saveNewSessionId(session.sessionId)
 
                 _state.postValue(LoginState.Success)
 
@@ -56,14 +58,6 @@ class LoginViewModel(
                 Log.e("LoginViewModel: ", e.message.toString())
             }
         }
-    }
-
-    private fun saveNewSessionId(sessionId: String) {
-        with(sharedPrefSession.edit()) {
-            putString("session_id", sessionId)
-            apply()
-        }
-        mdbRepo.sessionId = sessionId
     }
 
     private suspend fun getSession(usernameValue: String, passwordValue: String): SessionModel {
@@ -85,19 +79,15 @@ class LoginViewModel(
     }
 
     fun checkOldLogin() {
-        val sessionId = sharedPrefSession.getString("session_id", "")
-        if (!sessionId.isNullOrBlank()) {
-            mdbRepo.sessionId = sessionId
+        if (mdbRepo.isUserLoggedIn())
             _state.postValue(LoginState.Success)
-        }
     }
 }
 
 class LoginViewModelFactory(private val application: MovieApplication) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return LoginViewModel(
-            application.appContainer.mdbRepo,
-            application.sharedPrefSession
+            application.mdbRepo
         ) as T
     }
 }

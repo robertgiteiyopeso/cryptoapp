@@ -1,5 +1,6 @@
 package com.example.cryptoapp
 
+import android.content.SharedPreferences
 import com.example.cryptoapp.domain.*
 import com.example.cryptoapp.login.CredentialsModel
 import com.example.cryptoapp.login.SessionModel
@@ -10,7 +11,10 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
-class MDBRepositoryRetrofit {
+class MDBRepositoryRetrofit(
+    private val sharedPrefSession: SharedPreferences,
+    private val sharedPrefHistory: SharedPreferences
+) {
 
     private val json = Json {
         coerceInputValues = true
@@ -21,7 +25,11 @@ class MDBRepositoryRetrofit {
         private const val apiKey = "96d31308896f028f63b8801331250f03"
     }
 
-    var sessionId: String? = null
+    private var sessionId: String? = null
+
+    init {
+        sessionId = sharedPrefSession.getString("session_id", "")
+    }
 
     @OptIn(ExperimentalSerializationApi::class)
     val retrofit = Retrofit.Builder().baseUrl("https://api.themoviedb.org")
@@ -75,4 +83,47 @@ class MDBRepositoryRetrofit {
                 throw IllegalStateException("User is not logged in")
             service.getUserDetails(apiKey, it)
         }
+
+    fun isUserLoggedIn(): Boolean = !sessionId.isNullOrBlank()
+
+    fun saveNewSessionId(newId: String) {
+        with(sharedPrefSession.edit()) {
+            putString("session_id", newId)
+            apply()
+        }
+        sessionId = newId
+    }
+
+    fun logout() {
+        sessionId = null
+        with(sharedPrefSession.edit()) {
+            putString("session_id", "")
+            commit()
+        }
+    }
+
+    fun getSearchHistory(): String {
+        val history = sharedPrefHistory.getString("search_history_10", "")
+        if(history != null)
+            return history
+        return ""
+    }
+
+    fun saveNewSearchTerm(searchTerm: String) {
+        //Get old terms
+        val history = sharedPrefHistory.getString("search_history_10", "") ?: return
+
+        //Concatenate old terms with new term
+        val newHistory = buildString {
+            if (history.count { it == '|' } >= 10)
+                append(history.substring(history.indexOf('|') + 1))
+            append("$searchTerm|")
+        }
+
+        //Save new term
+        with(sharedPrefHistory.edit()) {
+            putString("search_history_10", newHistory)
+            apply()
+        }
+    }
 }
