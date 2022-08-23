@@ -1,5 +1,6 @@
 package com.example.cryptoapp.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,7 +8,7 @@ import com.example.cryptoapp.domain.GalleryModel
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.cryptoapp.DateUtils
+import com.example.cryptoapp.utils.DateUtils
 import com.example.cryptoapp.databinding.GalleryImageBinding
 
 class GalleryAdapter(private val onMovieCardClick: (movieId: Int) -> Unit) :
@@ -39,8 +40,13 @@ class GalleryAdapter(private val onMovieCardClick: (movieId: Int) -> Unit) :
                 .into(binding.ivGalleryImage)
 
             //Set tag
-            if (DateUtils.parse(model.releaseDate) < DateUtils.now()) {
-                binding.tvReleased.text = "Out In Cinemas"
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (DateUtils.parse(model.releaseDate) < DateUtils.now()) {
+                    binding.tvReleased.text = "Out In Cinemas"
+                }
+                else {
+                    binding.tvReleased.text = "Coming Soon"
+                }
             } else {
                 binding.tvReleased.text = "Coming Soon"
             }

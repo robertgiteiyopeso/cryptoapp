@@ -4,12 +4,12 @@ import android.graphics.Color
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptoapp.R
-import com.example.cryptoapp.adapter.GridAdapter
-import com.example.cryptoapp.adapter.ListAdapter
+import com.example.cryptoapp.ancientcryptoapp.adapter.GridAdapter
+import com.example.cryptoapp.ancientcryptoapp.adapter.ListAdapter
 import com.example.cryptoapp.databinding.ActivityCoinDetailsBinding
-import com.example.cryptoapp.domain.CryptoCoinDetailsModel
-import com.example.cryptoapp.domain.GridItemTagModel
-import com.example.cryptoapp.domain.ListItemTeamMemberModel
+import com.example.cryptoapp.ancientcryptoapp.domain.CryptoCoinDetailsModel
+import com.example.cryptoapp.ancientcryptoapp.domain.GridItemTagModel
+import com.example.cryptoapp.ancientcryptoapp.domain.ListItemTeamMemberModel
 
 class CoinDetailsActivity : AppCompatActivity() {
 

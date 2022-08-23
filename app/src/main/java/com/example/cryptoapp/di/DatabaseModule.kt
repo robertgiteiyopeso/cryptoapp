@@ -2,8 +2,8 @@ package com.example.cryptoapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.cryptoapp.MovieDao
-import com.example.cryptoapp.MovieDatabase
+import com.example.cryptoapp.repository.database.MovieDao
+import com.example.cryptoapp.repository.database.MovieDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

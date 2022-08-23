@@ -6,14 +6,14 @@
     <data>
         <variable
             name="searchViewModel"
-            type="com.example.cryptoapp.SearchViewModel" />
+            type="com.example.cryptoapp.viewmodel.SearchViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_doodle_extended_bitmap"
-        tools:context=".SearchFragment">
+        tools:context=".ui.SearchFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

@@ -7,14 +7,14 @@
 
         <variable
             name="movieDetailsViewModel"
-            type="com.example.cryptoapp.MovieDetailsViewModel" />
+            type="com.example.cryptoapp.viewmodel.MovieDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background_doodle_extended_bitmap"
-        tools:context=".MovieDetailsFragment">
+        tools:context=".ui.MovieDetailsFragment">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

@@ -18,7 +18,7 @@
         android:theme="@style/Theme.CryptoApp.NoActionBar"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.CryptoApp.NoActionBar">
             <intent-filter>
