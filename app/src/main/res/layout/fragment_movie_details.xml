@@ -59,7 +59,7 @@
                     android:layout_marginBottom="@dimen/margin_small"
                     android:paddingStart="@dimen/padding_default"
                     android:paddingEnd="@dimen/padding_default"
-                    android:text="@={movieDetailsViewModel.movieTitle}"
+                    android:text="@{movieDetailsViewModel.movieTitle}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -86,7 +86,7 @@
                     android:background="@drawable/home_category_text_background_mirrored"
                     android:paddingStart="@dimen/padding_small"
                     android:paddingEnd="@dimen/padding_large"
-                    android:text="@={movieDetailsViewModel.movieRating}"
+                    android:text="@{movieDetailsViewModel.movieRating}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvDescriptionHeader"
                     app:layout_constraintTop_toTopOf="@+id/tvDescriptionHeader"
@@ -110,7 +110,7 @@
                     android:layout_marginTop="@dimen/margin_default"
                     android:paddingStart="@dimen/padding_default"
                     android:paddingEnd="@dimen/padding_default"
-                    android:text="@={movieDetailsViewModel.movieDescription}"
+                    android:text="@{movieDetailsViewModel.movieDescription}"
                     app:layout_constraintTop_toBottomOf="@id/tvDescriptionHeader"
                     tools:text="descriere aici o sa scriem mult blah blah blah test test hai sa fie si mai multe randuri tot for testing purposes" />
 

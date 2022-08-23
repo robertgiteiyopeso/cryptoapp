@@ -12,10 +12,21 @@ class MovieDetailsViewModel(private val mdbRepo: MDBRepositoryRetrofit) : ViewMo
 
     private var job: Job = Job()
 
-    val movieTitle = MutableLiveData<String>()
-    val movieDescription = MutableLiveData<String>()
-    val movieImage = MutableLiveData<String>()
-    val movieRating = MutableLiveData<String>()
+    private val _movieTitle = MutableLiveData<String>()
+    val movieTitle: LiveData<String>
+        get() = _movieTitle
+
+    private val _movieDescription = MutableLiveData<String>()
+    val movieDescription: LiveData<String>
+        get() = _movieDescription
+
+    private val _movieRating = MutableLiveData<String>()
+    val movieRating: LiveData<String>
+        get() = _movieRating
+
+    private val _movieImage = MutableLiveData<String>()
+    val movieImage: LiveData<String>
+        get() = _movieImage
 
     private val _userAvatar = MutableLiveData<String>()
     val userAvatar: LiveData<String>
@@ -49,10 +60,10 @@ class MovieDetailsViewModel(private val mdbRepo: MDBRepositoryRetrofit) : ViewMo
                 val movieDetails = mdbRepo.getMovieById(movieId)
                 val credits = mdbRepo.getMovieCredits(movieId)
                 //Update UI
-                movieTitle.postValue(movieDetails.title)
-                movieDescription.postValue(movieDetails.overview)
-                movieImage.postValue(movieDetails.backdropPath)
-                movieRating.postValue(movieDetails.voteAverage.toString())
+                _movieTitle.postValue(movieDetails.title)
+                _movieDescription.postValue(movieDetails.overview)
+                _movieImage.postValue(movieDetails.backdropPath)
+                _movieRating.postValue(movieDetails.voteAverage.toString())
                 _actors.postValue(credits.cast.take(15))
             } catch (e: Exception) {
                 Log.e("MovieDetailsViewModel: ", e.toString())
