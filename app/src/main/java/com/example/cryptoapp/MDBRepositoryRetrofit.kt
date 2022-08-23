@@ -13,7 +13,8 @@ import retrofit2.Retrofit
 
 class MDBRepositoryRetrofit(
     private val sharedPrefSession: SharedPreferences,
-    private val sharedPrefHistory: SharedPreferences
+    private val sharedPrefHistory: SharedPreferences,
+    private val movieDao: MovieDao
 ) {
 
     private val json = Json {
@@ -104,7 +105,7 @@ class MDBRepositoryRetrofit(
 
     fun getSearchHistory(): String {
         val history = sharedPrefHistory.getString("search_history_10", "")
-        if(history != null)
+        if (history != null)
             return history
         return ""
     }
@@ -124,6 +125,27 @@ class MDBRepositoryRetrofit(
         with(sharedPrefHistory.edit()) {
             putString("search_history_10", newHistory)
             apply()
+        }
+    }
+
+    suspend fun handleMovieCardHold(movie: MovieModel) {
+        if (movie.isFavorite) {
+            movieDao.deleteById(movie.id.toString())
+        } else {
+            movieDao.insertOne(MovieDatabaseModel(movie.id.toString(), movie.title))
+        }
+    }
+
+    suspend fun checkFavoriteMovies(movieList: List<MovieModel>): List<MovieModel> {
+        //Get favorite movies
+        val favoriteMovies = movieDao.queryAll()
+
+        //Compare results with favorite movies
+        return movieList.map { movie ->
+            if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
+                return@map movie.copy(isFavorite = true)
+            }
+            return@map movie
         }
     }
 }

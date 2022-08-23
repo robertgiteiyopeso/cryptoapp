@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class HomeViewModel(
-    private val dao: MovieDao,
     private val mdbRepo: MDBRepositoryRetrofit
 ) : ViewModel() {
 
@@ -73,24 +72,11 @@ class HomeViewModel(
                 val popularMovies = mdbRepo.getPopularMovies("en-US", 1)
 
                 //Update UI
-                _popularMovies.postValue(checkFavoriteMovies(popularMovies.results))
+                _popularMovies.postValue(mdbRepo.checkFavoriteMovies(popularMovies.results))
             } catch (e: Exception) {
                 Log.e("HomeViewModel: ", e.message.toString())
             }
         })
-    }
-
-    private suspend fun checkFavoriteMovies(movieList: List<MovieModel>): List<MovieModel> {
-        //Get favorite movies
-        val favoriteMovies = dao.queryAll()
-
-        //Compare results with favorite movies
-        return movieList.map { movie ->
-            if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
-                return@map movie.copy(isFavorite = true)
-            }
-            return@map movie
-        }
     }
 
     private fun loadTopRatedMovies() {
@@ -100,7 +86,7 @@ class HomeViewModel(
                 val topRatedMovies = mdbRepo.getTopRatedMovies("en-US", 1)
 
                 //Update UI
-                _topRatedMovies.postValue(checkFavoriteMovies(topRatedMovies.results))
+                _topRatedMovies.postValue(mdbRepo.checkFavoriteMovies(topRatedMovies.results))
             } catch (e: Exception) {
                 Log.e("HomeViewModel: ", e.message.toString())
             }
@@ -114,7 +100,7 @@ class HomeViewModel(
                 val airingMovies = mdbRepo.getAiringToday("en-US", 1)
 
                 //Update UI
-                _airingMovies.postValue(checkFavoriteMovies(airingMovies.results))
+                _airingMovies.postValue(mdbRepo.checkFavoriteMovies(airingMovies.results))
             } catch (e: Exception) {
                 Log.e("HomeViewModel: ", e.message.toString())
             }
@@ -163,11 +149,7 @@ class HomeViewModel(
 
     fun handleMovieCardHold(movie: MovieModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (movie.isFavorite) {
-                dao.deleteById(movie.id.toString())
-            } else {
-                dao.insertOne(MovieDatabaseModel(movie.id.toString(), movie.title))
-            }
+            mdbRepo.handleMovieCardHold(movie)
         }
     }
 
@@ -183,7 +165,6 @@ class HomeViewModel(
 class HomeViewModelFactory(private val application: MovieApplication) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return HomeViewModel(
-            application.dao,
             application.mdbRepo
         ) as T
     }

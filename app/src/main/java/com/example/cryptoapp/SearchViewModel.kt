@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class SearchViewModel(
-    private val dao: MovieDao,
     private val mdbRepo: MDBRepositoryRetrofit
 ) :
     ViewModel() {
@@ -39,19 +38,8 @@ class SearchViewModel(
                         mdbRepo.getSearch("en-US", 2, query).results)
                     .filter { it.posterPath.isNotEmpty() }
 
-                //Get favorite movies
-                val favoriteMovies = dao.queryAll()
-
-                //Compare results with favorite movies
-                val movieList = results.map { movie ->
-                    if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
-                        return@map movie.copy(isFavorite = true)
-                    }
-                    return@map movie
-                }
-
                 //Update UI
-                _list.postValue(movieList)
+                _list.postValue(mdbRepo.checkFavoriteMovies(results))
             } catch (e: Exception) {
                 Log.e("SearchViewModel: ", e.message.toString())
             }
@@ -79,11 +67,7 @@ class SearchViewModel(
 
     fun handleMovieCardHold(movie: MovieModel) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (movie.isFavorite) {
-                dao.deleteById(movie.id.toString())
-            } else {
-                dao.insertOne(MovieDatabaseModel(movie.id.toString(), movie.title))
-            }
+            mdbRepo.handleMovieCardHold(movie)
         }
     }
 }
@@ -92,7 +76,6 @@ class SearchViewModelFactory(private val application: MovieApplication) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return SearchViewModel(
-            application.dao,
             application.mdbRepo
         ) as T
     }

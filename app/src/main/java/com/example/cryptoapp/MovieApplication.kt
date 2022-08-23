@@ -19,11 +19,11 @@ class MovieApplication : Application() {
         )
     }
 
-    val dao: MovieDao by lazy {
+    private val movieDao: MovieDao by lazy {
         MDBRoomDatabase.getInstance(this).getMovieDao()
     }
 
     val mdbRepo: MDBRepositoryRetrofit by lazy {
-        MDBRepositoryRetrofit(sharedPrefSession, sharedPrefHistory)
+        MDBRepositoryRetrofit(sharedPrefSession, sharedPrefHistory, movieDao)
     }
 }
