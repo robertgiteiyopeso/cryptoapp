@@ -163,6 +163,8 @@ class HomeViewModel @Inject constructor(
         jobs.forEach { it.cancel() }
     }
 
+    fun checkOldLogin() = mdbRepo.isUserLoggedIn()
+
     fun logout() {
         mdbRepo.logout()
     }

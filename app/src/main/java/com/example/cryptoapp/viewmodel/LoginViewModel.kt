@@ -27,10 +27,6 @@ class LoginViewModel @Inject constructor(
     val state: LiveData<LoginState>
         get() = _state
 
-    init {
-        checkOldLogin()
-    }
-
     fun doLogin() {
 
         val usernameValue = username.value
@@ -81,10 +77,5 @@ class LoginViewModel @Inject constructor(
 
         //Save new session ID
         return mdbRepo.createSession(login)
-    }
-
-    fun checkOldLogin() {
-        if (mdbRepo.isUserLoggedIn())
-            _state.postValue(LoginState.Success)
     }
 }

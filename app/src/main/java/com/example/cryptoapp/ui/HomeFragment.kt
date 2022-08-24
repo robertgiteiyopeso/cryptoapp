@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -49,6 +50,12 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.homeViewModel = viewModel
 
+        if(!viewModel.checkOldLogin())
+            findNavController().navigate(
+                R.id.login_action,
+                null,
+                navOptions { popUpTo(R.id.home_fragment) { inclusive = true } })
+
         //Set up adapters
         setUpAdapters()
 
@@ -66,7 +73,10 @@ class HomeFragment : Fragment() {
     private fun setUpLogout() {
         binding.ivUserPhoto.setOnClickListener {
             viewModel.logout()
-            findNavController().navigateUp()
+            findNavController().navigate(
+                R.id.login_action,
+                null,
+                navOptions { popUpTo(R.id.home_fragment) { inclusive = true } })
         }
     }
 

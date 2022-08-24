@@ -41,8 +41,6 @@ class LoginFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.loginViewModel = viewModel
 
-        viewModel.checkOldLogin()
-
         binding.bttnLogin.setOnClickListener {
             //actual login
             viewModel.doLogin()
