@@ -16,7 +16,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoapp.R
 import com.example.cryptoapp.adapter.MovieAdapter
 import com.example.cryptoapp.databinding.FragmentSearchBinding
@@ -64,7 +63,7 @@ class SearchFragment : Fragment() {
 
         //Results
         viewModel.list.observe(viewLifecycleOwner) { newList ->
-            (binding.rvResults.adapter as? MovieAdapter)?.list = newList
+            (binding.rvResults.adapter as? MovieAdapter)?.submitList(newList)
         }
 
         //History dropdown
@@ -80,7 +79,7 @@ class SearchFragment : Fragment() {
         binding.rvResults.layoutManager = GridLayoutManager(activity, 3)
 
         binding.rvResults.adapter = MovieAdapter(
-            { model -> onMovieCardHold(model, binding.rvResults) },
+            { model -> onMovieCardHold(model) },
             { movieId -> onMovieCardClick(movieId) }
         )
 
@@ -90,9 +89,8 @@ class SearchFragment : Fragment() {
         findNavController().navigate(HomeFragmentDirections.detailsAction(movieId))
     }
 
-    private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {
+    private fun onMovieCardHold(model: MovieModel) {
         viewModel.handleMovieCardHold(model)
-        view.adapter?.notifyDataSetChanged()
     }
 
     private fun setUpSearchBar() {

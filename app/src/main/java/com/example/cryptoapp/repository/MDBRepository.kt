@@ -133,15 +133,5 @@ class MDBRepository @Inject constructor(
     }
 
     fun getFavoriteMovies(): Flow<List<MovieDatabaseModel>> = movieDao.queryAll()
-//        //Get favorite movies
-//        val favoriteMovies = movieDao.queryAll()
-//
-//        //Compare results with favorite movies
-//        return movieList.map { movie ->
-//            if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
-//                return@map movie.copy(isFavorite = true)
-//            }
-//            return@map movie
-//        }
 
 }

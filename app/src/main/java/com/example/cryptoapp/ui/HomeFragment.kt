@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.cryptoapp.R
@@ -93,7 +92,7 @@ class HomeFragment : Fragment() {
         //Movies
         listOf(binding.rvTopMovies, binding.rvPopularMovies, binding.rvAiring).forEach {
             it.adapter = MovieAdapter(
-                { model -> onMovieCardHold(model, it) },
+                { model -> onMovieCardHold(model) },
                 { movieId -> onMovieCardClick(movieId) }
             )
         }
@@ -126,17 +125,17 @@ class HomeFragment : Fragment() {
 
         //Top rated movies
         viewModel.topRatedMovies.observe(viewLifecycleOwner) { newList ->
-            (binding.rvTopMovies.adapter as MovieAdapter).list = newList
+            (binding.rvTopMovies.adapter as MovieAdapter).submitList(newList)
         }
 
         //Popular movies
         viewModel.popularMovies.observe(viewLifecycleOwner) { newList ->
-            (binding.rvPopularMovies.adapter as MovieAdapter).list = newList
+            (binding.rvPopularMovies.adapter as MovieAdapter).submitList(newList)
         }
 
         //Movies airing today
         viewModel.airingMovies.observe(viewLifecycleOwner) { newList ->
-            (binding.rvAiring.adapter as MovieAdapter).list = newList
+            (binding.rvAiring.adapter as MovieAdapter).submitList(newList)
         }
 
         //Pokemons
@@ -159,9 +158,8 @@ class HomeFragment : Fragment() {
         )
     }
 
-    private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {
+    private fun onMovieCardHold(model: MovieModel) {
         viewModel.handleMovieCardHold(model)
-        view.adapter?.notifyDataSetChanged()
     }
 
     private fun setUpIndicator(size: Int) {
