@@ -14,7 +14,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class MDBRepositoryRetrofit @Inject constructor(
+class MDBRepository @Inject constructor(
     @SharedPreferencesSession
     private val sharedPrefSession: SharedPreferences,
     @SharedPreferencesHistory

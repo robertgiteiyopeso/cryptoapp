@@ -3,7 +3,7 @@ package com.example.cryptoapp.viewmodel
 import android.util.Log
 import androidx.lifecycle.*
 import com.example.cryptoapp.login.LoginState
-import com.example.cryptoapp.repository.MDBRepositoryRetrofit
+import com.example.cryptoapp.repository.MDBRepository
 import com.example.cryptoapp.login.CredentialsModel
 import com.example.cryptoapp.login.SessionModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val mdbRepo: MDBRepositoryRetrofit
+    private val mdbRepo: MDBRepository
 ) : ViewModel() {
 
     private var job: Job = Job()

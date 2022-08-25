@@ -2,7 +2,7 @@ package com.example.cryptoapp.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.cryptoapp.repository.MDBRepositoryRetrofit
+import com.example.cryptoapp.repository.MDBRepository
 import com.example.cryptoapp.domain.MovieModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val mdbRepo: MDBRepositoryRetrofit
+    private val mdbRepo: MDBRepository
 ) :
     ViewModel() {
 

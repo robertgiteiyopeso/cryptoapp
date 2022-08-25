@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 
 @InstallIn(SingletonComponent::class)
 @Module
-class RequestsModule {
+class APIModule {
 
     @Provides
     fun provideMDBService(retrofit: Retrofit): MDBService =

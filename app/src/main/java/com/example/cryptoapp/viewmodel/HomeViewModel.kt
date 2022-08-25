@@ -2,7 +2,7 @@ package com.example.cryptoapp.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.example.cryptoapp.repository.MDBRepositoryRetrofit
+import com.example.cryptoapp.repository.MDBRepository
 import com.example.cryptoapp.PokemonsQuery
 import com.example.cryptoapp.repository.api.apolloClient
 import com.example.cryptoapp.domain.ActorModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val mdbRepo: MDBRepositoryRetrofit
+    private val mdbRepo: MDBRepository
 ) : ViewModel() {
 
     private val _galleryList = MutableLiveData<List<GalleryModel>>()
