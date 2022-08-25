@@ -43,7 +43,14 @@ class SearchViewModel @Inject constructor(
                     .filter { it.posterPath.isNotEmpty() }
 
                 //Update UI
-                _list.postValue(mdbRepo.checkFavoriteMovies(results))
+                mdbRepo.getFavoriteMovies().collect { favoriteMovies ->
+                    _list.postValue(results.map { movie ->
+                        if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
+                            return@map movie.copy(isFavorite = true)
+                        }
+                        return@map movie
+                    })
+                }
             } catch (e: Exception) {
                 Log.e("SearchViewModel: ", e.message.toString())
             }

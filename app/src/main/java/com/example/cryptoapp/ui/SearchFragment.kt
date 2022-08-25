@@ -92,7 +92,7 @@ class SearchFragment : Fragment() {
 
     private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {
         viewModel.handleMovieCardHold(model)
-        (view.adapter as? MovieAdapter)?.modifyOneElement(model)
+        view.adapter?.notifyDataSetChanged()
     }
 
     private fun setUpSearchBar() {

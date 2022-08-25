@@ -10,6 +10,7 @@ import com.example.cryptoapp.login.TokenModel
 import com.example.cryptoapp.repository.api.MDBService
 import com.example.cryptoapp.repository.database.MovieDao
 import com.example.cryptoapp.repository.database.MovieDatabaseModel
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -131,16 +132,16 @@ class MDBRepository @Inject constructor(
         }
     }
 
-    suspend fun checkFavoriteMovies(movieList: List<MovieModel>): List<MovieModel> {
-        //Get favorite movies
-        val favoriteMovies = movieDao.queryAll()
+    fun getFavoriteMovies(): Flow<List<MovieDatabaseModel>> = movieDao.queryAll()
+//        //Get favorite movies
+//        val favoriteMovies = movieDao.queryAll()
+//
+//        //Compare results with favorite movies
+//        return movieList.map { movie ->
+//            if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
+//                return@map movie.copy(isFavorite = true)
+//            }
+//            return@map movie
+//        }
 
-        //Compare results with favorite movies
-        return movieList.map { movie ->
-            if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
-                return@map movie.copy(isFavorite = true)
-            }
-            return@map movie
-        }
-    }
 }

@@ -1,6 +1,7 @@
 package com.example.cryptoapp.repository.database
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
@@ -15,7 +16,7 @@ interface MovieDao {
     suspend fun queryById(id: String) : MovieDatabaseModel
 
     @Query("SELECT * FROM $TABLE_NAME")
-    suspend fun queryAll() : List<MovieDatabaseModel>
+    fun queryAll() : Flow<List<MovieDatabaseModel>>
 
     @Update
     suspend fun update(lastMinuteProduct: MovieDatabaseModel)

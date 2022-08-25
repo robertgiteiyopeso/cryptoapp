@@ -10,7 +10,6 @@ import com.example.cryptoapp.domain.GalleryModel
 import com.example.cryptoapp.domain.MovieModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
@@ -48,8 +47,6 @@ class HomeViewModel @Inject constructor(
     val userAvatar: LiveData<String>
         get() = _userAvatar
 
-    private val jobs = mutableListOf<Job>()
-
     init {
         loadUserAvatar()
         loadPopularMovies()
@@ -72,60 +69,81 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadPopularMovies() {
-        jobs.add(viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 //Load popular movies
                 val popularMovies = mdbRepo.getPopularMovies("en-US", 1)
 
                 //Update UI
-                _popularMovies.postValue(mdbRepo.checkFavoriteMovies(popularMovies.results))
+                mdbRepo.getFavoriteMovies().collect { favoriteMovies ->
+                    _popularMovies.postValue(popularMovies.results.map { movie ->
+                        if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
+                            return@map movie.copy(isFavorite = true)
+                        }
+                        return@map movie
+                    })
+                }
             } catch (e: Exception) {
                 Log.e("HomeViewModel: ", e.message.toString())
             }
-        })
+        }
     }
 
     private fun loadTopRatedMovies() {
-        jobs.add(viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 //Load top rated movies
                 val topRatedMovies = mdbRepo.getTopRatedMovies("en-US", 1)
 
                 //Update UI
-                _topRatedMovies.postValue(mdbRepo.checkFavoriteMovies(topRatedMovies.results))
+                mdbRepo.getFavoriteMovies().collect { favoriteMovies ->
+                    _topRatedMovies.postValue(topRatedMovies.results.map { movie ->
+                        if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
+                            return@map movie.copy(isFavorite = true)
+                        }
+                        return@map movie
+                    })
+                }
             } catch (e: Exception) {
                 Log.e("HomeViewModel: ", e.message.toString())
             }
-        })
+        }
     }
 
     private fun loadAiringMovies() {
-        jobs.add(viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 //Load movies airing today
                 val airingMovies = mdbRepo.getAiringToday("en-US", 1)
 
                 //Update UI
-                _airingMovies.postValue(mdbRepo.checkFavoriteMovies(airingMovies.results))
+                mdbRepo.getFavoriteMovies().collect { favoriteMovies ->
+                    _airingMovies.postValue(airingMovies.results.map { movie ->
+                        if (favoriteMovies.firstOrNull { it.id == movie.id.toString() } != null) {
+                            return@map movie.copy(isFavorite = true)
+                        }
+                        return@map movie
+                    })
+                }
             } catch (e: Exception) {
                 Log.e("HomeViewModel: ", e.message.toString())
             }
-        })
+        }
     }
 
     private fun loadGalleryImages() {
-        jobs.add(viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             //Load images
             _galleryList.postValue(
                 mdbRepo.getTrendingMovies().results.map {
                     GalleryModel(it.id, it.backdropPath, it.releaseDate)
                 }.take(6)
             )
-        })
+        }
     }
 
     private fun loadActors() {
-        jobs.add(viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 //Load actors
                 val popularPeople = mdbRepo.getPopularPeople("en-US", 1)
@@ -135,11 +153,11 @@ class HomeViewModel @Inject constructor(
             } catch (e: Exception) {
                 Log.e("HomeViewModel: ", e.message.toString())
             }
-        })
+        }
     }
 
     private fun loadPokemons() {
-        jobs.add(viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
             var pokemonList = listOf<PokemonsQuery.Pokemon?>()
             try {
                 val response = apolloClient.query(PokemonsQuery(10)).execute()
@@ -150,17 +168,13 @@ class HomeViewModel @Inject constructor(
 
             //Update UI
             _pokemons.postValue(pokemonList)
-        })
+        }
     }
 
     fun handleMovieCardHold(movie: MovieModel) {
         viewModelScope.launch(Dispatchers.IO) {
             mdbRepo.handleMovieCardHold(movie)
         }
-    }
-
-    fun cancelJobs() {
-        jobs.forEach { it.cancel() }
     }
 
     fun checkOldLogin() = mdbRepo.isUserLoggedIn()

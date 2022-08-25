@@ -161,7 +161,7 @@ class HomeFragment : Fragment() {
 
     private fun onMovieCardHold(model: MovieModel, view: RecyclerView) {
         viewModel.handleMovieCardHold(model)
-        (view.adapter as? MovieAdapter)?.modifyOneElement(model)
+        view.adapter?.notifyDataSetChanged()
     }
 
     private fun setUpIndicator(size: Int) {
@@ -180,10 +180,5 @@ class HomeFragment : Fragment() {
             size
         )
         binding.ivGalleryIndicator.notifyDataChanged()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.cancelJobs()
     }
 }
