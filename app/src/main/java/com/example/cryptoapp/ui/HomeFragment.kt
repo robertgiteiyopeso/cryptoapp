@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import androidx.viewpager2.widget.ViewPager2
@@ -20,6 +23,9 @@ import com.example.cryptoapp.databinding.FragmentHomeBinding
 import com.example.cryptoapp.domain.MovieModel
 import com.example.cryptoapp.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -113,29 +119,49 @@ class HomeFragment : Fragment() {
         }
 
         //Gallery images
-        viewModel.galleryList.observe(viewLifecycleOwner) { newList ->
-            (binding.vpGallery.adapter as GalleryAdapter).submitList(newList)
-            setUpIndicator(newList.size)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.galleryFlow.collect {
+                    (binding.vpGallery.adapter as GalleryAdapter).submitList(it)
+                    setUpIndicator(it.size)
+                }
+            }
         }
 
         //Actors
-        viewModel.actorsList.observe(viewLifecycleOwner) { newList ->
-            (binding.rvStars.adapter as ActorAdapter).list = newList
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.actorsFlow.collect {
+                    (binding.rvStars.adapter as ActorAdapter).list = it
+                }
+            }
         }
 
         //Top rated movies
-        viewModel.topRatedMovies.observe(viewLifecycleOwner) { newList ->
-            (binding.rvTopMovies.adapter as MovieAdapter).submitList(newList)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.topRatedMoviesWithFavorites.collect {
+                    (binding.rvTopMovies.adapter as MovieAdapter).submitList(it)
+                }
+            }
         }
 
         //Popular movies
-        viewModel.popularMovies.observe(viewLifecycleOwner) { newList ->
-            (binding.rvPopularMovies.adapter as MovieAdapter).submitList(newList)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.popularMoviesWithFavorites.collect {
+                    (binding.rvPopularMovies.adapter as MovieAdapter).submitList(it)
+                }
+            }
         }
 
         //Movies airing today
-        viewModel.airingMovies.observe(viewLifecycleOwner) { newList ->
-            (binding.rvAiring.adapter as MovieAdapter).submitList(newList)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.airingMoviesWithFavorites.collect {
+                    (binding.rvAiring.adapter as MovieAdapter).submitList(it)
+                }
+            }
         }
 
         //Pokemons
